@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/comet-opik-openapi-original.yml
+docs: https://www.comet.com/docs/opik/reference/rest-api/overview
+note: >-
+  The Opik OpenAPI does not declare formal components.securitySchemes; auth is
+  documented in the spec info block and the REST API reference. Opik Cloud
+  authenticates with an API key passed in the "authorization" header (WITHOUT a
+  "Bearer " prefix) plus a "Comet-Workspace" header naming the workspace. The
+  open-source / self-hosted deployment (http://localhost:5173/api) requires no
+  auth headers. Enterprise SSO (OIDC/SAML/JWT) is available for the admin/web
+  surface.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2_flows: []
+schemes:
+- name: OpikApiKey
+  type: apiKey
+  in: header
+  parameter: authorization
+  bearer_prefix: false
+  description: Opik Cloud API key from your account settings, sent verbatim (no "Bearer " prefix).
+- name: CometWorkspace
+  type: apiKey
+  in: header
+  parameter: Comet-Workspace
+  description: Names the Comet/Opik workspace the request targets (required on Opik Cloud).
+enterprise_sso:
+  docs: https://www.comet.com/docs/opik/administration/authentication/overview
+  methods:
+  - oidc
+  - saml
+  - jwt
