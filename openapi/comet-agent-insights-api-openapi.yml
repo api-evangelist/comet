@@ -1,0 +1,469 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Agent Insights API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Agent Insights
+  description: Agent Insights report results
+paths:
+  /v1/private/agent-insights/issues:
+    get:
+      tags:
+      - Agent Insights
+      summary: Find agent insights issues
+      description: Returns a paginated list of issues that have at least one detail row within the requested time window, with metrics aggregated over the window
+      operationId: findAgentInsightsIssues
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: from_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - open
+          - resolved
+          - closed
+      - name: severity
+        in: query
+        schema:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Issues page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentInsightsIssuePage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    post:
+      tags:
+      - Agent Insights
+      summary: Store agent insights report results
+      description: Upserts the detected issues and their per-day metrics for the given report day in a single transaction. Issue status is never modified by this endpoint.
+      operationId: reportAgentInsightsIssues
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentInsightsReport'
+      responses:
+        '204':
+          description: Report stored
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/agent-insights/issues/{issue_id}:
+    get:
+      tags:
+      - Agent Insights
+      summary: Get agent insights issue by id
+      description: Returns the issue together with its per-day breakdown within the requested time window
+      operationId: getAgentInsightsIssueById
+      parameters:
+      - name: issue_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: from_date
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: to_date
+        in: query
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Issue with details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentInsightsIssueWithDetails'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    patch:
+      tags:
+      - Agent Insights
+      summary: Update agent insights issue status
+      description: 'Moves an issue through its lifecycle: open, resolved or closed'
+      operationId: updateAgentInsightsIssue
+      parameters:
+      - name: issue_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentInsightsIssueUpdate'
+      responses:
+        '204':
+          description: Issue updated
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    AgentInsightsIssuePage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentInsightsIssue'
+    JsonNode:
+      type: object
+    AgentInsightsIssueWithDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        cause:
+          type: string
+        suggested_fix:
+          type: string
+        status:
+          type: string
+          enum:
+          - open
+          - resolved
+          - closed
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        traces_query:
+          type: string
+        created_by:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        last_updated_by:
+          type: string
+        last_updated_at:
+          type: string
+          format: date-time
+        details:
+          type: array
+          description: Per-day breakdown within the requested window, ordered by report_day ascending
+          items:
+            $ref: '#/components/schemas/AgentInsightsIssueDetail'
+    AgentInsightsIssue:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        cause:
+          type: string
+        suggested_fix:
+          type: string
+        status:
+          type: string
+          enum:
+          - open
+          - resolved
+          - closed
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        traces_query:
+          type: string
+        total_occurrences:
+          type: integer
+          description: SUM(count) over the requested window
+          format: int64
+        latest_count:
+          type: integer
+          description: Occurrences on the latest report day in the window only. The issue's description/cause narrate that most recent run, so this is the count consistent with them; totalOccurrences instead sums every day in the window.
+          format: int64
+        total:
+          type: integer
+          description: SUM(total_count) over the requested window
+          format: int64
+        users_impacted:
+          type: integer
+          description: SUM(users_impacted) over the requested window
+          format: int64
+        total_users:
+          type: integer
+          description: SUM(total_users) over the requested window
+          format: int64
+        first_seen:
+          type: string
+          description: MIN(report_day) in the requested window
+          format: date
+        last_seen:
+          type: string
+          description: MAX(report_day) in the requested window
+          format: date
+        days_reported:
+          type: integer
+          description: COUNT(DISTINCT report_day) in the requested window
+          format: int64
+        created_by:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        last_updated_by:
+          type: string
+        last_updated_at:
+          type: string
+          format: date-time
+    ReportedIssue:
+      required:
+      - count
+      - name
+      - severity
+      - total_count
+      - total_users
+      - users_impacted
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        description:
+          type: string
+        cause:
+          type: string
+        suggested_fix:
+          type: string
+        traces_query:
+          type: string
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        count:
+          type: integer
+          format: int64
+        total_count:
+          type: integer
+          format: int64
+        users_impacted:
+          type: integer
+          format: int64
+        total_users:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+    AgentInsightsReport:
+      required:
+      - issues
+      - project_id
+      - report_day
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        report_day:
+          type: string
+          format: date
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportedIssue'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AgentInsightsIssueDetail:
+      type: object
+      properties:
+        report_day:
+          type: string
+          format: date
+        count:
+          type: integer
+          format: int64
+        total_count:
+          type: integer
+          format: int64
+        users_impacted:
+          type: integer
+          format: int64
+        total_users:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+      description: Per-day breakdown within the requested window, ordered by report_day ascending
+    AgentInsightsIssueUpdate:
+      required:
+      - project_id
+      - status
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - open
+          - resolved
+          - closed

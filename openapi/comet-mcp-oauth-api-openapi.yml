@@ -1,0 +1,397 @@
+openapi: 3.1.0
+info:
+  title: Opik REST MCP OAuth API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: MCP OAuth
+  description: MCP OAuth 2.1 Authorization Server resources
+paths:
+  /oauth/authorize:
+    get:
+      tags:
+      - MCP OAuth
+      summary: OAuth Authorization Endpoint
+      description: OAuth 2.1 authorization endpoint (RFC 6749 §3.1). Validates the client and PKCE parameters, then redirects to the login or consent page
+      operationId: authorize
+      parameters:
+      - name: client_id
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      - name: redirect_uri
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      - name: response_type
+        in: query
+        schema:
+          type: string
+      - name: code_challenge
+        in: query
+        schema:
+          type: string
+      - name: code_challenge_method
+        in: query
+        schema:
+          type: string
+      - name: resource
+        in: query
+        schema:
+          type: string
+      - name: state
+        in: query
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect to login, consent, or client redirect_uri with an error
+    post:
+      tags:
+      - MCP OAuth
+      summary: Submit Authorization Consent
+      description: Submit the user's consent, issue an authorization code, and return the client redirect target
+      operationId: consent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentRequest'
+        required: true
+      responses:
+        '200':
+          description: Consent response with the client redirect target
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentResponse'
+  /oauth/authorize/context:
+    get:
+      tags:
+      - MCP OAuth
+      summary: Get Authorization Consent Context
+      description: Get the client details, eligible workspaces, and a CSRF token used to render the consent screen
+      operationId: getAuthorizeContext
+      parameters:
+      - name: client_id
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      - name: redirect_uri
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      responses:
+        '200':
+          description: Authorization consent context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizeContext'
+  /.well-known/oauth-authorization-server:
+    get:
+      tags:
+      - MCP OAuth
+      summary: Get OAuth Authorization Server Metadata
+      description: Get OAuth 2.1 Authorization Server Metadata (RFC 8414)
+      operationId: getOAuthAuthorizationServerMetadata
+      responses:
+        '200':
+          description: Authorization Server Metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationServerMetadata'
+  /oauth/register:
+    post:
+      tags:
+      - MCP OAuth
+      summary: OAuth Dynamic Client Registration Endpoint
+      description: OAuth 2.0 Dynamic Client Registration (RFC 7591). Registers a public client for the MCP OAuth flow; throttled per source IP
+      operationId: registerOAuthClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRegistrationRequest'
+        required: true
+      responses:
+        '201':
+          description: Registered client metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientRegistrationResponse'
+        '429':
+          description: Registration rate limit exceeded
+  /oauth/revoke:
+    post:
+      tags:
+      - MCP OAuth
+      summary: OAuth Token Revocation Endpoint
+      description: OAuth 2.0 token revocation endpoint (RFC 7009). Always returns 200, whether the token was revoked, never existed, or was invalid
+      operationId: revoke
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                client_id:
+                  type: string
+      responses:
+        '200':
+          description: Revocation acknowledged
+  /oauth/token:
+    post:
+      tags:
+      - MCP OAuth
+      summary: OAuth Token Endpoint
+      description: OAuth 2.1 token endpoint (RFC 6749 §4.1.3, §6). Exchanges an authorization code with PKCE or a refresh token for an access/refresh token pair
+      operationId: token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                code:
+                  type: string
+                redirect_uri:
+                  type: string
+                client_id:
+                  type: string
+                code_verifier:
+                  type: string
+                refresh_token:
+                  type: string
+      responses:
+        '200':
+          description: Token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: OAuth error (RFC 6749 §5.2)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthError'
+  /opik/auth-oauth:
+    post:
+      tags:
+      - MCP OAuth
+      summary: Validate OAuth Access Token
+      description: Introspects a bearer access token and returns the identity it resolves to
+      operationId: validateOAuthToken
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Validated token identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidatedToken'
+        '401':
+          description: Missing, malformed, or unknown access token
+components:
+  schemas:
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          format: int64
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+    OAuthError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    ValidatedToken:
+      type: object
+      properties:
+        user_name:
+          type: string
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        resource:
+          type: string
+    ConsentResponse:
+      type: object
+      properties:
+        redirect_to:
+          type: string
+    ConsentRequest:
+      required:
+      - client_id
+      - code_challenge
+      - code_challenge_method
+      - redirect_uri
+      - resource
+      type: object
+      properties:
+        client_id:
+          minLength: 1
+          type: string
+        redirect_uri:
+          minLength: 1
+          type: string
+        code_challenge:
+          minLength: 1
+          type: string
+        code_challenge_method:
+          minLength: 1
+          pattern: S256
+          type: string
+        resource:
+          minLength: 1
+          type: string
+        state:
+          type: string
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        csrf:
+          type: string
+    AuthorizationServerMetadata:
+      type: object
+      properties:
+        issuer:
+          type: string
+        authorization_endpoint:
+          type: string
+        token_endpoint:
+          type: string
+        revocation_endpoint:
+          type: string
+        registration_endpoint:
+          type: string
+        response_types_supported:
+          type: array
+          items:
+            type: string
+        grant_types_supported:
+          type: array
+          items:
+            type: string
+        code_challenge_methods_supported:
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+    WorkspaceInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AuthorizeContext:
+      type: object
+      properties:
+        client_name:
+          type: string
+        client_logo_uri:
+          type: string
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceInfo'
+        csrf_token:
+          type: string
+    ClientRegistrationRequest:
+      required:
+      - client_name
+      - redirect_uris
+      type: object
+      properties:
+        client_name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        redirect_uris:
+          maxItems: 10
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 2048
+            minLength: 0
+            type: string
+        logo_uri:
+          maxLength: 2048
+          minLength: 0
+          type: string
+    ClientRegistrationResponse:
+      type: object
+      properties:
+        client_id:
+          type: string
+        client_id_issued_at:
+          type: integer
+          format: int64
+        client_name:
+          type: string
+        logo_uri:
+          type: string
+        redirect_uris:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_method:
+          type: string
+        grant_types:
+          type: array
+          items:
+            type: string
+        response_types:
+          type: array
+          items:
+            type: string

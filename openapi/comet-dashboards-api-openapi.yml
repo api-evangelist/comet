@@ -1,0 +1,317 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Dashboards API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Dashboards
+  description: Workspace Dashboard resources
+paths:
+  /v1/private/dashboards:
+    get:
+      tags:
+      - Dashboards
+      summary: Find dashboards
+      description: Find dashboards in a workspace
+      operationId: findDashboards
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter dashboards by name (partial match, case insensitive)
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dashboard page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardPage_Public'
+    post:
+      tags:
+      - Dashboards
+      summary: Create dashboard
+      description: Create a new dashboard in a workspace
+      operationId: createDashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dashboard_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/dashboards/{dashboardId}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard_Public'
+  /v1/private/dashboards/{dashboardId}:
+    get:
+      tags:
+      - Dashboards
+      summary: Get dashboard by id
+      description: Get dashboard by id
+      operationId: getDashboardById
+      parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Dashboard resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard_Public'
+        '404':
+          description: Dashboard not found
+    delete:
+      tags:
+      - Dashboards
+      summary: Delete dashboard
+      description: Delete dashboard by id
+      operationId: deleteDashboard
+      parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No content
+    patch:
+      tags:
+      - Dashboards
+      summary: Update dashboard
+      description: Update dashboard by id. Partial updates are supported - only provided fields will be updated.
+      operationId: updateDashboard
+      parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DashboardUpdate_Public'
+      responses:
+        '200':
+          description: Updated dashboard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard_Public'
+        '404':
+          description: Dashboard not found
+        '409':
+          description: Conflict - dashboard with this name already exists
+  /v1/private/dashboards/delete-batch:
+    post:
+      tags:
+      - Dashboards
+      summary: Delete dashboards
+      description: Delete dashboards batch
+      operationId: deleteDashboardsBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    JsonNode_Public:
+      type: object
+    Dashboard_Write:
+      required:
+      - config
+      - name
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the dashboard is created at workspace level.
+        name:
+          maxLength: 120
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - multi_project
+          - experiments
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        config:
+          $ref: '#/components/schemas/JsonNode_Write'
+    JsonNode_Write:
+      type: object
+    DashboardPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dashboard_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        sortable_by:
+          type: array
+          items:
+            type: string
+    DashboardUpdate_Public:
+      type: object
+      properties:
+        name:
+          maxLength: 120
+          minLength: 1
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        type:
+          type: string
+          enum:
+          - multi_project
+          - experiments
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        config:
+          $ref: '#/components/schemas/JsonNode_Public'
+    Dashboard_Public:
+      required:
+      - config
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        workspace_id:
+          type: string
+          readOnly: true
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        name:
+          maxLength: 120
+          minLength: 1
+          type: string
+        slug:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - multi_project
+          - experiments
+        scope:
+          type: string
+          readOnly: true
+          enum:
+          - workspace
+          - insights
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        config:
+          $ref: '#/components/schemas/JsonNode_Public'
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true

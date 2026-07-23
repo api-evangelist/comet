@@ -1,0 +1,343 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Chat Completions API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Chat Completions
+  description: Chat Completions related resources
+paths:
+  /v1/private/chat/completions:
+    post:
+      tags:
+      - Chat Completions
+      summary: Create chat completions
+      description: Create chat completions
+      operationId: createChatCompletions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: Chat completions response
+          content:
+            text/event-stream:
+              schema:
+                type: array
+                items:
+                  type: object
+                  anyOf:
+                  - $ref: '#/components/schemas/ChatCompletionResponse'
+                  - $ref: '#/components/schemas/ErrorMessage'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+components:
+  schemas:
+    JsonSchema:
+      type: object
+      properties:
+        name:
+          type: string
+        strict:
+          type: boolean
+        schema:
+          type: object
+          additionalProperties:
+            type: object
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        created:
+          type: integer
+          format: int64
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
+        system_fingerprint:
+          type: string
+        service_tier:
+          type: string
+    FunctionCall:
+      type: object
+      properties:
+        name:
+          type: string
+        arguments:
+          type: string
+    LogProbs:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogProb'
+    ResponseFormat:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+          - json_object
+          - json_schema
+        json_schema:
+          $ref: '#/components/schemas/JsonSchema'
+    LogProb:
+      type: object
+      properties:
+        token:
+          type: string
+        logprob:
+          type: number
+          format: double
+        bytes:
+          type: array
+          items:
+            type: integer
+            format: int32
+    Message:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          $ref: '#/components/schemas/JsonNode'
+    ChatCompletionRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        temperature:
+          type: number
+          format: double
+        top_p:
+          type: number
+          format: double
+        n:
+          type: integer
+          format: int32
+        stream:
+          type: boolean
+        stream_options:
+          $ref: '#/components/schemas/StreamOptions'
+        stop:
+          type: array
+          items:
+            type: string
+        max_tokens:
+          type: integer
+          format: int32
+        max_completion_tokens:
+          type: integer
+          format: int32
+        presence_penalty:
+          type: number
+          format: double
+        frequency_penalty:
+          type: number
+          format: double
+        logit_bias:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        user:
+          type: string
+        response_format:
+          $ref: '#/components/schemas/ResponseFormat'
+        seed:
+          type: integer
+          format: int32
+        tools:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tool'
+        tool_choice:
+          type: object
+        parallel_tool_calls:
+          type: boolean
+        store:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        reasoning_effort:
+          type: string
+        service_tier:
+          type: string
+        logprobs:
+          type: boolean
+        top_logprobs:
+          type: integer
+          format: int32
+        functions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Function'
+        function_call:
+          $ref: '#/components/schemas/FunctionCall'
+    AssistantMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - user
+          - assistant
+          - tool
+          - function
+        content:
+          type: string
+        reasoning_content:
+          type: string
+        name:
+          type: string
+        tool_calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolCall'
+        refusal:
+          type: string
+        function_call:
+          $ref: '#/components/schemas/FunctionCall'
+    Delta:
+      type: object
+      properties:
+        role:
+          type: string
+        content:
+          type: string
+        reasoning_content:
+          type: string
+        tool_calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolCall'
+        function_call:
+          $ref: '#/components/schemas/FunctionCall'
+    ToolCall:
+      type: object
+      properties:
+        id:
+          type: string
+        index:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+          - function
+        function:
+          $ref: '#/components/schemas/FunctionCall'
+    CompletionTokensDetails:
+      type: object
+      properties:
+        reasoning_tokens:
+          type: integer
+          format: int32
+    ChatCompletionChoice:
+      type: object
+      properties:
+        index:
+          type: integer
+          format: int32
+        message:
+          $ref: '#/components/schemas/AssistantMessage'
+        delta:
+          $ref: '#/components/schemas/Delta'
+        finish_reason:
+          type: string
+        logprobs:
+          $ref: '#/components/schemas/LogProbs'
+    PromptTokensDetails:
+      type: object
+      properties:
+        cached_tokens:
+          type: integer
+          format: int32
+    Usage:
+      type: object
+      properties:
+        total_tokens:
+          type: integer
+          format: int32
+        prompt_tokens:
+          type: integer
+          format: int32
+        prompt_tokens_details:
+          $ref: '#/components/schemas/PromptTokensDetails'
+        completion_tokens:
+          type: integer
+          format: int32
+        completion_tokens_details:
+          $ref: '#/components/schemas/CompletionTokensDetails'
+    JsonNode:
+      type: object
+    Tool:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - function
+        function:
+          $ref: '#/components/schemas/Function'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    Function:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        strict:
+          type: boolean
+        parameters:
+          type: object
+          additionalProperties:
+            type: object
+    StreamOptions:
+      type: object
+      properties:
+        include_usage:
+          type: boolean

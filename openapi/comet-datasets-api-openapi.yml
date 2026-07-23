@@ -1,0 +1,3017 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Datasets API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Datasets
+  description: Dataset resources
+paths:
+  /v1/private/datasets/{id}/items/changes:
+    post:
+      tags:
+      - Datasets
+      summary: Apply changes to dataset items
+      description: 'Apply delta changes (add, edit, delete) to a dataset version with conflict detection.
+
+
+        This endpoint:
+
+        - Creates a new version with the applied changes
+
+        - Validates that baseVersion matches the latest version (unless override=true)
+
+        - Returns 409 Conflict if baseVersion is stale and override is not set
+
+
+        Use `override=true` query parameter to force version creation even with stale baseVersion.
+
+
+        Set ''copy_from_dataset_id'' and ''copy_from_version_id'' together on the request body to read
+
+        carry-forward rows from the supplied (dataset, version) pair instead of the destination''s
+
+        prior version. When the fields are null, carry-forward rows are read from the destination''s
+
+        prior version.
+
+        '
+      operationId: applyDatasetItemChanges
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: override
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItemChanges_Public'
+      responses:
+        '201':
+          description: Version created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersion_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '404':
+          description: Dataset or version not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '409':
+          description: Version conflict - baseVersion is not the latest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/datasets/items/batch:
+    patch:
+      tags:
+      - Datasets
+      summary: Batch update dataset items
+      description: Update multiple dataset items
+      operationId: batchUpdateDatasetItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItemBatchUpdate'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/datasets:
+    get:
+      tags:
+      - Datasets
+      summary: Find datasets
+      description: Find datasets
+      operationId: findDatasets
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: with_experiments_only
+        in: query
+        schema:
+          type: boolean
+      - name: with_optimizations_only
+        in: query
+        schema:
+          type: boolean
+      - name: prompt_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter datasets by name (partial match, case insensitive)
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dataset resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetPage_Public'
+    post:
+      tags:
+      - Datasets
+      summary: Create dataset
+      description: Create dataset
+      operationId: createDataset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dataset_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/api/v1/private/datasets/{id}
+  /v1/private/datasets/items:
+    put:
+      tags:
+      - Datasets
+      summary: Create/update dataset items
+      description: 'Create/update dataset items based on dataset item id.
+
+        Each item''s ''id'' field is the stable identifier and upsert key.
+
+        Provide it to update an existing item, or omit it to create a new one.
+
+
+        Set ''copy_from_dataset_id'' and ''copy_from_version_id'' together to read carry-forward rows
+
+        from the supplied (dataset, version) pair instead of the destination''s prior version. When
+
+        the fields are null, carry-forward rows are read from the destination''s prior version.'
+      operationId: createOrUpdateDatasetItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItemBatch_Write'
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/items/from-csv:
+    post:
+      tags:
+      - Datasets
+      summary: Create dataset items from CSV file
+      description: Create dataset items from uploaded CSV file. CSV should have headers in the first row. Processing happens asynchronously in batches.
+      operationId: createDatasetItemsFromCsv
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - dataset_id
+              - file
+              type: object
+              properties:
+                file:
+                  type: object
+                dataset_id:
+                  type: string
+                  format: uuid
+      responses:
+        '202':
+          description: Accepted - CSV processing started
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/datasets/items/from-json:
+    post:
+      tags:
+      - Datasets
+      summary: Create dataset items from JSON file
+      description: 'Create dataset items from an uploaded JSON or JSONL file. JSON files must contain a top-level array of objects.
+
+        JSONL files contain one JSON object per non-blank line; multi-line JSON objects are not supported.
+
+        Reserved keys (id, source, description, tags, evaluators, execution_policy) are extracted into the
+
+        corresponding DatasetItem fields; all remaining keys form the item''s data map and preserve their JSON types.
+
+        To link dataset items to specific traces or spans use the dedicated /items/from-traces or /items/from-spans endpoints.
+
+        Processing happens asynchronously in batches. With dataset versioning enabled, a supplied id acts as an upsert key.'
+      operationId: createDatasetItemsFromJson
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - dataset_id
+              - file
+              - format
+              type: object
+              properties:
+                file:
+                  type: object
+                dataset_id:
+                  type: string
+                  format: uuid
+                format:
+                  type: string
+                  enum:
+                  - json
+                  - jsonl
+      responses:
+        '202':
+          description: Accepted - JSON processing started
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/datasets/{dataset_id}/items/from-spans:
+    post:
+      tags:
+      - Datasets
+      summary: Create dataset items from spans
+      description: Create dataset items from spans with enriched metadata
+      operationId: createDatasetItemsFromSpans
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDatasetItemsFromSpansRequest'
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/{dataset_id}/items/from-traces:
+    post:
+      tags:
+      - Datasets
+      summary: Create dataset items from traces
+      description: Create dataset items from traces with enriched metadata
+      operationId: createDatasetItemsFromTraces
+      parameters:
+      - name: dataset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDatasetItemsFromTracesRequest'
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/{id}:
+    get:
+      tags:
+      - Datasets
+      summary: Get dataset by id
+      description: Get dataset by id
+      operationId: getDatasetById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Dataset resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset_Public'
+    put:
+      tags:
+      - Datasets
+      summary: Update dataset by id
+      description: Update dataset by id
+      operationId: updateDataset
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetUpdate'
+      responses:
+        '204':
+          description: No content
+    delete:
+      tags:
+      - Datasets
+      summary: Delete dataset by id
+      description: Delete dataset by id
+      operationId: deleteDataset
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/delete:
+    post:
+      tags:
+      - Datasets
+      summary: Delete dataset by name
+      description: Delete dataset by name
+      operationId: deleteDatasetByName
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetIdentifier'
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/items/delete:
+    post:
+      tags:
+      - Datasets
+      summary: Delete dataset items
+      description: 'Delete dataset items using one of two modes:
+
+        1. **Delete by IDs**: Provide ''item_ids'' to delete specific items by their IDs
+
+        2. **Delete by filters**: Provide ''dataset_id'' with optional ''filters'' to delete items matching criteria
+
+
+        When using filters, an empty ''filters'' array will delete all items in the specified dataset.
+
+        '
+      operationId: deleteDatasetItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItemsDelete'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request - invalid parameters or conflicting fields
+  /v1/private/datasets/delete-batch:
+    post:
+      tags:
+      - Datasets
+      summary: Delete datasets
+      description: Delete datasets batch
+      operationId: deleteDatasetsBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No content
+  /v1/private/datasets/export-jobs/{jobId}/download:
+    get:
+      tags:
+      - Datasets
+      summary: Download dataset export file
+      description: Downloads the exported CSV file for a completed export job. This endpoint proxies the file download to avoid exposing internal storage URLs.
+      operationId: downloadDatasetExport
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: CSV file content
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Export job is not ready for download
+        '404':
+          description: Export job not found
+  /v1/private/datasets/{id}/expansions:
+    post:
+      tags:
+      - Datasets
+      summary: Expand dataset with synthetic samples
+      description: Generate synthetic dataset samples using LLM based on existing data patterns
+      operationId: expandDataset
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetExpansion_Write'
+      responses:
+        '200':
+          description: Generated synthetic samples
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetExpansionResponse'
+  /v1/private/datasets/{id}/items/experiments/items:
+    get:
+      tags:
+      - Datasets
+      summary: Find dataset items with experiment items
+      description: Find dataset items with experiment items
+      operationId: findDatasetItemsWithExperimentItems
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: experiment_ids
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+      - name: truncate
+        in: query
+        schema:
+          type: boolean
+          description: Truncate image included in either input, output or metadata
+      responses:
+        '200':
+          description: Dataset item resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetItemPage_Compare'
+  /v1/private/datasets/retrieve:
+    post:
+      tags:
+      - Datasets
+      summary: Get dataset by name
+      description: Get dataset by name
+      operationId: getDatasetByIdentifier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetIdentifier_Public'
+      responses:
+        '200':
+          description: Dataset resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset_Public'
+  /v1/private/datasets/{id}/items/experiments/items/stats:
+    get:
+      tags:
+      - Datasets
+      summary: Get experiment items stats for dataset
+      description: Get experiment items stats for dataset
+      operationId: getDatasetExperimentItemsStats
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: experiment_ids
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Experiment items stats resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectStats_Public'
+  /v1/private/datasets/export-jobs/{jobId}:
+    get:
+      tags:
+      - Datasets
+      summary: Get dataset export job status
+      description: Retrieves the current status of a dataset export job
+      operationId: getDatasetExportJob
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Export job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetExportJob_Public'
+        '404':
+          description: Export job not found
+  /v1/private/datasets/export-jobs:
+    get:
+      tags:
+      - Datasets
+      summary: Get all dataset export jobs
+      description: Retrieves all export jobs for the workspace. This is used to restore the export panel state after page refresh.
+      operationId: getDatasetExportJobs
+      responses:
+        '200':
+          description: List of export jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatasetExportJob_Public'
+  /v1/private/datasets/items/{itemId}:
+    get:
+      tags:
+      - Datasets
+      summary: Get dataset item by id
+      description: Get dataset item by id
+      operationId: getDatasetItemById
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Dataset item resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetItem_Public'
+    patch:
+      tags:
+      - Datasets
+      summary: Partially update dataset item by id
+      description: Partially update dataset item by id. Only provided fields will be updated.
+      operationId: patchDatasetItem
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItem_Write'
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Dataset item not found
+  /v1/private/datasets/{id}/items:
+    get:
+      tags:
+      - Datasets
+      summary: Get dataset items
+      description: Get dataset items
+      operationId: getDatasetItems
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: version
+        in: query
+        schema:
+          type: string
+          description: Version hash or tag to fetch specific dataset version
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: truncate
+        in: query
+        schema:
+          type: boolean
+          description: Truncate image included in either input, output or metadata
+      responses:
+        '200':
+          description: Dataset items resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetItemPage_Public'
+  /v1/private/datasets/{id}/items/experiments/items/output/columns:
+    get:
+      tags:
+      - Datasets
+      summary: Get dataset items output columns
+      description: Get dataset items output columns
+      operationId: getDatasetItemsOutputColumns
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: experiment_ids
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dataset item output columns
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageColumns'
+  /v1/private/datasets/export-jobs/{jobId}/mark-viewed:
+    put:
+      tags:
+      - Datasets
+      summary: Mark dataset export job as viewed
+      description: Marks a dataset export job as viewed by setting the viewed_at timestamp. This is used to track that a user has seen a failed job's error message. This operation is idempotent.
+      operationId: markDatasetExportJobViewed
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Job marked as viewed
+        '404':
+          description: Export job not found
+  /v1/private/datasets/{id}/export:
+    post:
+      tags:
+      - Datasets
+      summary: Start dataset CSV export
+      description: Initiates an asynchronous CSV export job for the dataset. Returns immediately with job details for polling.
+      operationId: startDatasetExport
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '202':
+          description: Export job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetExportJob_Public'
+        '200':
+          description: Existing export job in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetExportJob_Public'
+  /v1/private/datasets/items/stream:
+    post:
+      tags:
+      - Datasets
+      summary: Stream dataset items
+      description: Stream dataset items
+      operationId: streamDatasetItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetItemStreamRequest'
+      responses:
+        '200':
+          description: Dataset items stream or error during process
+          content:
+            application/octet-stream:
+              schema:
+                maxItems: 2000
+                type: array
+                items:
+                  type: string
+                  anyOf:
+                  - $ref: '#/components/schemas/DatasetItem'
+                  - $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/datasets/{id}/versions/diff:
+    get:
+      tags:
+      - Datasets
+      summary: Compare latest version with draft
+      description: Compare the latest committed dataset version with the current draft state. This endpoint provides insights into changes made since the last version was committed. The comparison calculates additions, modifications, deletions, and unchanged items between the latest version snapshot and current draft.
+      operationId: compareDatasetVersions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Diff computed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersionDiff'
+        '404':
+          description: Version not found
+  /v1/private/datasets/{id}/versions/hash/{versionHash}/tags:
+    post:
+      tags:
+      - Datasets
+      summary: Create version tag
+      description: Add a tag to a specific dataset version for easy reference (e.g., 'baseline', 'v1.0', 'production')
+      operationId: createVersionTag
+      parameters:
+      - name: versionHash
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetVersionTag'
+      responses:
+        '204':
+          description: Tag created successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not Found - Version not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict - Tag already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/datasets/{id}/versions/{versionHash}/tags/{tag}:
+    delete:
+      tags:
+      - Datasets
+      summary: Delete version tag
+      description: Remove a tag from a dataset version. The version itself is not deleted, only the tag reference.
+      operationId: deleteVersionTag
+      parameters:
+      - name: versionHash
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: tag
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Tag deleted successfully
+  /v1/private/datasets/{id}/versions:
+    get:
+      tags:
+      - Datasets
+      summary: List dataset versions
+      description: Get paginated list of versions for a dataset, ordered by creation time (newest first)
+      operationId: listDatasetVersions
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Dataset versions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersionPage_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/datasets/{id}/versions/restore:
+    post:
+      tags:
+      - Datasets
+      summary: Restore dataset to a previous version
+      description: Restores the dataset to a previous version state by creating a new version with items copied from the specified version. If the version is already the latest, returns it as-is (no-op).
+      operationId: restoreDatasetVersion
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetVersionRestore_Public'
+      responses:
+        '200':
+          description: Version restored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersion_Public'
+        '404':
+          description: Version not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/datasets/{id}/versions/retrieve:
+    post:
+      tags:
+      - Datasets
+      summary: Retrieve dataset version by name
+      description: Get a specific version by its version name (e.g., 'v1', 'v373'). This is more efficient than paginating through all versions for large datasets.
+      operationId: retrieveDatasetVersion
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetVersionRetrieveRequest_Public'
+      responses:
+        '200':
+          description: Dataset version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersion_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '404':
+          description: Version not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/datasets/{id}/versions/hash/{versionHash}:
+    patch:
+      tags:
+      - Datasets
+      summary: Update dataset version
+      description: Update a dataset version's change_description and/or add new tags
+      operationId: updateDatasetVersion
+      parameters:
+      - name: versionHash
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatasetVersionUpdate_Public'
+      responses:
+        '200':
+          description: Version updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetVersion_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '404':
+          description: Not Found - Version not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '409':
+          description: Conflict - Tag already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+components:
+  schemas:
+    ExperimentItem_Public:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+    DatasetUpdate:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    EvaluatorItem_Compare:
+      required:
+      - config
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - llm_judge
+          - code_metric
+        config:
+          $ref: '#/components/schemas/JsonNode_Compare'
+    DatasetVersionRestore_Public:
+      required:
+      - version_ref
+      type: object
+      properties:
+        version_ref:
+          minLength: 1
+          type: string
+          description: Version hash or tag to restore from
+    JsonNode_Public:
+      type: object
+    ProjectStatItemObject_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - COUNT
+          - PERCENTAGE
+          - AVG
+      discriminator:
+        propertyName: type
+        mapping:
+          PERCENTAGE: '#/components/schemas/PercentageValueStat_Public'
+          COUNT: '#/components/schemas/CountValueStat_Public'
+          AVG: '#/components/schemas/AvgValueStat_Public'
+    DatasetItem_Write:
+      required:
+      - data
+      - source
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Stable item identifier.
+
+            On write, used as the upsert key.
+
+            If omitted, a new ID is generated.
+
+            Remains the same across dataset versions
+
+            '
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        span_id:
+          type: string
+          format: uuid
+        source:
+          type: string
+          enum:
+          - manual
+          - trace
+          - span
+          - sdk
+        data:
+          $ref: '#/components/schemas/JsonNode'
+        description:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        evaluators:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatorItem_Write'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy_Write'
+    DatasetVersionRetrieveRequest_Public:
+      required:
+      - version_name
+      type: object
+      properties:
+        version_name:
+          minLength: 1
+          pattern: ^v\d+$
+          type: string
+          description: Version name in format 'vN' (e.g., 'v1', 'v373')
+          example: v1
+    CreateDatasetItemsFromTracesRequest:
+      required:
+      - enrichment_options
+      - trace_ids
+      type: object
+      properties:
+        trace_ids:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: Set of trace IDs to add to the dataset
+          items:
+            type: string
+            description: Set of trace IDs to add to the dataset
+            format: uuid
+        enrichment_options:
+          $ref: '#/components/schemas/TraceEnrichmentOptions'
+        evaluators:
+          type: array
+          description: Optional evaluators to apply to the created items
+          items:
+            $ref: '#/components/schemas/EvaluatorItem'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+    TraceEnrichmentOptions:
+      type: object
+      properties:
+        includeSpans:
+          type: boolean
+        includeTags:
+          type: boolean
+        includeFeedbackScores:
+          type: boolean
+        includeComments:
+          type: boolean
+        includeUsage:
+          type: boolean
+        includeMetadata:
+          type: boolean
+      description: Options for enriching trace data
+    DatasetItemBatch_Write:
+      required:
+      - items
+      type: object
+      properties:
+        dataset_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, dataset_id must be provided
+        dataset_id:
+          type: string
+          description: If null, dataset_name must be provided
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Optional. Associates the batch with a project by name. Ignored if project_id is provided.
+        project_id:
+          type: string
+          description: Optional. Associates the batch with a project by ID. Takes precedence over project_name.
+          format: uuid
+        items:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetItem_Write'
+        batch_group_id:
+          type: string
+          description: Optional batch group ID to group multiple batches into a single dataset version. If null, mutates the latest version instead of creating a new one.
+          format: uuid
+        copy_from_dataset_id:
+          type: string
+          description: Optional. Dataset to read carry-forward rows from when materializing the new version. Required together with copy_from_version_id. When null, carry-forward rows are read from the destination dataset's prior version.
+          format: uuid
+        copy_from_version_id:
+          type: string
+          description: Optional. Version within copy_from_dataset_id to read carry-forward rows from. Required together with copy_from_dataset_id.
+          format: uuid
+    ExecutionPolicy:
+      type: object
+      properties:
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      readOnly: true
+    JsonNode_Compare:
+      type: object
+    JsonNode_Write:
+      type: object
+    Column_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        types:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - string
+            - number
+            - object
+            - boolean
+            - array
+            - 'null'
+        filter_field_prefix:
+          type: string
+        filterField:
+          type: string
+          description: The field to use for filtering
+          readOnly: true
+    EvaluatorItem:
+      required:
+      - config
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - llm_judge
+          - code_metric
+        config:
+          $ref: '#/components/schemas/JsonNode'
+    ExecutionPolicy_Public:
+      type: object
+      properties:
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      description: Default execution policy for items in this version
+      readOnly: true
+    DatasetItem:
+      required:
+      - data
+      - source
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Stable item identifier.
+
+            On write, used as the upsert key.
+
+            If omitted, a new ID is generated.
+
+            Remains the same across dataset versions
+
+            '
+          format: uuid
+        dataset_item_id:
+          type: string
+          description: 'Deprecated.
+
+            Always equals ''id''.
+
+            Retained for backward compatibility and will be removed in a future version
+
+            '
+          format: uuid
+          readOnly: true
+        trace_id:
+          type: string
+          format: uuid
+        span_id:
+          type: string
+          format: uuid
+        source:
+          type: string
+          enum:
+          - manual
+          - trace
+          - span
+          - sdk
+        data:
+          $ref: '#/components/schemas/JsonNode'
+        description:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        evaluators:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatorItem'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+        experiment_items:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ExperimentItem'
+        run_summaries_by_experiment:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExperimentRunSummary'
+          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    ExperimentRunSummary:
+      type: object
+      properties:
+        passed_runs:
+          type: integer
+          format: int32
+        total_runs:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+          - passed
+          - failed
+      readOnly: true
+    Column:
+      type: object
+      properties:
+        name:
+          type: string
+        types:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - string
+            - number
+            - object
+            - boolean
+            - array
+            - 'null'
+        filter_field_prefix:
+          type: string
+        filterField:
+          type: string
+          description: The field to use for filtering
+          readOnly: true
+    DatasetVersionUpdate_Public:
+      type: object
+      properties:
+        change_description:
+          type: string
+          description: Optional description of changes in this version
+          example: Updated baseline version
+        tags_to_add:
+          maxItems: 100
+          minItems: 0
+          type: array
+          description: Optional list of tags to add to this version
+          example:
+          - production
+          - reviewed
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Optional list of tags to add to this version
+            example: '["production","reviewed"]'
+    DatasetVersionTag:
+      required:
+      - tag
+      type: object
+      properties:
+        tag:
+          maxLength: 100
+          minLength: 0
+          type: string
+    ProjectStats_Public:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStatItemObject_Public'
+    DatasetIdentifier_Public:
+      required:
+      - dataset_name
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        project_name:
+          type: string
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    DatasetIdentifier:
+      required:
+      - dataset_name
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        project_name:
+          type: string
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    DatasetVersion_Public:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        version_hash:
+          type: string
+          readOnly: true
+        tags:
+          uniqueItems: true
+          type: array
+          readOnly: true
+          items:
+            type: string
+            readOnly: true
+        is_latest:
+          type: boolean
+          description: Indicates whether this is the latest version of the dataset
+          readOnly: true
+        version_name:
+          type: string
+          description: Sequential version name formatted as 'v1', 'v2', etc.
+          readOnly: true
+        items_total:
+          type: integer
+          description: Total number of items in this version
+          format: int32
+          readOnly: true
+        items_added:
+          type: integer
+          description: Number of items added since last version
+          format: int32
+          readOnly: true
+        items_modified:
+          type: integer
+          description: Number of items modified since last version
+          format: int32
+          readOnly: true
+        items_deleted:
+          type: integer
+          description: Number of items deleted since last version
+          format: int32
+          readOnly: true
+        change_description:
+          type: string
+          readOnly: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+            readOnly: true
+          readOnly: true
+        evaluators:
+          type: array
+          description: Default evaluators for items in this version
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/EvaluatorItem_Public'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    DatasetItemUpdate:
+      type: object
+      properties:
+        input:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Dataset item input
+        expected_output:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Dataset item expected output
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+        data:
+          $ref: '#/components/schemas/JsonNode'
+        description:
+          type: string
+          description: Dataset item description
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags
+        tags_to_add:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to add
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to add
+        tags_to_remove:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to remove
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to remove
+        evaluators:
+          type: array
+          description: Evaluators
+          items:
+            $ref: '#/components/schemas/EvaluatorItem'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+        clear_execution_policy:
+          type: boolean
+          description: When true, clears the item-level execution policy (falls back to dataset-level)
+      description: Dataset item update request
+    DatasetItemPage_Compare:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetItem_Compare'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        columns:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Column_Compare'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    DatasetItemStreamRequest:
+      required:
+      - dataset_name
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        last_retrieved_id:
+          type: string
+          format: uuid
+        steam_limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          format: int32
+        dataset_version:
+          type: string
+        project_name:
+          type: string
+        filters:
+          type: string
+    DatasetVersionSummary_Public:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the version
+          format: uuid
+        version_hash:
+          type: string
+          description: Hash of the version content
+        version_name:
+          type: string
+          description: Sequential version name formatted as 'v1', 'v2', etc.
+        change_description:
+          type: string
+          description: Description of changes in this version
+        tags:
+          uniqueItems: true
+          type: array
+          description: Tags associated with this version
+          items:
+            type: string
+            description: Tags associated with this version
+      description: Summary of the latest dataset version
+      readOnly: true
+    ValueEntry:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    Column_Compare:
+      type: object
+      properties:
+        name:
+          type: string
+        types:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+            - string
+            - number
+            - object
+            - boolean
+            - array
+            - 'null'
+        filter_field_prefix:
+          type: string
+        filterField:
+          type: string
+          description: The field to use for filtering
+          readOnly: true
+    DatasetItem_Public:
+      required:
+      - data
+      - source
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Stable item identifier.
+
+            On write, used as the upsert key.
+
+            If omitted, a new ID is generated.
+
+            Remains the same across dataset versions
+
+            '
+          format: uuid
+        dataset_item_id:
+          type: string
+          description: 'Deprecated.
+
+            Always equals ''id''.
+
+            Retained for backward compatibility and will be removed in a future version
+
+            '
+          format: uuid
+          readOnly: true
+        trace_id:
+          type: string
+          format: uuid
+        span_id:
+          type: string
+          format: uuid
+        source:
+          type: string
+          enum:
+          - manual
+          - trace
+          - span
+          - sdk
+        data:
+          $ref: '#/components/schemas/JsonNode'
+        description:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        evaluators:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatorItem_Public'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy_Public'
+        experiment_items:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ExperimentItem_Public'
+        run_summaries_by_experiment:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExperimentRunSummary_Public'
+          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    Dataset_Write:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the dataset is created at workspace level.
+        type:
+          type: string
+          enum:
+          - dataset
+          - evaluation_suite
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    Dataset_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        type:
+          type: string
+          enum:
+          - dataset
+          - evaluation_suite
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        experiment_count:
+          type: integer
+          format: int64
+          readOnly: true
+        dataset_items_count:
+          type: integer
+          format: int64
+          readOnly: true
+        optimization_count:
+          type: integer
+          format: int64
+          readOnly: true
+        most_recent_experiment_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_created_experiment_at:
+          type: string
+          format: date-time
+          readOnly: true
+        most_recent_optimization_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_created_optimization_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - unknown
+          - processing
+          - completed
+          - failed
+        latest_version:
+          $ref: '#/components/schemas/DatasetVersionSummary_Public'
+    FeedbackScore_Compare:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry_Compare'
+          readOnly: true
+      readOnly: true
+    JsonListString:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    DatasetVersionPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetVersion_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+    DatasetItem_Compare:
+      required:
+      - data
+      - source
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Stable item identifier.
+
+            On write, used as the upsert key.
+
+            If omitted, a new ID is generated.
+
+            Remains the same across dataset versions
+
+            '
+          format: uuid
+        dataset_item_id:
+          type: string
+          description: 'Deprecated.
+
+            Always equals ''id''.
+
+            Retained for backward compatibility and will be removed in a future version
+
+            '
+          format: uuid
+          readOnly: true
+        trace_id:
+          type: string
+          format: uuid
+        span_id:
+          type: string
+          format: uuid
+        source:
+          type: string
+          enum:
+          - manual
+          - trace
+          - span
+          - sdk
+        data:
+          $ref: '#/components/schemas/JsonNode'
+        description:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        evaluators:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatorItem_Compare'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy_Compare'
+        experiment_items:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ExperimentItem_Compare'
+        run_summaries_by_experiment:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExperimentRunSummary_Compare'
+          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    AssertionResult_Compare:
+      type: object
+      properties:
+        value:
+          type: string
+        passed:
+          type: boolean
+        reason:
+          type: string
+      readOnly: true
+    ExecutionPolicy_Write:
+      type: object
+      properties:
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+    FeedbackScore:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry'
+          readOnly: true
+    DatasetExportJob_Public:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        dataset_name:
+          type: string
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        file_path:
+          type: string
+          readOnly: true
+        error_message:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        expires_at:
+          type: string
+          format: date-time
+          readOnly: true
+        viewed_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    DatasetItemChanges_Public:
+      type: object
+    SpanEnrichmentOptions:
+      type: object
+      properties:
+        includeTags:
+          type: boolean
+        includeFeedbackScores:
+          type: boolean
+        includeComments:
+          type: boolean
+        includeUsage:
+          type: boolean
+        includeMetadata:
+          type: boolean
+      description: Options for enriching span data
+    CreateDatasetItemsFromSpansRequest:
+      required:
+      - enrichment_options
+      - span_ids
+      type: object
+      properties:
+        span_ids:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: Set of span IDs to add to the dataset
+          items:
+            type: string
+            description: Set of span IDs to add to the dataset
+            format: uuid
+        enrichment_options:
+          $ref: '#/components/schemas/SpanEnrichmentOptions'
+        evaluators:
+          type: array
+          description: Optional evaluators to apply to the created items
+          items:
+            $ref: '#/components/schemas/EvaluatorItem'
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+    DatasetExpansionResponse:
+      type: object
+      properties:
+        generated_samples:
+          type: array
+          description: List of generated synthetic dataset items
+          items:
+            $ref: '#/components/schemas/DatasetItem'
+        model:
+          type: string
+          description: Model used for generation
+          example: gpt-4
+        total_generated:
+          type: integer
+          description: Total number of samples generated
+          format: int32
+          example: 10
+        generation_time:
+          type: string
+          description: Generation timestamp
+          format: date-time
+          readOnly: true
+    DatasetVersionDiffStats:
+      type: object
+      properties:
+        itemsAdded:
+          type: integer
+          format: int32
+        itemsModified:
+          type: integer
+          format: int32
+        itemsDeleted:
+          type: integer
+          format: int32
+        itemsUnchanged:
+          type: integer
+          format: int32
+    PageColumns:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Column'
+    DatasetItemFilter:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+      description: Filters to select dataset items to delete within the specified dataset. Must be used with 'dataset_id'. Mutually exclusive with 'item_ids'. Empty array means 'delete all items in the dataset'.
+    DatasetItemPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetItem_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        columns:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Column_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    EvaluatorItem_Public:
+      required:
+      - config
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - llm_judge
+          - code_metric
+        config:
+          $ref: '#/components/schemas/JsonNode_Public'
+      description: Default evaluators for items in this version
+      readOnly: true
+    JsonNode:
+      type: object
+    DatasetExpansion_Write:
+      required:
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+          description: The model to use for synthetic data generation
+          example: gpt-4
+        sample_count:
+          maximum: 200
+          minimum: 1
+          type: integer
+          description: Number of synthetic samples to generate
+          format: int32
+          example: 10
+        preserve_fields:
+          type: array
+          description: Fields to preserve patterns from original data
+          example:
+          - input
+          - expected_output
+          items:
+            type: string
+            description: Fields to preserve patterns from original data
+            example: '["input","expected_output"]'
+        variation_instructions:
+          type: string
+          description: Additional instructions for data variation
+          example: Create variations that test edge cases
+        custom_prompt:
+          type: string
+          description: Custom prompt to use for generation instead of auto-generated one
+        max_completion_tokens:
+          minimum: 100
+          type: integer
+          description: Maximum number of tokens for the LLM response. Required by Anthropic, used as maxOutputTokens for Gemini. If not provided, defaults to 4000 for Anthropic models only.
+          format: int32
+    AssertionResult:
+      type: object
+      properties:
+        value:
+          type: string
+        passed:
+          type: boolean
+        reason:
+          type: string
+      readOnly: true
+    ExperimentRunSummary_Compare:
+      type: object
+      properties:
+        passed_runs:
+          type: integer
+          format: int32
+        total_runs:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+          - passed
+          - failed
+      readOnly: true
+    DatasetItemsDelete:
+      type: object
+      properties:
+        item_ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of dataset item IDs to delete (max 1000). Use this to delete specific items by their IDs. Mutually exclusive with 'dataset_id' and 'filters'.
+          items:
+            type: string
+            description: List of dataset item IDs to delete (max 1000). Use this to delete specific items by their IDs. Mutually exclusive with 'dataset_id' and 'filters'.
+            format: uuid
+        dataset_id:
+          type: string
+          description: Dataset ID to scope the deletion. Required when using 'filters'. Mutually exclusive with 'item_ids'.
+          format: uuid
+        filters:
+          type: array
+          description: Filters to select dataset items to delete within the specified dataset. Must be used with 'dataset_id'. Mutually exclusive with 'item_ids'. Empty array means 'delete all items in the dataset'.
+          items:
+            $ref: '#/components/schemas/DatasetItemFilter'
+        batch_group_id:
+          type: string
+          description: Optional batch group ID to group multiple delete operations into a single dataset version. If null, mutates the latest version instead of creating a new one.
+          format: uuid
+      description: Request to delete multiple dataset items
+    DatasetPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        sortableBy:
+          type: array
+          items:
+            type: string
+    JsonListString_Compare:
+      type: object
+      readOnly: true
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ExperimentRunSummary_Public:
+      type: object
+      properties:
+        passed_runs:
+          type: integer
+          format: int32
+        total_runs:
+          type: integer
+          format: int32
+        status:
+          type: string
+          enum:
+          - passed
+          - failed
+      readOnly: true
+    ExecutionPolicy_Compare:
+      type: object
+      properties:
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      readOnly: true
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ExperimentItem_Compare:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        input:
+          $ref: '#/components/schemas/JsonListString_Compare'
+        output:
+          $ref: '#/components/schemas/JsonListString_Compare'
+        trace_metadata:
+          $ref: '#/components/schemas/JsonListString_Compare'
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScore_Compare'
+        comments:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Comment_Compare'
+        total_estimated_cost:
+          type: number
+          readOnly: true
+        duration:
+          type: number
+          format: double
+          readOnly: true
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            readOnly: true
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+        description:
+          type: string
+          readOnly: true
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy_Compare'
+        assertion_results:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AssertionResult_Compare'
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - passed
+          - failed
+      readOnly: true
+    ValueEntry_Compare:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    Comment_Compare:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+      readOnly: true
+    DatasetVersionDiff:
+      type: object
+      properties:
+        from_version:
+          type: string
+        to_version:
+          type: string
+        statistics:
+          $ref: '#/components/schemas/DatasetVersionDiffStats'
+    EvaluatorItem_Write:
+      required:
+      - config
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - llm_judge
+          - code_metric
+        config:
+          $ref: '#/components/schemas/JsonNode_Write'
+    ExperimentItem:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        input:
+          $ref: '#/components/schemas/JsonListString'
+        output:
+          $ref: '#/components/schemas/JsonListString'
+        trace_metadata:
+          $ref: '#/components/schemas/JsonListString'
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScore'
+        comments:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Comment'
+        total_estimated_cost:
+          type: number
+          readOnly: true
+        duration:
+          type: number
+          format: double
+          readOnly: true
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            readOnly: true
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+        description:
+          type: string
+          readOnly: true
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+        assertion_results:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AssertionResult'
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - passed
+          - failed
+    Comment:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    DatasetItemBatchUpdate:
+      required:
+      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of dataset item IDs to update (max 1000). Mutually exclusive with 'filters'.
+          items:
+            type: string
+            description: List of dataset item IDs to update (max 1000). Mutually exclusive with 'filters'.
+            format: uuid
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatasetItemFilter'
+        dataset_id:
+          type: string
+          description: Dataset ID. Required when using 'filters', optional when using 'ids'.
+          format: uuid
+        update:
+          $ref: '#/components/schemas/DatasetItemUpdate'
+        merge_tags:
+          type: boolean
+          description: 'If true, merge tags with existing tags instead of replacing them. Default: false. When using ''filters'', this is automatically set to true.'
+      description: Request to batch update multiple dataset items

@@ -1,0 +1,217 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Retention Rules API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Retention Rules
+  description: Data retention rule management
+paths:
+  /v1/private/retention/rules:
+    get:
+      tags:
+      - Retention Rules
+      summary: Find retention rules
+      description: List retention rules for the caller's workspace. Defaults to active only.
+      operationId: findRetentionRules
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: include_inactive
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Retention rules page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionRulePage_Public'
+    post:
+      tags:
+      - Retention Rules
+      summary: Create retention rule
+      description: Create a new retention rule. Auto-deactivates any existing active rule for the same scope.
+      operationId: createRetentionRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetentionRule_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/retention/rules/{ruleId}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionRule_Public'
+  /v1/private/retention/rules/{ruleId}:
+    get:
+      tags:
+      - Retention Rules
+      summary: Get retention rule by id
+      description: Get a specific retention rule by id
+      operationId: getRetentionRuleById
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Retention rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionRule_Public'
+        '404':
+          description: Retention rule not found
+    delete:
+      tags:
+      - Retention Rules
+      summary: Deactivate retention rule
+      description: Soft-deactivate a retention rule (sets enabled=false). Rules are never hard-deleted for audit trail.
+      operationId: deactivateRetentionRule
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Retention rule not found
+components:
+  schemas:
+    RetentionRulePage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetentionRule_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+    RetentionRule_Write:
+      required:
+      - retention
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        organization_level:
+          type: boolean
+          description: Set to true to create an organization-level rule
+          writeOnly: true
+        retention:
+          type: string
+          enum:
+          - short_14d
+          - base_60d
+          - extended_400d
+          - unlimited
+        apply_to_past:
+          type: boolean
+    RetentionRule_Public:
+      required:
+      - retention
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        workspace_id:
+          type: string
+          readOnly: true
+        project_id:
+          type: string
+          format: uuid
+        level:
+          type: string
+          description: Computed from projectId and organizationLevel
+          readOnly: true
+          enum:
+          - organization
+          - workspace
+          - project
+        retention:
+          type: string
+          enum:
+          - short_14d
+          - base_60d
+          - extended_400d
+          - unlimited
+        apply_to_past:
+          type: boolean
+        enabled:
+          type: boolean
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        catch_up_cursor:
+          type: string
+          description: Current position of historical data cleanup
+          format: uuid
+          readOnly: true
+        catch_up_done:
+          type: boolean
+          description: Whether historical catch-up is complete
+          readOnly: true

@@ -1,0 +1,1858 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Experiments API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Experiments
+  description: Experiment resources
+paths:
+  /v1/private/experiments/batch:
+    patch:
+      tags:
+      - Experiments
+      summary: Batch update experiments
+      description: Update multiple experiments
+      operationId: batchUpdateExperiments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentBatchUpdate'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments:
+    get:
+      tags:
+      - Experiments
+      summary: Find experiments
+      description: Find experiments
+      operationId: findExperiments
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: datasetId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: optimization_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: types
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter experiments by name (partial match, case insensitive)
+      - name: dataset_deleted
+        in: query
+        schema:
+          type: boolean
+      - name: prompt_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_deleted
+        in: query
+        schema:
+          type: boolean
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: experiment_ids
+        in: query
+        schema:
+          type: string
+          description: Filter experiments by a list of experiment IDs
+      - name: force_sorting
+        in: query
+        schema:
+          type: boolean
+          description: Force sorting even when exceeding the endpoint result set limit. May result in slower queries
+          default: false
+      responses:
+        '200':
+          description: Experiments resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentPage_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    post:
+      tags:
+      - Experiments
+      summary: Create experiment
+      description: Create experiment
+      operationId: createExperiment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Experiment_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/experiments/{id}
+  /v1/private/experiments/items:
+    post:
+      tags:
+      - Experiments
+      summary: Create experiment items
+      description: Create experiment items
+      operationId: createExperimentItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentItemsBatch'
+      responses:
+        '204':
+          description: No content
+  /v1/private/experiments/items/delete:
+    post:
+      tags:
+      - Experiments
+      summary: Delete experiment items
+      description: Delete experiment items
+      operationId: deleteExperimentItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentItemsDelete'
+      responses:
+        '204':
+          description: No content
+  /v1/private/experiments/delete:
+    post:
+      tags:
+      - Experiments
+      summary: Delete experiments by id
+      description: Delete experiments by id
+      operationId: deleteExperimentsById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteIdsHolder'
+      responses:
+        '204':
+          description: No content
+  /v1/private/experiments/execute:
+    post:
+      tags:
+      - Experiments
+      summary: Create and execute experiment
+      description: Creates experiments for each prompt variant and asynchronously processes all dataset items
+      operationId: executeExperiment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentExecutionRequest'
+        required: true
+      responses:
+        '202':
+          description: Experiments created and processing started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentExecutionResponse'
+  /v1/private/experiments/items/bulk:
+    put:
+      tags:
+      - Experiments
+      summary: Record experiment items in bulk
+      description: Record experiment items in bulk with traces, spans, and feedback scores. Maximum request size is 4MB.
+      operationId: experimentItemsBulk
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentItemBulkUpload_ExperimentItemBulkWriteView'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/feedback-scores/names:
+    get:
+      tags:
+      - Experiments
+      summary: Find Feedback Score names
+      description: Find Feedback Score names
+      operationId: findFeedbackScoreNames
+      parameters:
+      - name: experiment_ids
+        in: query
+        schema:
+          type: string
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Feedback Scores resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackScoreNames_Public'
+  /v1/private/experiments/groups:
+    get:
+      tags:
+      - Experiments
+      summary: Find experiment groups
+      description: Find experiments grouped by specified fields
+      operationId: findExperimentGroups
+      parameters:
+      - name: groups
+        in: query
+        schema:
+          type: string
+      - name: types
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter experiments by name (partial match, case insensitive)
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_deleted
+        in: query
+        schema:
+          type: boolean
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Experiment groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentGroupResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/groups/aggregations:
+    get:
+      tags:
+      - Experiments
+      summary: Find experiment groups with aggregations
+      description: Find experiments grouped by specified fields with aggregation metrics
+      operationId: findExperimentGroupsAggregations
+      parameters:
+      - name: groups
+        in: query
+        schema:
+          type: string
+      - name: types
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter experiments by name (partial match, case insensitive)
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_deleted
+        in: query
+        schema:
+          type: boolean
+          description: Filter experiments by deleted projects
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Experiment groups with aggregations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentGroupAggregationsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/finish:
+    post:
+      tags:
+      - Experiments
+      summary: Finish experiments
+      description: Finish experiments and trigger alert events
+      operationId: finishExperiments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteIdsHolder'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/{id}:
+    get:
+      tags:
+      - Experiments
+      summary: Get experiment by id
+      description: Get experiment by id
+      operationId: getExperimentById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Experiment resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Experiment_Public'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    patch:
+      tags:
+      - Experiments
+      summary: Update experiment by id
+      description: Update experiment by id
+      operationId: updateExperiment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentUpdate'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/items/{id}:
+    get:
+      tags:
+      - Experiments
+      summary: Get experiment item by id
+      description: Get experiment item by id
+      operationId: getExperimentItemById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Experiment item resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExperimentItem_Public'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/experiments/items/stream:
+    post:
+      tags:
+      - Experiments
+      summary: Stream experiment items
+      description: Stream experiment items
+      operationId: streamExperimentItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentItemStreamRequest'
+      responses:
+        '200':
+          description: Experiment items stream or error during process
+          content:
+            application/octet-stream:
+              schema:
+                maxItems: 2000
+                type: array
+                items:
+                  type: string
+                  anyOf:
+                  - $ref: '#/components/schemas/ExperimentItem'
+                  - $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/experiments/stream:
+    post:
+      tags:
+      - Experiments
+      summary: Stream experiments
+      description: Stream experiments
+      operationId: streamExperiments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExperimentStreamRequest_Public'
+      responses:
+        '200':
+          description: Experiments stream or error during process
+          content:
+            application/octet-stream:
+              schema:
+                maxItems: 2000
+                type: array
+                items:
+                  type: string
+                  anyOf:
+                  - $ref: '#/components/schemas/Experiment_Public'
+                  - $ref: '#/components/schemas/ErrorMessage_Public'
+components:
+  schemas:
+    Comment_Public:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+      readOnly: true
+    PromptVersionLink:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        commit:
+          type: string
+          readOnly: true
+        version_number:
+          type: string
+          description: sequential version number in the format v<N>; null for masks
+          readOnly: true
+        prompt_id:
+          type: string
+          format: uuid
+          readOnly: true
+        prompt_name:
+          type: string
+          readOnly: true
+    Span_ExperimentItemBulkWriteView:
+      required:
+      - start_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_span_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        output:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        metadata:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        model:
+          type: string
+        provider:
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo_ExperimentItemBulkWriteView'
+        last_updated_at:
+          type: string
+          format: date-time
+        total_estimated_cost:
+          minimum: 0.0
+          exclusiveMinimum: false
+          type: number
+        total_estimated_cost_version:
+          type: string
+        ttft:
+          type: number
+          description: Time to first token in milliseconds
+          format: double
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+    ExperimentItem_Public:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+    AggregationData:
+      type: object
+      properties:
+        experiment_count:
+          type: integer
+          format: int64
+        trace_count:
+          type: integer
+          format: int64
+        total_estimated_cost:
+          type: number
+        total_estimated_cost_avg:
+          type: number
+        duration:
+          $ref: '#/components/schemas/PercentageValues'
+        feedback_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage'
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage'
+        pass_rate_avg:
+          type: number
+        passed_count_sum:
+          type: integer
+          format: int64
+        total_count_sum:
+          type: integer
+          format: int64
+    ExperimentScore_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    ScoreName_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    JsonListString_Write:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    PromptVersionLink_Write:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    PromptVersionLink_Public:
+      type: object
+      properties:
+        prompt_version_id:
+          type: string
+          format: uuid
+        commit:
+          type: string
+        prompt_id:
+          type: string
+          format: uuid
+        prompt_name:
+          type: string
+    ExperimentScore:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    GroupContent:
+      type: object
+      properties:
+        label:
+          type: string
+    ExecutionPolicy:
+      type: object
+      properties:
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      readOnly: true
+    FeedbackScoreNames_Public:
+      type: object
+      properties:
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreName_Public'
+    ExperimentExecutionRequest:
+      required:
+      - dataset_id
+      - dataset_name
+      - prompts
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        dataset_version_id:
+          type: string
+          format: uuid
+        prompts:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVariant'
+        project_name:
+          type: string
+        dataset_id:
+          type: string
+          format: uuid
+        version_hash:
+          type: string
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink'
+    Experiment_Write:
+      required:
+      - dataset_name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dataset_name:
+          minLength: 1
+          type: string
+          nullable: true
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Creates project if it doesn't exist. Ignored when project_id is provided.
+        name:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Write'
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+        type:
+          type: string
+          enum:
+          - regular
+          - trial
+          - mini-batch
+          - mutation
+        evaluation_method:
+          type: string
+          enum:
+          - dataset
+          - evaluation_suite
+        optimization_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentScore_Write'
+        prompt_version:
+          $ref: '#/components/schemas/PromptVersionLink_Write'
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink_Write'
+        dataset_version_id:
+          type: string
+          description: ID of the dataset version this experiment is linked to. If not provided at creation, experiment will be automatically linked to the latest version.
+          format: uuid
+    PercentageValues_Public:
+      type: object
+      properties:
+        p50:
+          type: number
+        p90:
+          type: number
+        p99:
+          type: number
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ExperimentStreamRequest_Public:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          format: int32
+        last_retrieved_id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    ExperimentGroupResponse:
+      type: object
+      properties:
+        content:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/GroupContent'
+        details:
+          $ref: '#/components/schemas/GroupDetails'
+    GroupDetail:
+      type: object
+      properties:
+        group_sorting:
+          type: array
+          items:
+            type: string
+    ExperimentItemsBatch:
+      required:
+      - experiment_items
+      type: object
+      properties:
+        experiment_items:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentItem'
+    DatasetVersionSummary_Public:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the version
+          format: uuid
+        version_hash:
+          type: string
+          description: Hash of the version content
+        version_name:
+          type: string
+          description: Sequential version name formatted as 'v1', 'v2', etc.
+        change_description:
+          type: string
+          description: Description of changes in this version
+        tags:
+          uniqueItems: true
+          type: array
+          description: Tags associated with this version
+          items:
+            type: string
+            description: Tags associated with this version
+      description: Summary of the latest dataset version
+      readOnly: true
+    ExperimentPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Experiment_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    ValueEntry:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    AssertionScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
+      readOnly: true
+    Message:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          $ref: '#/components/schemas/JsonNode'
+    JsonListString:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ExperimentItemsDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
+    JsonListString_Public:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ValueEntry_ExperimentItemBulkWriteView:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    FeedbackScore:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry'
+          readOnly: true
+    GroupContentWithAggregations:
+      type: object
+      properties:
+        label:
+          type: string
+        aggregations:
+          $ref: '#/components/schemas/AggregationData'
+    JsonListString_ExperimentItemBulkWriteView:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    Trace_ExperimentItemBulkWriteView:
+      required:
+      - start_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        name:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        output:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        metadata:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo_ExperimentItemBulkWriteView'
+        last_updated_at:
+          type: string
+          format: date-time
+        ttft:
+          type: number
+          description: Time to first token in milliseconds
+          format: double
+        thread_id:
+          type: string
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+      description: Please provide either none, only one of evaluate_task_result or trace, but never both
+    ErrorInfo_ExperimentItemBulkWriteView:
+      required:
+      - exception_type
+      - traceback
+      type: object
+      properties:
+        exception_type:
+          minLength: 1
+          type: string
+        message:
+          type: string
+        traceback:
+          minLength: 1
+          type: string
+    ExperimentInfo:
+      type: object
+      properties:
+        experiment_id:
+          type: string
+          format: uuid
+        prompt_index:
+          type: integer
+          format: int32
+    PercentageValues:
+      type: object
+      properties:
+        p50:
+          type: number
+        p90:
+          type: number
+        p99:
+          type: number
+    Experiment_Public:
+      required:
+      - dataset_name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dataset_name:
+          minLength: 1
+          type: string
+          nullable: true
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Creates project if it doesn't exist. Ignored when project_id is provided.
+        name:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Public'
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+        type:
+          type: string
+          enum:
+          - regular
+          - trial
+          - mini-batch
+          - mutation
+        evaluation_method:
+          type: string
+          enum:
+          - dataset
+          - evaluation_suite
+        optimization_id:
+          type: string
+          format: uuid
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage_Public'
+        comments:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Comment_Public'
+        trace_count:
+          type: integer
+          format: int64
+          readOnly: true
+        dataset_item_count:
+          type: integer
+          format: int64
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        duration:
+          $ref: '#/components/schemas/PercentageValues_Public'
+        total_estimated_cost:
+          type: number
+          readOnly: true
+        total_estimated_cost_avg:
+          type: number
+          readOnly: true
+        usage:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+            readOnly: true
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentScore_Public'
+        prompt_version:
+          $ref: '#/components/schemas/PromptVersionLink_Public'
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink_Public'
+        dataset_version_id:
+          type: string
+          description: ID of the dataset version this experiment is linked to. If not provided at creation, experiment will be automatically linked to the latest version.
+          format: uuid
+        dataset_version_summary:
+          $ref: '#/components/schemas/DatasetVersionSummary_Public'
+        pass_rate:
+          type: number
+          description: Pass rate for test suite experiments (0.0-1.0). Null for regular experiments.
+          readOnly: true
+        passed_count:
+          type: integer
+          description: Number of items that passed for test suite experiments. Null for regular experiments.
+          format: int64
+          readOnly: true
+        total_count:
+          type: integer
+          description: Total number of items for test suite experiments. Null for regular experiments.
+          format: int64
+          readOnly: true
+        assertion_scores:
+          type: array
+          description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AssertionScoreAverage_Public'
+    FeedbackScoreAverage:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    AssertionResult:
+      type: object
+      properties:
+        value:
+          type: string
+        passed:
+          type: boolean
+        reason:
+          type: string
+      readOnly: true
+    JsonNode:
+      type: object
+    FeedbackScore_ExperimentItemBulkWriteView:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry_ExperimentItemBulkWriteView'
+          readOnly: true
+    ExperimentItemBulkRecord_ExperimentItemBulkWriteView:
+      required:
+      - dataset_item_id
+      type: object
+      properties:
+        dataset_item_id:
+          type: string
+          format: uuid
+        evaluate_task_result:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        trace:
+          $ref: '#/components/schemas/Trace_ExperimentItemBulkWriteView'
+        spans:
+          maxItems: 100
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/Span_ExperimentItemBulkWriteView'
+        feedback_scores:
+          maxItems: 100
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScore_ExperimentItemBulkWriteView'
+    ExperimentBatchUpdate:
+      required:
+      - ids
+      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of experiment IDs to update (max 1000)
+          items:
+            type: string
+            description: List of experiment IDs to update (max 1000)
+            format: uuid
+        update:
+          $ref: '#/components/schemas/ExperimentUpdate'
+        merge_tags:
+          type: boolean
+          description: 'If true, merge tags with existing tags instead of replacing them. Default: false'
+      description: Request to batch update multiple experiments
+    PromptVariant:
+      required:
+      - messages
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        configs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/JsonNode'
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink'
+    ExperimentScore_Write:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    ExperimentItemStreamRequest:
+      required:
+      - experiment_name
+      type: object
+      properties:
+        experiment_name:
+          minLength: 1
+          type: string
+        limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          format: int32
+        last_retrieved_id:
+          type: string
+          format: uuid
+        truncate:
+          type: boolean
+          description: Truncate image included in either input, output or metadata
+          default: true
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    ExperimentExecutionResponse:
+      type: object
+      properties:
+        experiments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentInfo'
+        total_items:
+          type: integer
+          format: int32
+    GroupDetails:
+      type: object
+      properties:
+        groups_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetail'
+    ExperimentUpdate:
+      type: object
+      properties:
+        name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags
+        tags_to_add:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to add
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to add
+        tags_to_remove:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to remove
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to remove
+        type:
+          type: string
+          enum:
+          - regular
+          - trial
+          - mini-batch
+          - mutation
+        status:
+          type: string
+          description: The status of the experiment
+          enum:
+          - running
+          - completed
+          - cancelled
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentScore'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ExperimentGroupAggregationsResponse:
+      type: object
+      properties:
+        content:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/GroupContentWithAggregations'
+    ExperimentItemBulkUpload_ExperimentItemBulkWriteView:
+      required:
+      - dataset_name
+      - experiment_name
+      - items
+      type: object
+      properties:
+        experiment_name:
+          minLength: 1
+          type: string
+        dataset_name:
+          minLength: 1
+          type: string
+        experiment_id:
+          type: string
+          description: Optional experiment ID. If provided, items will be added to the existing experiment and experimentName will be ignored. If not provided or experiment with that ID doesn't exist, a new experiment will be created with the given experimentName
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project for traces auto-created from items that provide evaluate_task_result (i.e. without an explicit trace). If null, the default project is used; relying on this fallback is deprecated, please provide project_name explicitly.
+        items:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentItemBulkRecord_ExperimentItemBulkWriteView'
+    DeleteIdsHolder:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    ExperimentItem:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        input:
+          $ref: '#/components/schemas/JsonListString'
+        output:
+          $ref: '#/components/schemas/JsonListString'
+        trace_metadata:
+          $ref: '#/components/schemas/JsonListString'
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScore'
+        comments:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Comment'
+        total_estimated_cost:
+          type: number
+          readOnly: true
+        duration:
+          type: number
+          format: double
+          readOnly: true
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            readOnly: true
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+        description:
+          type: string
+          readOnly: true
+        execution_policy:
+          $ref: '#/components/schemas/ExecutionPolicy'
+        assertion_results:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AssertionResult'
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - passed
+          - failed
+    Comment:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true

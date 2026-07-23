@@ -1,0 +1,832 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Agent Configs API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Agent Configs
+  description: Agent configuration management
+paths:
+  /v1/private/agent-configs/blueprints:
+    post:
+      tags:
+      - Agent Configs
+      summary: Create optimizer config with initial blueprint
+      description: Creates a new optimizer config with initial blueprint. Fails if the project already has a config.
+      operationId: createAgentConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigCreate_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/agent-configs/blueprints/{blueprint_id}
+        '400':
+          description: Bad Request (e.g. MASK type not allowed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+        '409':
+          description: Conflict (config already exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+    patch:
+      tags:
+      - Agent Configs
+      summary: Add blueprint to existing config
+      description: Adds a new blueprint to an existing optimizer config. Fails if the project has no config yet.
+      operationId: updateAgentConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigCreate_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/agent-configs/blueprints/{blueprint_id}
+        '404':
+          description: Not Found (no config for project)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+  /v1/private/agent-configs/blueprints/projects/{project_id}/masks/{mask_id}:
+    post:
+      tags:
+      - Agent Configs
+      summary: Create blueprint from mask
+      description: Creates a new blueprint by applying a mask's changes on top of the latest blueprint for the project.
+      operationId: createBlueprintFromMask
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mask_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/agent-configs/blueprints/{blueprint_id}
+        '404':
+          description: Not Found (no config or mask not found)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Write'
+  /v1/private/agent-configs/blueprints/environments:
+    post:
+      tags:
+      - Agent Configs
+      summary: Create or update environments
+      description: Creates or updates environment-to-blueprint mappings
+      operationId: createOrUpdateEnvs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigEnvUpdate'
+      responses:
+        '204':
+          description: Environments updated
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/agent-configs/blueprints/environments/{env_name}/projects/{project_id}:
+    get:
+      tags:
+      - Agent Configs
+      summary: Retrieve blueprint by environment
+      description: Retrieves the blueprint associated with a specific environment
+      operationId: getBlueprintByEnv
+      parameters:
+      - name: env_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mask_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Blueprint retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentBlueprint_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    put:
+      tags:
+      - Agent Configs
+      summary: Set environment by blueprint name
+      description: Sets an environment to point to a blueprint identified by name
+      operationId: setEnvByBlueprintName
+      parameters:
+      - name: env_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigEnvSetByName'
+      responses:
+        '204':
+          description: Environment updated
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+      - Agent Configs
+      summary: Delete environment
+      description: Soft-deletes an environment by setting its ended_at timestamp
+      operationId: deleteEnv
+      parameters:
+      - name: env_name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Environment deleted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/agent-configs/blueprints/{blueprint_id}:
+    get:
+      tags:
+      - Agent Configs
+      summary: Retrieve blueprint by ID
+      description: Retrieves a specific blueprint by its ID
+      operationId: getBlueprintById
+      parameters:
+      - name: blueprint_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mask_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Blueprint retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentBlueprint_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/agent-configs/blueprints/projects/{project_id}/names/{name}:
+    get:
+      tags:
+      - Agent Configs
+      summary: Retrieve blueprint by name
+      description: Retrieves a specific blueprint by its name within a project
+      operationId: getBlueprintByName
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mask_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Blueprint retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentBlueprint_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/agent-configs/blueprints/history/projects/{project_id}:
+    get:
+      tags:
+      - Agent Configs
+      summary: Get blueprint history
+      description: Retrieves paginated blueprint history for a project
+      operationId: getBlueprintHistory
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlueprintPage_History'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_History'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_History'
+  /v1/private/agent-configs/blueprints/{blueprint_id}/deltas:
+    get:
+      tags:
+      - Agent Configs
+      summary: Retrieve delta by blueprint ID
+      description: Retrieves only the changes (delta) introduced in a specific blueprint
+      operationId: getDeltaById
+      parameters:
+      - name: blueprint_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Delta retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentBlueprint_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/agent-configs/blueprints/latest/projects/{project_id}:
+    get:
+      tags:
+      - Agent Configs
+      summary: Retrieve latest blueprint
+      description: Retrieves the latest blueprint for a project
+      operationId: getLatestBlueprint
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mask_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Blueprint retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentBlueprint_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/agent-configs/blueprints/remove-keys:
+    post:
+      tags:
+      - Agent Configs
+      summary: Remove configuration parameters
+      description: Removes configuration parameters by creating a new blueprint that closes the specified keys. Returns 204 if no changes were needed (idempotent).
+      operationId: removeConfigKeys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigRemoveValues'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/agent-configs/blueprints/{blueprint_id}
+        '204':
+          description: No changes needed (no config or keys already removed)
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    AgentConfigCreate_Write:
+      required:
+      - blueprint
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Project ID. Either project_id or project_name must be provided
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Either project_id or project_name must be provided
+        id:
+          type: string
+          description: Agent config ID. Generated automatically if not provided
+          format: uuid
+        blueprint:
+          $ref: '#/components/schemas/AgentBlueprint_Write'
+    AgentConfigValue_Public:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AgentConfigValue_History:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
+    BlueprintPage_History:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentBlueprint_History'
+    AgentBlueprint_History:
+      required:
+      - type
+      - values
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - blueprint
+          - mask
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        envs:
+          type: array
+          readOnly: true
+          items:
+            type: string
+            readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        values:
+          maxItems: 250
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentConfigValue_History'
+    AgentConfigEnvUpdate:
+      required:
+      - envs
+      - project_id
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        envs:
+          maxItems: 100
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentConfigEnv'
+    AgentConfigEnvSetByName:
+      required:
+      - blueprint_name
+      type: object
+      properties:
+        blueprint_name:
+          type: string
+    AgentConfigRemoveValues:
+      required:
+      - keys
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Project ID. Either project_id or project_name must be provided
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Either project_id or project_name must be provided
+        keys:
+          maxItems: 250
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ErrorMessage_Write:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    AgentBlueprint_Public:
+      required:
+      - type
+      - values
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - blueprint
+          - mask
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        envs:
+          type: array
+          readOnly: true
+          items:
+            type: string
+            readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        values:
+          maxItems: 250
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentConfigValue_Public'
+    ErrorMessage_History:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    AgentConfigEnv:
+      required:
+      - blueprint_id
+      - env_name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        env_name:
+          maxLength: 50
+          minLength: 0
+          type: string
+        blueprint_id:
+          type: string
+          format: uuid
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ended_at:
+          type: string
+          format: date-time
+          readOnly: true
+    AgentConfigValue_Write:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
+    AgentBlueprint_Write:
+      required:
+      - type
+      - values
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - blueprint
+          - mask
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        values:
+          maxItems: 250
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentConfigValue_Write'

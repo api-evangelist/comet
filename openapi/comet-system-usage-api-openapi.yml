@@ -1,0 +1,187 @@
+openapi: 3.1.0
+info:
+  title: Opik REST System usage API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: System usage
+  description: System usage related resource
+paths:
+  /v1/internal/usage/bi-datasets:
+    get:
+      tags:
+      - System usage
+      summary: Get datasets information for BI events
+      description: Get datasets information for BI events per user per workspace
+      operationId: getDatasetBiInfo
+      responses:
+        '200':
+          description: Datasets BiInformationResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiInformationResponse'
+  /v1/internal/usage/bi-experiments:
+    get:
+      tags:
+      - System usage
+      summary: Get experiments information for BI events
+      description: Get experiments information for BI events per user per workspace
+      operationId: getExperimentBiInfo
+      responses:
+        '200':
+          description: Experiments BiInformationResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiInformationResponse'
+  /v1/internal/usage/bi-spans:
+    get:
+      tags:
+      - System usage
+      summary: Get spans information for BI events
+      description: Get spans information for BI events per user per workspace
+      operationId: getSpansBiInfo
+      responses:
+        '200':
+          description: Spans BiInformationResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiInformationResponse'
+  /v1/internal/usage/workspace-span-counts-breakdown:
+    get:
+      tags:
+      - System usage
+      summary: Get spans count on previous day grouped by workspace, project and user
+      description: Get spans count on previous day grouped by workspace, project and user
+      operationId: getSpansCountBreakdownForWorkspaces
+      responses:
+        '200':
+          description: UsageByWorkspaceProjectUserResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageByWorkspaceProjectUserResponse'
+  /v1/internal/usage/workspace-span-counts:
+    get:
+      tags:
+      - System usage
+      summary: Get spans count on previous day for all available workspaces
+      description: Get spans count on previous day for all available workspaces
+      operationId: getSpansCountForWorkspaces
+      responses:
+        '200':
+          description: SpanCountResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpansCountResponse'
+  /v1/internal/usage/bi-traces:
+    get:
+      tags:
+      - System usage
+      summary: Get traces information for BI events
+      description: Get traces information for BI events per user per workspace
+      operationId: getTracesBiInfo
+      responses:
+        '200':
+          description: Traces BiInformationResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiInformationResponse'
+  /v1/internal/usage/workspace-trace-counts:
+    get:
+      tags:
+      - System usage
+      summary: Get traces count on previous day for all available workspaces
+      description: Get traces count on previous day for all available workspaces
+      operationId: getTracesCountForWorkspaces
+      responses:
+        '200':
+          description: TraceCountResponse resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceCountResponse'
+components:
+  schemas:
+    WorkspaceTraceCount:
+      type: object
+      properties:
+        workspace:
+          type: string
+        trace_count:
+          type: integer
+          format: int32
+    BiInformationResponse:
+      type: object
+      properties:
+        bi_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/BiInformation'
+    TraceCountResponse:
+      type: object
+      properties:
+        workspaces_traces_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTraceCount'
+    UsageByWorkspaceProjectUserResponse:
+      type: object
+      properties:
+        breakdown:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceProjectUserCount'
+    BiInformation:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+        user:
+          type: string
+        count:
+          type: integer
+          format: int64
+    SpansCountResponse:
+      type: object
+      properties:
+        workspaces_spans_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceSpansCount'
+    WorkspaceProjectUserCount:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        user:
+          type: string
+        count:
+          type: integer
+          format: int64
+    WorkspaceSpansCount:
+      type: object
+      properties:
+        workspace:
+          type: string
+        span_count:
+          type: integer
+          format: int32

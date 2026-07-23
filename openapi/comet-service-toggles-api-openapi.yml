@@ -1,0 +1,147 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Service Toggles API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Service Toggles
+  description: Service Toggles resources
+paths:
+  /v1/private/toggles:
+    get:
+      tags:
+      - Service Toggles
+      summary: Get Service Toggles
+      description: Get Service Toggles
+      operationId: getServiceToggles
+      responses:
+        '200':
+          description: Service Toggles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTogglesConfig'
+components:
+  schemas:
+    ServiceTogglesConfig:
+      required:
+      - agentInsightsEnabled
+      - agenticToolsEnabled
+      - alertsEnabled
+      - anthropicProviderEnabled
+      - bedrockProviderEnabled
+      - costIntelligenceEnabled
+      - customllmProviderEnabled
+      - datasetExportEnabled
+      - datasetVersioningEnabled
+      - demoDataEnabled
+      - exportEnabled
+      - forceWorkspaceVersion
+      - geminiProviderEnabled
+      - guardrailsEnabled
+      - ollamaProviderEnabled
+      - ollieEnabled
+      - onlineScoringTracingEnabled
+      - openaiProviderEnabled
+      - openrouterProviderEnabled
+      - opikAIEnabled
+      - projectHomepageEnabled
+      - pythonEvaluatorEnabled
+      - spanLlmAsJudgeEnabled
+      - spanUserDefinedMetricPythonEnabled
+      - traceThreadPythonEvaluatorEnabled
+      - v1WorkspaceAllowlistIds
+      - v2WorkspaceAllowlistIds
+      - vertexaiProviderEnabled
+      - welcomeWizardEnabled
+      type: object
+      properties:
+        pythonEvaluatorEnabled:
+          type: boolean
+        traceThreadPythonEvaluatorEnabled:
+          type: boolean
+        spanLlmAsJudgeEnabled:
+          type: boolean
+        spanUserDefinedMetricPythonEnabled:
+          type: boolean
+        guardrailsEnabled:
+          type: boolean
+        opikAIEnabled:
+          type: boolean
+        alertsEnabled:
+          type: boolean
+        welcomeWizardEnabled:
+          type: boolean
+        exportEnabled:
+          type: boolean
+        costIntelligenceEnabled:
+          type: boolean
+        datasetVersioningEnabled:
+          type: boolean
+        datasetExportEnabled:
+          type: boolean
+        demoDataEnabled:
+          type: boolean
+        openaiProviderEnabled:
+          type: boolean
+        anthropicProviderEnabled:
+          type: boolean
+        geminiProviderEnabled:
+          type: boolean
+        openrouterProviderEnabled:
+          type: boolean
+        vertexaiProviderEnabled:
+          type: boolean
+        bedrockProviderEnabled:
+          type: boolean
+        customllmProviderEnabled:
+          type: boolean
+        ollamaProviderEnabled:
+          type: boolean
+        ollieEnabled:
+          type: boolean
+        projectHomepageEnabled:
+          type: boolean
+        agenticToolsEnabled:
+          type: boolean
+        agentInsightsEnabled:
+          type: boolean
+        onlineScoringTracingEnabled:
+          type: boolean
+        v2WorkspaceAllowlistIds:
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+        v1WorkspaceAllowlistIds:
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+        forceWorkspaceVersion:
+          minLength: 1
+          type: string
+        defaultPageSize:
+          maximum: 100
+          minimum: 5
+          type: integer
+          format: int32
+        v2WorkspaceAllowlist:
+          type: string
+          writeOnly: true
+        v1WorkspaceAllowlist:
+          type: string
+          writeOnly: true

@@ -1,0 +1,573 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Alerts API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Alerts
+  description: Alert resources
+paths:
+  /v1/private/alerts:
+    get:
+      tags:
+      - Alerts
+      summary: Find alerts
+      description: Find alerts
+      operationId: findAlerts
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertPage_Public'
+    post:
+      tags:
+      - Alerts
+      summary: Create alert
+      description: Create alert
+      operationId: createAlert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/alerts/{alertId}
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/alerts/delete:
+    post:
+      tags:
+      - Alerts
+      summary: Delete alert batch
+      description: Delete multiple alerts by their IDs
+      operationId: deleteAlertBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/alerts/{id}:
+    get:
+      tags:
+      - Alerts
+      summary: Get Alert by id
+      description: Get Alert by id
+      operationId: getAlertById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Alert resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    put:
+      tags:
+      - Alerts
+      summary: Update alert
+      description: Update alert
+      operationId: updateAlert
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert_Write'
+      responses:
+        '204':
+          description: No Content
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/alerts/webhooks/examples:
+    get:
+      tags:
+      - Alerts
+      summary: Get webhook payload examples
+      description: Get webhook payload examples for all alert event types, optionally filtered by alert type
+      operationId: getWebhookExamples
+      parameters:
+      - name: alert_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - general
+          - slack
+          - pagerduty
+      responses:
+        '200':
+          description: Webhook examples
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookExamples'
+  /v1/private/alerts/webhooks/tests:
+    post:
+      tags:
+      - Alerts
+      summary: Test alert webhook
+      description: Test alert webhook
+      operationId: testWebhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert_Write'
+      responses:
+        '200':
+          description: Webhook test
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookTestResult'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    AlertTrigger_Write:
+      required:
+      - event_type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        event_type:
+          type: string
+          enum:
+          - trace:errors
+          - trace:feedback_score
+          - trace_thread:feedback_score
+          - prompt:created
+          - prompt:committed
+          - trace:guardrails_triggered
+          - prompt:deleted
+          - experiment:finished
+          - trace:cost
+          - trace:latency
+        trigger_configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTriggerConfig_Write'
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    Webhook_Write:
+      required:
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          minLength: 1
+          type: string
+        secret_token:
+          maxLength: 250
+          minLength: 0
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+    AlertTriggerConfig_Public:
+      required:
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        alert_trigger_id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - scope:project
+          - threshold:feedback_score
+          - threshold:cost
+          - threshold:latency
+          - threshold:errors
+        config_value:
+          type: object
+          additionalProperties:
+            type: string
+        group_index:
+          type: integer
+          description: 'Groups configs within a trigger: same group_index means AND between configs, different group_index means OR between groups. Null means a legacy/singleton group of one config. Always null for scope:project configs.'
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    Alert_Public:
+      required:
+      - webhook
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        enabled:
+          type: boolean
+        alert_type:
+          type: string
+          enum:
+          - general
+          - slack
+          - pagerduty
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        webhook:
+          $ref: '#/components/schemas/Webhook_Public'
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTrigger_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        project_id:
+          type: string
+          description: Optional project scope for this alert. When set, the alert is scoped to the specified project. Do NOT also provide a 'scope:project' trigger config — the system will create it automatically from this field. Sending both project_id and a scope:project trigger config will result in an error.
+          format: uuid
+    Webhook_Public:
+      required:
+      - url
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          minLength: 1
+          type: string
+        secret_token:
+          maxLength: 250
+          minLength: 0
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AlertPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert_Public'
+        sortable_by:
+          type: array
+          items:
+            type: string
+    WebhookExamples:
+      type: object
+      properties:
+        response_examples:
+          type: object
+          additionalProperties:
+            type: object
+    Alert_Write:
+      required:
+      - webhook
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        enabled:
+          type: boolean
+        alert_type:
+          type: string
+          enum:
+          - general
+          - slack
+          - pagerduty
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        webhook:
+          $ref: '#/components/schemas/Webhook_Write'
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTrigger_Write'
+        project_id:
+          type: string
+          description: Optional project scope for this alert. When set, the alert is scoped to the specified project. Do NOT also provide a 'scope:project' trigger config — the system will create it automatically from this field. Sending both project_id and a scope:project trigger config will result in an error.
+          format: uuid
+    AlertTrigger_Public:
+      required:
+      - event_type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        alert_id:
+          type: string
+          format: uuid
+          readOnly: true
+        event_type:
+          type: string
+          enum:
+          - trace:errors
+          - trace:feedback_score
+          - trace_thread:feedback_score
+          - prompt:created
+          - prompt:committed
+          - trace:guardrails_triggered
+          - prompt:deleted
+          - experiment:finished
+          - trace:cost
+          - trace:latency
+        trigger_configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTriggerConfig_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    WebhookTestResult:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - failure
+        status_code:
+          type: integer
+          format: int32
+        request_body:
+          type: string
+        error_message:
+          type: string
+    AlertTriggerConfig_Write:
+      required:
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - scope:project
+          - threshold:feedback_score
+          - threshold:cost
+          - threshold:latency
+          - threshold:errors
+        config_value:
+          type: object
+          additionalProperties:
+            type: string
+        group_index:
+          type: integer
+          description: 'Groups configs within a trigger: same group_index means AND between configs, different group_index means OR between groups. Null means a legacy/singleton group of one config. Always null for scope:project configs.'
+          format: int32

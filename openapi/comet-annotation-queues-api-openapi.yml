@@ -1,0 +1,581 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Annotation Queues API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Annotation Queues
+  description: Private annotation queue operations
+paths:
+  /v1/private/annotation-queues/{id}/items/add:
+    post:
+      tags:
+      - Annotation Queues
+      summary: Add items to annotation queue
+      description: Add traces or threads to annotation queue
+      operationId: addItemsToAnnotationQueue
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnotationQueueItemIds'
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/annotation-queues:
+    get:
+      tags:
+      - Annotation Queues
+      summary: Find annotation queues
+      description: Find annotation queues with filtering and sorting
+      operationId: findAnnotationQueues
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter annotation queues by name (partial match, case insensitive)
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Annotation queues page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnotationQueuePage_Public'
+    post:
+      tags:
+      - Annotation Queues
+      summary: Create annotation queue
+      description: Create annotation queue for human annotation workflows
+      operationId: createAnnotationQueue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnotationQueue_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/traces/{annotationId}
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/annotation-queues/batch:
+    post:
+      tags:
+      - Annotation Queues
+      summary: Create annotation queue batch
+      description: Create multiple annotation queues for human annotation workflows
+      operationId: createAnnotationQueueBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnotationQueueBatch_Write'
+      responses:
+        '204':
+          description: No Content
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/annotation-queues/delete:
+    post:
+      tags:
+      - Annotation Queues
+      summary: Delete annotation queue batch
+      description: Delete multiple annotation queues by their IDs
+      operationId: deleteAnnotationQueueBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/annotation-queues/{id}:
+    get:
+      tags:
+      - Annotation Queues
+      summary: Get annotation queue by id
+      description: Get annotation queue by id
+      operationId: getAnnotationQueueById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Annotation queue resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnotationQueue_Public'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    patch:
+      tags:
+      - Annotation Queues
+      summary: Update annotation queue
+      description: Update annotation queue by id
+      operationId: updateAnnotationQueue
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnotationQueueUpdate'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/annotation-queues/{queueId}/locks:
+    get:
+      tags:
+      - Annotation Queues
+      summary: Get all active locks for an annotation queue
+      description: Returns lock status for all actively locked items in the queue
+      operationId: getAnnotationQueueLocks
+      parameters:
+      - name: queueId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Queue locks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocksResponse'
+  /v1/private/annotation-queues/{queueId}/items/{itemId}/lock:
+    put:
+      tags:
+      - Annotation Queues
+      summary: Create or extend annotation queue item lock
+      description: Claim an annotation queue item for the current user, or extend an existing lock
+      operationId: lockAnnotationQueueItem
+      parameters:
+      - name: queueId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Lock result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LockResponse'
+  /v1/private/annotation-queues/{id}/items/delete:
+    post:
+      tags:
+      - Annotation Queues
+      summary: Remove items from annotation queue
+      description: Remove items from annotation queue
+      operationId: removeItemsFromAnnotationQueue
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnotationQueueItemIds'
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AnnotationQueue_Write:
+      required:
+      - name
+      - project_id
+      - scope
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        description:
+          type: string
+        instructions:
+          type: string
+        scope:
+          type: string
+          enum:
+          - trace
+          - thread
+        comments_enabled:
+          type: boolean
+        feedback_definition_names:
+          type: array
+          items:
+            type: string
+        annotators_per_item:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+        lock_timeout_seconds:
+          maximum: 3600
+          minimum: 1
+          type: integer
+          format: int32
+      description: List of annotation queues to create
+    AnnotationQueueItemIds:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    ItemLockInfo:
+      type: object
+      properties:
+        active_locks:
+          type: integer
+          format: int32
+        locked_by:
+          type: array
+          items:
+            type: string
+    LocksResponse:
+      type: object
+      properties:
+        locks:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ItemLockInfo'
+    LockResponse:
+      type: object
+      properties:
+        acquired:
+          type: boolean
+        item_id:
+          type: string
+          format: uuid
+        locked_by:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+    AnnotationQueueBatch_Write:
+      required:
+      - annotation_queues
+      type: object
+      properties:
+        annotation_queues:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of annotation queues to create
+          items:
+            $ref: '#/components/schemas/AnnotationQueue_Write'
+      description: Batch of annotation queues to create
+    AnnotationQueuePage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnotationQueue_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    AnnotationQueueReviewer_Public:
+      type: object
+      properties:
+        username:
+          type: string
+        status:
+          type: integer
+          format: int64
+      readOnly: true
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
+    AnnotationQueue_Public:
+      required:
+      - name
+      - project_id
+      - scope
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+          readOnly: true
+        name:
+          minLength: 1
+          type: string
+        description:
+          type: string
+        instructions:
+          type: string
+        scope:
+          type: string
+          enum:
+          - trace
+          - thread
+        comments_enabled:
+          type: boolean
+        feedback_definition_names:
+          type: array
+          items:
+            type: string
+        annotators_per_item:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+        lock_timeout_seconds:
+          maximum: 3600
+          minimum: 1
+          type: integer
+          format: int32
+        reviewers:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/AnnotationQueueReviewer_Public'
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage_Public'
+        items_count:
+          type: integer
+          format: int64
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    AnnotationQueueUpdate:
+      type: object
+      properties:
+        name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        description:
+          type: string
+        instructions:
+          type: string
+        comments_enabled:
+          type: boolean
+        feedback_definition_names:
+          type: array
+          items:
+            minLength: 1
+            type: string
+        annotators_per_item:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+        lock_timeout_seconds:
+          maximum: 3600
+          minimum: 1
+          type: integer
+          format: int32

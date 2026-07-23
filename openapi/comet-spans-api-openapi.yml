@@ -1,0 +1,1421 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Spans API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Spans
+  description: Span related resources
+paths:
+  /v1/private/spans/{id}/comments:
+    post:
+      tags:
+      - Spans
+      summary: Add span comment
+      description: Add span comment
+      operationId: addSpanComment
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/spans/{spanId}/comments/{commentId}
+  /v1/private/spans/{id}/feedback-scores:
+    put:
+      tags:
+      - Spans
+      summary: Add span feedback score
+      description: Add span feedback score
+      operationId: addSpanFeedbackScore
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackScore'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/spans/batch:
+    post:
+      tags:
+      - Spans
+      summary: Create spans
+      description: Create spans
+      operationId: createSpans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpanBatch_Write'
+      responses:
+        '204':
+          description: No Content
+    patch:
+      tags:
+      - Spans
+      summary: Batch update spans
+      description: Update multiple spans
+      operationId: batchUpdateSpans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpanBatchUpdate'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/spans:
+    get:
+      tags:
+      - Spans
+      summary: Get spans by project_name or project_id and optionally by trace_id and/or type
+      description: Get spans by project_name or project_id and optionally by trace_id and/or type
+      operationId: getSpansByProject
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: project_name
+        in: query
+        schema:
+          type: string
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: trace_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: truncate
+        in: query
+        schema:
+          type: boolean
+          description: Truncate input, output and metadata to slim payloads
+          default: false
+      - name: strip_attachments
+        in: query
+        schema:
+          type: boolean
+          description: If true, returns attachment references like [file.png]; if false, downloads and reinjects stripped attachments
+          default: false
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: exclude
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+          description: Full-text search across span fields
+      - name: from_time
+        in: query
+        schema:
+          type: string
+          description: Filter spans created from this time (ISO-8601 format).
+          format: date-time
+      - name: to_time
+        in: query
+        schema:
+          type: string
+          description: Filter spans created up to this time (ISO-8601 format). If not provided, defaults to current time. Must be after 'from_time'.
+          format: date-time
+      responses:
+        '200':
+          description: Spans resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpanPage_Public'
+    post:
+      tags:
+      - Spans
+      summary: Create span
+      description: Create span
+      operationId: createSpan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Span_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/spans/{spanId}
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/spans/{id}:
+    get:
+      tags:
+      - Spans
+      summary: Get span by id
+      description: Get span by id
+      operationId: getSpanById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: strip_attachments
+        in: query
+        schema:
+          type: boolean
+          description: 'If true, returns attachment references like [file.png]; if false, downloads and reinjects attachment content from S3 (default: false for backward compatibility)'
+          default: false
+      responses:
+        '200':
+          description: Span resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Span_Public'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Span_Public'
+    delete:
+      tags:
+      - Spans
+      summary: Delete span by id
+      description: Delete span by id
+      operationId: deleteSpanById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '501':
+          description: Not implemented
+        '204':
+          description: No Content
+    patch:
+      tags:
+      - Spans
+      summary: Update span by id
+      description: Update span by id
+      operationId: updateSpan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpanUpdate'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found
+  /v1/private/spans/comments/delete:
+    post:
+      tags:
+      - Spans
+      summary: Delete span comments
+      description: Delete span comments
+      operationId: deleteSpanComments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/spans/{id}/feedback-scores/delete:
+    post:
+      tags:
+      - Spans
+      summary: Delete span feedback score
+      description: Delete span feedback score
+      operationId: deleteSpanFeedbackScore
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFeedbackScore'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/spans/feedback-scores/names:
+    get:
+      tags:
+      - Spans
+      summary: Find Feedback Score names
+      description: Find Feedback Score names
+      operationId: findFeedbackScoreNames_1
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+      responses:
+        '200':
+          description: Feedback Scores resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackScoreNames_Public'
+  /v1/private/spans/{spanId}/comments/{commentId}:
+    get:
+      tags:
+      - Spans
+      summary: Get span comment
+      description: Get span comment
+      operationId: getSpanComment
+      parameters:
+      - name: commentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: spanId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Comment resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/spans/stats:
+    get:
+      tags:
+      - Spans
+      summary: Get span stats
+      description: Get span stats
+      operationId: getSpanStats
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_name
+        in: query
+        schema:
+          type: string
+      - name: trace_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: search
+        in: query
+        schema:
+          type: string
+          description: Full-text search across span fields
+      - name: from_time
+        in: query
+        schema:
+          type: string
+          description: Filter spans created from this time (ISO-8601 format).
+          format: date-time
+      - name: to_time
+        in: query
+        schema:
+          type: string
+          description: Filter spans created up to this time (ISO-8601 format). If not provided, defaults to current time. Must be after 'from_time'.
+          format: date-time
+      responses:
+        '200':
+          description: Span stats resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectStats_Public'
+  /v1/private/spans/feedback-scores:
+    put:
+      tags:
+      - Spans
+      summary: Batch feedback scoring for spans
+      description: Batch feedback scoring for spans
+      operationId: scoreBatchOfSpans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackScoreBatch'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/spans/search:
+    post:
+      tags:
+      - Spans
+      summary: Search spans
+      description: Search spans
+      operationId: searchSpans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpanSearchStreamRequest_Public'
+      responses:
+        '200':
+          description: Spans stream or error during process
+          content:
+            application/octet-stream:
+              schema:
+                maxItems: 2000
+                type: array
+                items:
+                  type: string
+                  anyOf:
+                  - $ref: '#/components/schemas/Span_Public'
+                  - $ref: '#/components/schemas/ErrorMessage_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+  /v1/private/spans/exists:
+    get:
+      tags:
+      - Spans
+      summary: Check whether a project has spans
+      description: Returns whether the project has at least one span matching the given scope. Cheap existence probe (LIMIT 1) used to drive empty-state decisions without scanning or aggregating the whole project.
+      operationId: spansExist
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: project_name
+        in: query
+        schema:
+          type: string
+      - name: source
+        in: query
+        schema:
+          type: string
+          description: Restrict the probe to a single ingestion source (e.g. 'sdk' for the Logs empty state), matching the rendered list's logs-source scope. Omit to probe any source.
+      responses:
+        '200':
+          description: Span existence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExistenceResponse'
+  /v1/private/spans/comments/{commentId}:
+    patch:
+      tags:
+      - Spans
+      summary: Update span comment by id
+      description: Update span comment by id
+      operationId: updateSpanComment
+      parameters:
+      - name: commentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found
+components:
+  schemas:
+    Comment_Public:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+      readOnly: true
+    ErrorInfo_Public:
+      required:
+      - exception_type
+      - traceback
+      type: object
+      properties:
+        exception_type:
+          minLength: 1
+          type: string
+        message:
+          type: string
+        traceback:
+          minLength: 1
+          type: string
+    SpanBatchUpdate:
+      required:
+      - ids
+      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of span IDs to update (max 1000)
+          items:
+            type: string
+            description: List of span IDs to update (max 1000)
+            format: uuid
+        update:
+          $ref: '#/components/schemas/SpanUpdate'
+        merge_tags:
+          type: boolean
+          description: 'If true, merge tags with existing tags instead of replacing them. Default: false'
+      description: Request to batch update multiple spans
+    ScoreName_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    JsonListString_Write:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ValueEntry_Public:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    ProjectStatItemObject_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - COUNT
+          - PERCENTAGE
+          - AVG
+      discriminator:
+        propertyName: type
+        mapping:
+          PERCENTAGE: '#/components/schemas/PercentageValueStat_Public'
+          COUNT: '#/components/schemas/CountValueStat_Public'
+          AVG: '#/components/schemas/AvgValueStat_Public'
+    FeedbackScoreNames_Public:
+      type: object
+      properties:
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreName_Public'
+    ProjectStats_Public:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStatItemObject_Public'
+    Span_Write:
+      required:
+      - start_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        trace_id:
+          type: string
+          format: uuid
+        parent_span_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString_Write'
+        output:
+          $ref: '#/components/schemas/JsonListString_Write'
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Write'
+        model:
+          type: string
+        provider:
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo_Write'
+        last_updated_at:
+          type: string
+          format: date-time
+        total_estimated_cost:
+          minimum: 0.0
+          exclusiveMinimum: false
+          type: number
+        total_estimated_cost_version:
+          type: string
+        ttft:
+          type: number
+          description: Time to first token in milliseconds
+          format: double
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+    ErrorInfo:
+      required:
+      - exception_type
+      - traceback
+      type: object
+      properties:
+        exception_type:
+          minLength: 1
+          type: string
+        message:
+          type: string
+        traceback:
+          minLength: 1
+          type: string
+    ExistenceResponse:
+      type: object
+      properties:
+        exists:
+          type: boolean
+          description: Whether the project has at least one matching entity for the given scope
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    SpanSearchStreamRequest_Public:
+      type: object
+      properties:
+        trace_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpanFilter_Public'
+        limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          description: Max number of spans to be streamed
+          format: int32
+          default: 500
+        last_retrieved_id:
+          type: string
+          format: uuid
+        truncate:
+          type: boolean
+          description: Truncate image included in either input, output or metadata
+          default: true
+        exclude:
+          uniqueItems: true
+          type: array
+          description: Fields to exclude from the response
+          items:
+            type: string
+            description: Fields to exclude from the response
+            enum:
+            - name
+            - type
+            - start_time
+            - end_time
+            - input
+            - output
+            - metadata
+            - model
+            - provider
+            - tags
+            - usage
+            - error_info
+            - created_at
+            - created_by
+            - last_updated_by
+            - feedback_scores
+            - comments
+            - total_estimated_cost
+            - total_estimated_cost_version
+            - duration
+            - ttft
+            - source
+            - environment
+        from_time:
+          type: string
+          description: Filter spans created from this time (ISO-8601 format).
+          format: date-time
+        to_time:
+          type: string
+          description: Filter spans created up to this time (ISO-8601 format). If not provided, defaults to current time. Must be after 'from_time'.
+          format: date-time
+    SpanUpdate:
+      required:
+      - trace_id
+      type: object
+      properties:
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null and project_id not specified, Default Project is assumed
+        project_id:
+          type: string
+          description: If null and project_name not specified, Default Project is assumed
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        parent_span_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString'
+        output:
+          $ref: '#/components/schemas/JsonListString'
+        metadata:
+          $ref: '#/components/schemas/JsonListString'
+        model:
+          type: string
+        provider:
+          type: string
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags
+        tags_to_add:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to add
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to add
+        tags_to_remove:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to remove
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to remove
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        total_estimated_cost:
+          minimum: 0.0
+          exclusiveMinimum: false
+          type: number
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo'
+        ttft:
+          type: number
+          format: double
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    DeleteFeedbackScore:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        author:
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+    FeedbackScoreBatch:
+      required:
+      - scores
+      type: object
+      properties:
+        scores:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreBatchItem'
+    Span_Public:
+      required:
+      - start_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        trace_id:
+          type: string
+          format: uuid
+        parent_span_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString_Public'
+        output:
+          $ref: '#/components/schemas/JsonListString_Public'
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Public'
+        model:
+          type: string
+        provider:
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScore_Public'
+        comments:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/Comment_Public'
+        total_estimated_cost:
+          minimum: 0.0
+          exclusiveMinimum: false
+          type: number
+        total_estimated_cost_version:
+          type: string
+        duration:
+          type: number
+          description: Duration in milliseconds as a decimal number to support sub-millisecond precision
+          format: double
+          readOnly: true
+        ttft:
+          type: number
+          description: Time to first token in milliseconds
+          format: double
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+    ValueEntry:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        last_updated_at:
+          type: string
+          format: date-time
+        span_type:
+          type: string
+        span_id:
+          type: string
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    ErrorInfo_Write:
+      required:
+      - exception_type
+      - traceback
+      type: object
+      properties:
+        exception_type:
+          minLength: 1
+          type: string
+        message:
+          type: string
+        traceback:
+          minLength: 1
+          type: string
+    FeedbackScore_Public:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry_Public'
+          readOnly: true
+      description: Aggregated feedback scores from all spans in this trace, averaged by score name
+      readOnly: true
+    JsonListString:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    JsonListString_Public:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    FeedbackScore:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry'
+          readOnly: true
+    FeedbackScoreBatchItem:
+      required:
+      - id
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        project_id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        author:
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        id:
+          type: string
+          format: uuid
+    SpanBatch_Write:
+      required:
+      - spans
+      type: object
+      properties:
+        spans:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Span_Write'
+    SpanPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Span_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    SpanFilter_Public:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    Comment:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true

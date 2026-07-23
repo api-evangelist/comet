@@ -1,0 +1,1038 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Runners API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Runners
+  description: Local runner management endpoints
+paths:
+  /v1/private/local-runners/jobs/{jobId}/logs:
+    get:
+      tags:
+      - Runners
+      summary: Get local runner job logs
+      description: Get log entries for a local runner job
+      operationId: getJobLogs
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: offset
+        in: query
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        '200':
+          description: Log entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocalRunnerLogEntry'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    post:
+      tags:
+      - Runners
+      summary: Append local runner job logs
+      description: Append log entries for a running local runner job
+      operationId: appendJobLogs
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LocalRunnerLogEntry'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/jobs/{jobId}/cancel:
+    post:
+      tags:
+      - Runners
+      summary: Cancel local runner job
+      description: Cancel a pending or running local runner job
+      operationId: cancelJob
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/bridge/commands:
+    post:
+      tags:
+      - Runners
+      summary: Submit bridge command
+      description: Submit a bridge command for execution by the local daemon
+      operationId: createBridgeCommand
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BridgeCommandSubmitRequest'
+      responses:
+        '201':
+          description: Command submitted
+          headers:
+            Location:
+              description: URI of the command
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgeCommandSubmitResponse'
+        '404':
+          description: Runner not found or not connected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Runner does not support bridge
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/jobs:
+    post:
+      tags:
+      - Runners
+      summary: Create local runner job
+      description: Create a local runner job and enqueue it for execution
+      operationId: createJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocalRunnerJobRequest'
+      responses:
+        '201':
+          description: Job created
+          headers:
+            Location:
+              description: URI of the job
+              style: simple
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}:
+    get:
+      tags:
+      - Runners
+      summary: Get local runner
+      description: Get a single local runner with its registered agents
+      operationId: getRunner
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Runner details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalRunner'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+      - Runners
+      summary: Disconnect local runner
+      description: Disconnect a local runner, terminating its connection and failing any pending jobs
+      operationId: disconnectRunner
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No content
+  /v1/private/local-runners/{runnerId}/bridge/commands/{commandId}:
+    get:
+      tags:
+      - Runners
+      summary: Get bridge command
+      description: Get bridge command status, optionally long-polling for completion
+      operationId: getBridgeCommand
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: commandId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: wait
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: timeout
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 30
+      responses:
+        '200':
+          description: Command state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgeCommand'
+        '404':
+          description: Command not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/jobs/{jobId}:
+    get:
+      tags:
+      - Runners
+      summary: Get local runner job
+      description: Get a single local runner job's status and results
+      operationId: getJob
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalRunnerJob'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/heartbeats:
+    post:
+      tags:
+      - Runners
+      summary: Local runner heartbeat
+      description: Refresh local runner heartbeat
+      operationId: heartbeat
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalRunnerHeartbeatRequest'
+      responses:
+        '200':
+          description: Heartbeat response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalRunnerHeartbeatResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '410':
+          description: Gone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/jobs:
+    get:
+      tags:
+      - Runners
+      summary: List local runner jobs
+      description: List jobs for a local runner
+      operationId: listJobs
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 25
+      responses:
+        '200':
+          description: Jobs list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalRunnerJobPage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners:
+    get:
+      tags:
+      - Runners
+      summary: List local runners
+      description: List local runners owned by the current user in the workspace
+      operationId: listRunners
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - pairing
+          - connected
+          - disconnected
+      - name: page
+        in: query
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 25
+      responses:
+        '200':
+          description: Runners list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalRunnerPage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/bridge/commands/next:
+    post:
+      tags:
+      - Runners
+      summary: Poll next bridge commands
+      description: Long-poll for pending bridge commands (batch)
+      operationId: nextBridgeCommands
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BridgeCommandNextRequest'
+      responses:
+        '200':
+          description: Commands batch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgeCommandBatchResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/jobs/next:
+    post:
+      tags:
+      - Runners
+      summary: Next local runner job
+      description: Long-poll for the next pending local runner job
+      operationId: nextJob
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Job available, or null if no pending jobs
+          content:
+            application/json:
+              schema:
+                nullable: true
+                allOf:
+                - $ref: '#/components/schemas/LocalRunnerJob'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/checklist:
+    patch:
+      tags:
+      - Runners
+      summary: Patch runner checklist
+      description: Partial update of the runner's checklist (deep merge)
+      operationId: patchChecklist
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/agents:
+    put:
+      tags:
+      - Runners
+      summary: Register local runner agents
+      description: Register or update the local runner's agent list
+      operationId: registerAgents
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: Map of agent name to agent definition
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/{runnerId}/bridge/commands/{commandId}/results:
+    post:
+      tags:
+      - Runners
+      summary: Report bridge command result
+      description: Report bridge command completion or failure
+      operationId: reportBridgeResult
+      parameters:
+      - name: runnerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: commandId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BridgeCommandResultRequest'
+      responses:
+        '204':
+          description: Result accepted
+        '404':
+          description: Command not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Already completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/local-runners/jobs/{jobId}/results:
+    post:
+      tags:
+      - Runners
+      summary: Report local runner job result
+      description: Report local runner job completion or failure
+      operationId: reportJobResult
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalRunnerJobResultRequest'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    LocalRunnerJobMetadata:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+          format: uuid
+        dataset_version_id:
+          type: string
+          format: uuid
+        dataset_item_version_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+    BridgeCommand:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        runner_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        status:
+          type: string
+          enum:
+          - pending
+          - picked_up
+          - completed
+          - failed
+          - timed_out
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+        submitted_at:
+          type: string
+          format: date-time
+        picked_up_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        duration_ms:
+          type: integer
+          format: int64
+    BridgeCommandSubmitRequest:
+      required:
+      - args
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+    BridgeCommandItem:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+        submitted_at:
+          type: string
+          format: date-time
+    LocalRunnerHeartbeatResponse:
+      type: object
+      properties:
+        cancelled_job_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    CreateLocalRunnerJobRequest:
+      required:
+      - agent_name
+      - project_id
+      type: object
+      properties:
+        agent_name:
+          minLength: 1
+          type: string
+        inputs:
+          $ref: '#/components/schemas/JsonNode'
+        project_id:
+          type: string
+          format: uuid
+        mask_id:
+          type: string
+          description: Deprecated. Use prompt_masks to pass one or more mask overlays keyed by prompt id.
+          format: uuid
+          deprecated: true
+        prompt_masks:
+          type: object
+          additionalProperties:
+            type: string
+            description: Mask overlays to apply during agent execution, keyed by prompt id.
+            format: uuid
+          description: Mask overlays to apply during agent execution, keyed by prompt id.
+        blueprint_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/LocalRunnerJobMetadata'
+    LocalRunner:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pairing
+          - connected
+          - disconnected
+        connected_at:
+          type: string
+          format: date-time
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        capabilities:
+          type: array
+          items:
+            type: string
+        checklist:
+          $ref: '#/components/schemas/JsonNode'
+        type:
+          type: string
+          enum:
+          - connect
+          - endpoint
+    LocalRunnerJobPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalRunnerJob'
+    Param:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          minLength: 1
+          type: string
+        presence:
+          type: string
+          enum:
+          - required
+          - optional
+    LocalRunnerJobResultRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          - cancelled
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          type: string
+        trace_id:
+          type: string
+          format: uuid
+    LocalRunnerJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        runner_id:
+          type: string
+          format: uuid
+        agent_name:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          - cancelled
+        inputs:
+          $ref: '#/components/schemas/JsonNode'
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        mask_id:
+          type: string
+          description: Deprecated. Use prompt_masks to read one or more mask overlays keyed by prompt id.
+          format: uuid
+          deprecated: true
+        prompt_masks:
+          type: object
+          additionalProperties:
+            type: string
+            description: Mask overlays to apply during agent execution, keyed by prompt id.
+            format: uuid
+          description: Mask overlays to apply during agent execution, keyed by prompt id.
+        blueprint_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/LocalRunnerJobMetadata'
+        timeout:
+          type: integer
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+    LocalRunnerPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalRunner'
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        language:
+          type: string
+        executable:
+          type: string
+        source_file:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/Param'
+        timeout:
+          type: integer
+          format: int32
+    BridgeCommandNextRequest:
+      type: object
+      properties:
+        max_commands:
+          type: integer
+          format: int32
+    LocalRunnerLogEntry:
+      required:
+      - stream
+      - text
+      type: object
+      properties:
+        stream:
+          minLength: 1
+          type: string
+        text:
+          minLength: 1
+          type: string
+    JsonNode:
+      type: object
+    BridgeCommandResultRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - picked_up
+          - completed
+          - failed
+          - timed_out
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          $ref: '#/components/schemas/JsonNode'
+        duration_ms:
+          type: integer
+          format: int64
+    BridgeCommandBatchResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/BridgeCommandItem'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    BridgeCommandSubmitResponse:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+    LocalRunnerHeartbeatRequest:
+      type: object
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string

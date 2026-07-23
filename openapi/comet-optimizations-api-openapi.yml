@@ -1,0 +1,634 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Optimizations API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Optimizations
+  description: Optimization resources
+paths:
+  /v1/private/optimizations/studio/{id}/cancel:
+    get:
+      tags:
+      - Optimizations
+      summary: Cancel Studio optimizations
+      description: Cancel Studio optimizations by id
+      operationId: cancelStudioOptimizations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '501':
+          description: Not Implemented
+  /v1/private/optimizations:
+    get:
+      tags:
+      - Optimizations
+      summary: Find optimizations
+      description: Find optimizations
+      operationId: findOptimizations
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: dataset_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter optimizations by name (partial match, case insensitive)
+      - name: dataset_name
+        in: query
+        schema:
+          type: string
+          description: Filter optimizations by dataset name (partial match)
+      - name: dataset_deleted
+        in: query
+        schema:
+          type: boolean
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: filters
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Optimizations resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptimizationPage_Public'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    put:
+      tags:
+      - Optimizations
+      summary: Upsert optimization
+      description: Upsert optimization
+      operationId: upsertOptimization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Optimization_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/optimizations/{id}
+    post:
+      tags:
+      - Optimizations
+      summary: Create optimization
+      description: Create optimization
+      operationId: createOptimization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Optimization_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/optimizations/{id}
+  /v1/private/optimizations/delete:
+    post:
+      tags:
+      - Optimizations
+      summary: Delete optimizations by id
+      description: Delete optimizations by id
+      operationId: deleteOptimizationsById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteIdsHolder'
+      responses:
+        '204':
+          description: No content
+  /v1/private/optimizations/{id}:
+    get:
+      tags:
+      - Optimizations
+      summary: Get optimization by id
+      description: Get optimization by id
+      operationId: getOptimizationById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Optimization resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Optimization_Public'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    put:
+      tags:
+      - Optimizations
+      summary: Update optimization by id
+      description: Update optimization by id
+      operationId: updateOptimizationsById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptimizationUpdate'
+      responses:
+        '204':
+          description: No content
+  /v1/private/optimizations/studio/{id}/logs:
+    get:
+      tags:
+      - Optimizations
+      summary: Get Studio optimization logs
+      description: Get presigned S3 URL for downloading optimization logs
+      operationId: getStudioOptimizationLogs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Logs response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptimizationStudioLog'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    StudioOptimizer_Write:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Write'
+    JsonListString_Write:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    JsonNode_Public:
+      type: object
+    JsonNode_Write:
+      type: object
+    StudioLlmModel_Write:
+      required:
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Write'
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    OptimizationPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Optimization_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    StudioPrompt_Public:
+      required:
+      - messages
+      type: object
+      properties:
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMessage_Public'
+    OptimizationUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+          - initialized
+          - error
+    OptimizationStudioConfig_Public:
+      required:
+      - dataset_name
+      - evaluation
+      - llm_model
+      - optimizer
+      - prompt
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        prompt:
+          $ref: '#/components/schemas/StudioPrompt_Public'
+        llm_model:
+          $ref: '#/components/schemas/StudioLlmModel_Public'
+        evaluation:
+          $ref: '#/components/schemas/StudioEvaluation_Public'
+        optimizer:
+          $ref: '#/components/schemas/StudioOptimizer_Public'
+    Optimization_Write:
+      required:
+      - dataset_name
+      - objective_name
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        dataset_name:
+          minLength: 1
+          type: string
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Creates project if it doesn't exist. Ignored when project_id is provided.
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        objective_name:
+          minLength: 1
+          type: string
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+          - initialized
+          - error
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Write'
+        studio_config:
+          $ref: '#/components/schemas/OptimizationStudioConfig_Write'
+        last_updated_at:
+          type: string
+          format: date-time
+    StudioMetric_Write:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Write'
+    Optimization_Public:
+      required:
+      - dataset_name
+      - objective_name
+      - status
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        dataset_name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        objective_name:
+          minLength: 1
+          type: string
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+          - initialized
+          - error
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Public'
+        studio_config:
+          $ref: '#/components/schemas/OptimizationStudioConfig_Public'
+        dataset_id:
+          type: string
+          format: uuid
+          readOnly: true
+        num_trials:
+          type: integer
+          format: int64
+          readOnly: true
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage_Public'
+        experiment_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+        last_updated_by:
+          type: string
+          readOnly: true
+        baseline_objective_score:
+          type: number
+          readOnly: true
+        best_objective_score:
+          type: number
+          readOnly: true
+        baseline_duration:
+          type: number
+          readOnly: true
+        best_duration:
+          type: number
+          readOnly: true
+        baseline_cost:
+          type: number
+          readOnly: true
+        best_cost:
+          type: number
+          readOnly: true
+        total_optimization_cost:
+          type: number
+          readOnly: true
+    StudioOptimizer_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    JsonListString_Public:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    StudioLlmModel_Public:
+      required:
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    StudioMetric_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    StudioEvaluation_Write:
+      required:
+      - metrics
+      type: object
+      properties:
+        metrics:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMetric_Write'
+    StudioMessage_Public:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          minLength: 1
+          type: string
+    OptimizationStudioLog:
+      type: object
+      properties:
+        url:
+          type: string
+        last_modified:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    OptimizationStudioConfig_Write:
+      required:
+      - dataset_name
+      - evaluation
+      - llm_model
+      - optimizer
+      - prompt
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        prompt:
+          $ref: '#/components/schemas/StudioPrompt_Write'
+        llm_model:
+          $ref: '#/components/schemas/StudioLlmModel_Write'
+        evaluation:
+          $ref: '#/components/schemas/StudioEvaluation_Write'
+        optimizer:
+          $ref: '#/components/schemas/StudioOptimizer_Write'
+    DeleteIdsHolder:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
+    StudioEvaluation_Public:
+      required:
+      - metrics
+      type: object
+      properties:
+        metrics:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMetric_Public'
+    StudioMessage_Write:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          minLength: 1
+          type: string
+    StudioPrompt_Write:
+      required:
+      - messages
+      type: object
+      properties:
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMessage_Write'

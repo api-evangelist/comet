@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: Opik REST LlmProviderKey API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: LlmProviderKey
+  description: LLM Provider Key
+paths:
+  /v1/private/llm-provider-key/delete:
+    post:
+      tags:
+      - LlmProviderKey
+      summary: Delete LLM Provider's ApiKeys
+      description: Delete LLM Provider's ApiKeys batch
+      operationId: deleteLlmProviderApiKeysBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/llm-provider-key:
+    get:
+      tags:
+      - LlmProviderKey
+      summary: Find LLM Provider's ApiKeys
+      description: Find LLM Provider's ApiKeys
+      operationId: findLlmProviderKeys
+      responses:
+        '200':
+          description: LLMProviderApiKey resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderApiKeyPage_Public'
+    post:
+      tags:
+      - LlmProviderKey
+      summary: Store LLM Provider's ApiKey
+      description: Store LLM Provider's ApiKey
+      operationId: storeLlmProviderApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderApiKey_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/proxy/api_key/{apiKeyId}
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/llm-provider-key/{id}:
+    get:
+      tags:
+      - LlmProviderKey
+      summary: Get LLM Provider's ApiKey by id
+      description: Get LLM Provider's ApiKey by id
+      operationId: getLlmProviderApiKeyById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: LLMProviderApiKey resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderApiKey_Public'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage_Public'
+    patch:
+      tags:
+      - LlmProviderKey
+      summary: Update LLM Provider's ApiKey
+      description: Update LLM Provider's ApiKey
+      operationId: updateLlmProviderApiKey
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderApiKeyUpdate'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    ProviderApiKeyPage_Public:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProviderApiKey_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    ProviderApiKey_Write:
+      required:
+      - provider
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - openai
+          - anthropic
+          - gemini
+          - openrouter
+          - vertex-ai
+          - bedrock
+          - ollama
+          - custom-llm
+          - opik-free
+        api_key:
+          type: string
+        name:
+          maxLength: 150
+          minLength: 0
+          type: string
+        provider_name:
+          maxLength: 150
+          minLength: 0
+          type: string
+          description: Provider name - required for custom LLM and Bedrock providers to uniquely identify them (e.g., 'ollama', 'vllm', 'Bedrock us-east-1'). Must not be blank for custom and Bedrock providers. Should not be set for standard providers (OpenAI, Anthropic, etc.). This requirement is conditional and validation is enforced programmatically.
+          example: ollama
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+        base_url:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    ProviderApiKeyUpdate:
+      type: object
+      properties:
+        api_key:
+          type: string
+        name:
+          maxLength: 150
+          minLength: 0
+          type: string
+        provider_name:
+          maxLength: 150
+          minLength: 0
+          type: string
+          description: Provider name - can be set to migrate legacy custom LLM or Bedrock providers to the new multi-provider format. Once set, it cannot be changed. Should only be set for custom LLM and Bedrock providers.
+          example: ollama
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+        base_url:
+          type: string
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ProviderApiKey_Public:
+      required:
+      - provider
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        provider:
+          type: string
+          enum:
+          - openai
+          - anthropic
+          - gemini
+          - openrouter
+          - vertex-ai
+          - bedrock
+          - ollama
+          - custom-llm
+          - opik-free
+        api_key:
+          type: string
+        name:
+          maxLength: 150
+          minLength: 0
+          type: string
+        provider_name:
+          maxLength: 150
+          minLength: 0
+          type: string
+          description: Provider name - required for custom LLM and Bedrock providers to uniquely identify them (e.g., 'ollama', 'vllm', 'Bedrock us-east-1'). Must not be blank for custom and Bedrock providers. Should not be set for standard providers (OpenAI, Anthropic, etc.). This requirement is conditional and validation is enforced programmatically.
+          example: ollama
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        configuration:
+          type: object
+          additionalProperties:
+            type: string
+        base_url:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        read_only:
+          type: boolean
+          description: If true, this provider is system-managed and cannot be edited or deleted
+          readOnly: true

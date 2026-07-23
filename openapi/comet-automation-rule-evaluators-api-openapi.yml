@@ -1,0 +1,521 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Automation rule evaluators API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Automation rule evaluators
+  description: Automation rule evaluators resource
+paths:
+  /v1/private/automations/evaluators:
+    get:
+      tags:
+      - Automation rule evaluators
+      summary: Find project Evaluators
+      description: Find project Evaluators
+      operationId: findEvaluators
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: query
+        schema:
+          type: string
+          description: Filter automation rules with rule ID containing this value (partial match, like %id%)
+      - name: name
+        in: query
+        schema:
+          type: string
+          description: Filter automation rule evaluators by name (partial match, case insensitive)
+      - name: filters
+        in: query
+        schema:
+          type: string
+      - name: sorting
+        in: query
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Evaluators resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationRuleEvaluatorPage_Public'
+    post:
+      tags:
+      - Automation rule evaluators
+      summary: Create automation rule evaluator
+      description: Create automation rule evaluator
+      operationId: createAutomationRuleEvaluator
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationRuleEvaluator_Write'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              required: true
+              style: simple
+              schema:
+                type: string
+              example: ${basePath}/v1/private/automations/evaluators/{evaluatorId}
+  /v1/private/automations/evaluators/delete:
+    post:
+      tags:
+      - Automation rule evaluators
+      summary: Delete automation rule evaluators
+      description: Delete automation rule evaluators batch
+      operationId: deleteAutomationRuleEvaluatorBatch
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDelete'
+      responses:
+        '204':
+          description: No Content
+  /v1/private/automations/evaluators/{id}:
+    get:
+      tags:
+      - Automation rule evaluators
+      summary: Get automation rule evaluator by id
+      description: Get automation rule by id
+      operationId: getEvaluatorById
+      parameters:
+      - name: project_id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Automation Rule resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationRuleEvaluator_Public'
+    patch:
+      tags:
+      - Automation rule evaluators
+      summary: Update Automation Rule Evaluator by id
+      description: Update Automation Rule Evaluator by id
+      operationId: updateAutomationRuleEvaluator
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationRuleEvaluatorUpdate'
+      responses:
+        '204':
+          description: No content
+  /v1/private/automations/evaluators/{id}/logs:
+    get:
+      tags:
+      - Automation rule evaluators
+      summary: Get automation rule evaluator logs by id
+      description: Get automation rule evaluator logs by id
+      operationId: getEvaluatorLogsById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1000
+      responses:
+        '200':
+          description: Automation rule evaluator logs resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogPage'
+components:
+  schemas:
+    LogPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogItem'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    AutomationRuleEvaluator_Write:
+      required:
+      - action
+      - name
+      - type
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Primary project ID (legacy field for backwards compatibility)
+          format: uuid
+        project_ids:
+          uniqueItems: true
+          type: array
+          description: Project IDs for write operations (used when creating/updating rules)
+          items:
+            type: string
+            description: Project IDs for write operations (used when creating/updating rules)
+            format: uuid
+        name:
+          minLength: 1
+          type: string
+        sampling_rate:
+          type: number
+          format: float
+        enabled:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - llm_as_judge
+          - user_defined_metric_python
+          - trace_thread_llm_as_judge
+          - trace_thread_user_defined_metric_python
+          - span_llm_as_judge
+          - span_user_defined_metric_python
+        action:
+          type: string
+          enum:
+          - evaluator
+      discriminator:
+        propertyName: type
+        mapping:
+          llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorLlmAsJudge_Write'
+          user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUserDefinedMetricPython_Write'
+          trace_thread_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorTraceThreadLlmAsJudge_Write'
+          trace_thread_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorTraceThreadUserDefinedMetricPython_Write'
+          span_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorSpanLlmAsJudge_Write'
+          span_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorSpanUserDefinedMetricPython_Write'
+    AutomationRuleEvaluatorUpdate:
+      required:
+      - action
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        sampling_rate:
+          type: number
+          format: float
+        enabled:
+          type: boolean
+        project_id:
+          type: string
+          description: Primary project ID (legacy field, maintained for backwards compatibility)
+          format: uuid
+        project_ids:
+          uniqueItems: true
+          type: array
+          description: Multiple project IDs (new field for multi-project support)
+          items:
+            type: string
+            description: Multiple project IDs (new field for multi-project support)
+            format: uuid
+        type:
+          type: string
+          enum:
+          - llm_as_judge
+          - user_defined_metric_python
+          - trace_thread_llm_as_judge
+          - trace_thread_user_defined_metric_python
+          - span_llm_as_judge
+          - span_user_defined_metric_python
+        action:
+          type: string
+          enum:
+          - evaluator
+      discriminator:
+        propertyName: type
+        mapping:
+          llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorUpdateLlmAsJudge'
+          user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUpdateUserDefinedMetricPython'
+          trace_thread_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorUpdateTraceThreadLlmAsJudge'
+          trace_thread_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUpdateTraceThreadUserDefinedMetricPython'
+          span_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorUpdateSpanLlmAsJudge'
+          span_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUpdateSpanUserDefinedMetricPython'
+    ProjectReference_Public:
+      required:
+      - project_id
+      - project_name
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Project ID
+          format: uuid
+        project_name:
+          type: string
+          description: Project name
+      description: Project reference with ID and name
+      readOnly: true
+    AutomationRuleEvaluator_Public:
+      required:
+      - action
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_id:
+          type: string
+          description: Primary project ID (legacy field for backwards compatibility)
+          format: uuid
+        project_name:
+          type: string
+          description: Primary project name (legacy field for backwards compatibility)
+          readOnly: true
+        projects:
+          uniqueItems: true
+          type: array
+          description: Projects assigned to this rule (unique, sorted alphabetically by name)
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ProjectReference_Public'
+        name:
+          minLength: 1
+          type: string
+        sampling_rate:
+          type: number
+          format: float
+        enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - llm_as_judge
+          - user_defined_metric_python
+          - trace_thread_llm_as_judge
+          - trace_thread_user_defined_metric_python
+          - span_llm_as_judge
+          - span_user_defined_metric_python
+        action:
+          type: string
+          enum:
+          - evaluator
+      discriminator:
+        propertyName: type
+        mapping:
+          llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorLlmAsJudge_Public'
+          user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUserDefinedMetricPython_Public'
+          trace_thread_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorTraceThreadLlmAsJudge_Public'
+          trace_thread_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorTraceThreadUserDefinedMetricPython_Public'
+          span_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorSpanLlmAsJudge_Public'
+          span_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorSpanUserDefinedMetricPython_Public'
+    AutomationRuleEvaluatorPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutomationRuleEvaluatorObjectObject_Public'
+        sortable_by:
+          type: array
+          items:
+            type: string
+    AutomationRuleEvaluatorObjectObject_Public:
+      required:
+      - action
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        project_id:
+          type: string
+          description: Primary project ID (legacy field for backwards compatibility)
+          format: uuid
+        project_name:
+          type: string
+          description: Primary project name (legacy field for backwards compatibility)
+          readOnly: true
+        projects:
+          uniqueItems: true
+          type: array
+          description: Projects assigned to this rule (unique, sorted alphabetically by name)
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/ProjectReference_Public'
+        name:
+          minLength: 1
+          type: string
+        sampling_rate:
+          type: number
+          format: float
+        enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - llm_as_judge
+          - user_defined_metric_python
+          - trace_thread_llm_as_judge
+          - trace_thread_user_defined_metric_python
+          - span_llm_as_judge
+          - span_user_defined_metric_python
+        action:
+          type: string
+          enum:
+          - evaluator
+      discriminator:
+        propertyName: type
+        mapping:
+          llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorLlmAsJudge_Public'
+          user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorUserDefinedMetricPython_Public'
+          trace_thread_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorTraceThreadLlmAsJudge_Public'
+          trace_thread_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorTraceThreadUserDefinedMetricPython_Public'
+          span_llm_as_judge: '#/components/schemas/AutomationRuleEvaluatorSpanLlmAsJudge_Public'
+          span_user_defined_metric_python: '#/components/schemas/AutomationRuleEvaluatorSpanUserDefinedMetricPython_Public'
+    LogItem:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        rule_id:
+          type: string
+          format: uuid
+          readOnly: true
+        level:
+          type: string
+          readOnly: true
+          enum:
+          - INFO
+          - WARN
+          - ERROR
+          - DEBUG
+          - TRACE
+        message:
+          type: string
+          readOnly: true
+        markers:
+          type: object
+          additionalProperties:
+            type: string
+            readOnly: true
+          readOnly: true

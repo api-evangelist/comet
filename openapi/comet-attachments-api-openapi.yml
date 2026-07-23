@@ -1,0 +1,443 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Attachments API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Attachments
+  description: Attachments related resources
+paths:
+  /v1/private/attachment/list:
+    get:
+      tags:
+      - Attachments
+      summary: Attachments list for entity
+      description: Attachments list for entity
+      operationId: attachmentList
+      parameters:
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 100
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: entity_type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - trace
+          - span
+      - name: entity_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: path
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      responses:
+        '200':
+          description: Attachment Resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentPage'
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/attachment/upload-complete:
+    post:
+      tags:
+      - Attachments
+      summary: Complete multipart attachment upload
+      description: Complete multipart attachment upload
+      operationId: completeMultiPartUpload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteMultipartUploadRequest'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/attachment/delete:
+    post:
+      tags:
+      - Attachments
+      summary: Delete attachments
+      description: Delete attachments
+      operationId: deleteAttachments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteMultipartUploadRequest'
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/attachment/download:
+    get:
+      tags:
+      - Attachments
+      summary: Download attachment from MinIO
+      description: Download attachment from MinIO
+      operationId: downloadAttachment
+      parameters:
+      - name: workspace_name
+        in: query
+        schema:
+          type: string
+      - name: container_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: entity_type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - trace
+          - span
+      - name: entity_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: file_name
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      - name: mime_type
+        in: query
+        required: true
+        schema:
+          minLength: 1
+          type: string
+      responses:
+        '200':
+          description: Attachment Resource
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/attachment/upload-start:
+    post:
+      tags:
+      - Attachments
+      summary: Start multipart attachment upload
+      description: Start multipart attachment upload
+      operationId: startMultiPartUpload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartMultipartUploadRequest'
+      responses:
+        '200':
+          description: MultipartUploadResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartMultipartUploadResponse'
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/attachment/upload:
+    put:
+      tags:
+      - Attachments
+      summary: Upload attachment to MinIO
+      description: Upload attachment to MinIO
+      operationId: uploadAttachment
+      parameters:
+      - name: file_name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: project_name
+        in: query
+        schema:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+      - name: mime_type
+        in: query
+        schema:
+          type: string
+      - name: entity_type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - trace
+          - span
+      - name: entity_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '403':
+          description: Access forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    Attachment:
+      required:
+      - file_name
+      - file_size
+      - mime_type
+      type: object
+      properties:
+        link:
+          type: string
+        file_name:
+          type: string
+        file_size:
+          type: integer
+          format: int64
+        mime_type:
+          type: string
+    CompleteMultipartUploadRequest:
+      required:
+      - entity_id
+      - entity_type
+      - file_name
+      - file_size
+      - upload_id
+      - uploaded_file_parts
+      type: object
+      properties:
+        file_name:
+          minLength: 1
+          type: string
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        entity_type:
+          type: string
+          enum:
+          - trace
+          - span
+        entity_id:
+          type: string
+          format: uuid
+        container_id:
+          type: string
+          format: uuid
+          readOnly: true
+        file_size:
+          type: integer
+          format: int64
+        mime_type:
+          type: string
+        upload_id:
+          minLength: 1
+          type: string
+        uploaded_file_parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipartUploadPart'
+    MultipartUploadPart:
+      required:
+      - e_tag
+      - part_number
+      type: object
+      properties:
+        e_tag:
+          minLength: 1
+          type: string
+        part_number:
+          type: integer
+          format: int32
+    StartMultipartUploadRequest:
+      required:
+      - entity_id
+      - entity_type
+      - file_name
+      - num_of_file_parts
+      - path
+      type: object
+      properties:
+        file_name:
+          minLength: 1
+          type: string
+        num_of_file_parts:
+          type: integer
+          format: int32
+        mime_type:
+          type: string
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        entity_type:
+          type: string
+          enum:
+          - trace
+          - span
+        entity_id:
+          type: string
+          format: uuid
+        container_id:
+          type: string
+          format: uuid
+          readOnly: true
+        path:
+          minLength: 1
+          type: string
+    AttachmentPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    StartMultipartUploadResponse:
+      required:
+      - pre_sign_urls
+      - upload_id
+      type: object
+      properties:
+        upload_id:
+          minLength: 1
+          type: string
+        pre_sign_urls:
+          type: array
+          items:
+            type: string

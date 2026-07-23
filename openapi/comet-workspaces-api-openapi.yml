@@ -1,0 +1,439 @@
+openapi: 3.1.0
+info:
+  title: Opik REST Workspaces API
+  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  contact:
+    name: Github Repository
+    url: https://github.com/comet-ml/opik
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:5173/api
+  description: Local server
+- url: https://www.comet.com/opik/api
+  description: Opik Cloud
+tags:
+- name: Workspaces
+  description: Workspace related resources
+paths:
+  /v1/private/workspaces/costs/summaries:
+    post:
+      tags:
+      - Workspaces
+      summary: Get costs summary
+      description: Get costs summary
+      operationId: costsSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceMetricsSummaryRequest'
+      responses:
+        '200':
+          description: Workspace Metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/workspaces/configurations:
+    get:
+      tags:
+      - Workspaces
+      summary: Get workspace configuration
+      description: Get workspace configuration
+      operationId: getWorkspaceConfiguration
+      responses:
+        '200':
+          description: Workspace Configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceConfiguration'
+        '404':
+          description: Configuration Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    put:
+      tags:
+      - Workspaces
+      summary: Upsert workspace configuration
+      description: Upsert workspace configuration
+      operationId: upsertWorkspaceConfiguration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceConfiguration'
+      responses:
+        '200':
+          description: Configuration Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceConfiguration'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+      - Workspaces
+      summary: Delete workspace configuration
+      description: Delete workspace configuration
+      operationId: deleteWorkspaceConfiguration
+      responses:
+        '204':
+          description: Configuration Deleted
+        '404':
+          description: Configuration Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/workspaces/costs:
+    post:
+      tags:
+      - Workspaces
+      summary: Get cost daily data
+      description: Get cost daily data
+      operationId: getCost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceMetricsSummaryRequest'
+      responses:
+        '200':
+          description: Workspace cost data by days
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMetricResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/workspaces/metrics:
+    post:
+      tags:
+      - Workspaces
+      summary: Get metric daily data
+      description: Get metric daily data
+      operationId: getMetric
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceMetricsSummaryRequest'
+      responses:
+        '200':
+          description: Workspace metric data by days
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMetricResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      deprecated: true
+  /v1/private/workspaces/metrics/spans:
+    post:
+      tags:
+      - Workspaces
+      summary: Get workspace span metric
+      description: Gets a span metric time series aggregated across the workspace. When project_ids is empty, all projects in the workspace are included; otherwise only the given projects.
+      operationId: getWorkspaceSpanMetric
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceSpanMetricRequest'
+      responses:
+        '200':
+          description: Workspace span metric
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMetricResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /v1/private/workspaces/versions:
+    get:
+      tags:
+      - Workspaces
+      summary: Get workspace version
+      description: 'Determines whether the workspace should use Opik V1 (legacy workspace-scoped)
+
+        or Opik V2 (project-first) navigation. The backend is the single authority for this
+
+        determination, clients must never derive the version themselves.
+
+
+        Determination logic (priority order):
+
+        1) V2 workspace allowlist (TOGGLE_V2_WORKSPACE_ALLOWLIST)
+
+        2) Feature flag override (TOGGLE_FORCE_WORKSPACE_VERSION)
+
+        3) Auth one-way V2 gate (authenticated mode only)
+
+        4) Version 1 entity check (entities without project_id)
+
+        5) Fallback on failure
+
+
+        In unauthenticated mode (authentication.enabled=false), auth steps are skipped.
+
+        Called by the frontend on workspace load.'
+      operationId: getWorkspaceVersion
+      responses:
+        '200':
+          description: Workspace version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceVersion'
+  /v1/private/workspaces/metrics/summaries:
+    post:
+      tags:
+      - Workspaces
+      summary: Get metrics summary
+      description: Get metrics summary
+      operationId: metricsSummary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceMetricsSummaryRequest'
+      responses:
+        '200':
+          description: Workspace Metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceMetricsSummaryResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      deprecated: true
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        name:
+          type: string
+        current:
+          type: number
+          format: double
+        previous:
+          type: number
+          format: double
+    BreakdownConfig:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+          - none
+          - tags
+          - metadata
+          - name
+          - error_info
+          - error_type
+          - model
+          - provider
+          - type
+        metadata_key:
+          type: string
+        sub_metric:
+          type: string
+    SpanFilter:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    WorkspaceMetricsSummaryResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+    WorkspaceVersion:
+      type: object
+      properties:
+        opik_version:
+          type: string
+          description: 'The determined Opik navigation version for this workspace.
+
+            ''version_1'' = legacy workspace-scoped navigation,
+
+            ''version_2'' = new project-first navigation.'
+          enum:
+          - version_1
+          - version_2
+      description: 'Workspace version response.
+
+        The opik_version field indicates which navigation mode the frontend should render:
+
+        ''version_1'' (legacy workspace-scoped) or ''version_2'' (project-first).'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    WorkspaceConfiguration:
+      type: object
+      properties:
+        timeout_to_mark_thread_as_inactive:
+          type: string
+          description: Duration in ISO-8601 format (e.g., PT30M for 30 minutes, PT2H for 2 hours, P1D for 1 day). Minimum precision supported is seconds, please use a duration with seconds precision or higher. Also, the max duration allowed is 7 days.
+        truncation_on_tables:
+          type: boolean
+          description: 'Enable or disable data truncation in table views. When disabled, the frontend will limit pagination to prevent performance issues. Default: true (truncation enabled).'
+          example: true
+        color_map:
+          type: object
+          additionalProperties:
+            type: string
+            description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
+          description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
+    WorkspaceMetricResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+    WorkspaceMetricsSummaryRequest:
+      required:
+      - interval_end
+      - interval_start
+      type: object
+      properties:
+        project_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+        start_before_end:
+          type: boolean
+    WorkspaceSpanMetricRequest:
+      required:
+      - interval_start
+      type: object
+      properties:
+        project_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+        metric_type:
+          type: string
+          enum:
+          - FEEDBACK_SCORES
+          - TRACE_COUNT
+          - TOKEN_USAGE
+          - DURATION
+          - COST
+          - GUARDRAILS_FAILED_COUNT
+          - THREAD_COUNT
+          - THREAD_DURATION
+          - THREAD_FEEDBACK_SCORES
+          - SPAN_FEEDBACK_SCORES
+          - SPAN_COUNT
+          - SPAN_DURATION
+          - SPAN_TOKEN_USAGE
+          - TRACE_AVERAGE_DURATION
+          - TRACE_ERROR_RATE
+          - SPAN_AVERAGE_DURATION
+          - SPAN_COST
+          - SPAN_ERROR_RATE
+          - THREAD_AVERAGE_DURATION
+          - THREAD_COST
+        interval:
+          type: string
+          enum:
+          - HOURLY
+          - DAILY
+          - WEEKLY
+          - TOTAL
+        breakdown:
+          $ref: '#/components/schemas/BreakdownConfig'
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpanFilter'
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+        start_before_end:
+          type: boolean
