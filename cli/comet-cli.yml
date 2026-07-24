@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.comet.com/docs/opik/
+docs: https://www.comet.com/docs/opik/reference/cli
+note: >-
+  Opik ships a first-party CLI bundled with the Python SDK (installed via
+  `pip install opik`). It configures workspace/API-key credentials and can run a
+  fully local Opik stack. The CLI binary is catalogued in packages/comet-packages.yml.
+binary: opik
+install:
+- pip install opik
+commands:
+- name: configure
+  description: Set up Opik credentials (API key, workspace, base URL) for Cloud or self-hosted use.
+- name: healthcheck
+  description: Verify SDK configuration and connectivity to the Opik backend.
+- name: server
+  description: Run and manage a local Opik server stack (start/stop) for self-hosted usage.
+related:
+  comet_ml_cli:
+    binary: comet
+    install: pip install comet-ml
+    note: The classic Comet experiment-tracking SDK also ships a `comet` CLI (e.g. `comet upload`, `comet optimize`).

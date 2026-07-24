@@ -1,0 +1,20 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Opik REST API
+  version: 1.0.0
+extends: openapi/comet-opik-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: comet
+    x-apievangelist-product: opik
+    x-apievangelist-auth: API key in "authorization" header (no Bearer prefix) + "Comet-Workspace" header on Opik Cloud; no auth on self-hosted.
+    x-apievangelist-artifacts:
+      authentication: authentication/comet-authentication.yml
+      conventions: conventions/comet-conventions.yml
+      errors: errors/comet-error-codes.yml
+      data_model: data-model/comet-data-model.yml
+      mcp: mcp/comet-mcp.yml
+- target: $.servers
+  update:
+    x-apievangelist-cloud-base: https://www.comet.com/opik/api/v1

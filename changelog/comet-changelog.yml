@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/comet-ml/opik/releases
+scheme: semver
+current_version: 2.1.32
+note: >-
+  Opik publishes a dated, per-release changelog on GitHub with a "What's Changed"
+  section (merged PRs, contributors, full-changelog compare link). Recent window
+  captured below; the GitHub releases page is the source of truth.
+entries:
+- version: 2.1.32
+  date: '2026-07-17'
+  breaking: false
+  highlights:
+  - Add Optimization Studio E2E coverage.
+  - Add id_week predicate to SpanDAO read paths.
+- version: 2.1.31
+  date: '2026-07-16'
+  breaking: false
+- version: 2.1.30
+  date: '2026-07-15'
+  breaking: false
+- version: 2.1.29
+  date: '2026-07-15'
+  breaking: false
+- version: 2.1.28
+  date: '2026-07-15'
+  breaking: false

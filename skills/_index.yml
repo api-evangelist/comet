@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/comet-opik-openapi-original.yml
+skills:
+- file: comet-log-and-evaluate-traces.md
+  name: Log and score LLM traces in Opik
+  api: openapi/comet-opik-openapi-original.yml
+  operations:
+  - createProject
+  - createTraces
+  - createSpans
+  - addTraceFeedbackScore
+  - getTracesByProject
+- file: comet-run-dataset-experiment.md
+  name: Run a dataset-backed evaluation experiment in Opik
+  api: openapi/comet-opik-openapi-original.yml
+  operations:
+  - createDataset
+  - createOrUpdateDatasetItems
+  - createExperiment
+  - createExperimentItems
+  - findDatasetItemsWithExperimentItems

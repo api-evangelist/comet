@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/comet-opik-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  stability: beta
+  docs: https://www.comet.com/docs/opik/reference/rest-api/overview
+  note: The Opik REST API info block states the API is "currently in beta and subject to change."
+release_cadence:
+  scheme: semver
+  channel: https://github.com/comet-ml/opik/releases
+  note: Opik ships frequent tagged releases (see changelog/comet-changelog.yml).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal RFC 8594 deprecation/sunset policy is published; breaking changes are communicated via GitHub release notes.
+status_page: https://status.comet.com/
+sla:
+  url: https://www.comet.com/site/pricing/
+  note: SLAs are offered on enterprise plans.
+deprecated_operations: []

@@ -1,0 +1,109 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/comet-opik-openapi-original.yml
+note: Opik does not use RFC 9457 problem+json. The standard error envelope is the ErrorMessage schema
+  {code:int, message:string, details:string}; write/validation endpoints return {errors:[string]}. Statuses
+  below are derived from the OpenAPI 4xx/5xx responses.
+format: custom
+error_envelope:
+  schema: ErrorMessage
+  fields:
+  - code
+  - message
+  - details
+  write_variant:
+    schema: ErrorMessage_Write
+    fields:
+    - errors
+problems:
+- status: 400
+  title: Bad Request
+  occurrences: 78
+  remediation: Validate the request body and query parameters against the schema.
+  example_operations:
+  - token
+  - executeAnalyticsQuery
+  - createAgentConfig
+- status: 401
+  title: Unauthorized
+  occurrences: 36
+  remediation: Provide a valid API key in the "authorization" header (no Bearer prefix) and a "Comet-Workspace"
+    header on Opik Cloud.
+  example_operations:
+  - validateOAuthToken
+  - createAgentConfig
+  - updateAgentConfig
+- status: 403
+  title: Forbidden
+  occurrences: 12
+  remediation: The API key lacks permission for this workspace or resource.
+  example_operations:
+  - attachmentList
+  - completeMultiPartUpload
+  - deleteAttachments
+- status: 404
+  title: Not Found
+  occurrences: 97
+  remediation: The referenced resource id does not exist in this workspace.
+  example_operations:
+  - updateAgentConfig
+  - createBlueprintFromMask
+  - createOrUpdateEnvs
+- status: 409
+  title: Conflict
+  occurrences: 25
+  remediation: A resource with this identifier already exists or the update conflicts with current state.
+  example_operations:
+  - createAgentConfig
+  - createAgentInsightsJob
+  - createAlert
+- status: 410
+  title: Gone
+  occurrences: 1
+  remediation: ''
+  example_operations:
+  - heartbeat
+- status: 422
+  title: Unprocessable Entity
+  occurrences: 19
+  remediation: The payload is syntactically valid but failed semantic validation.
+  example_operations:
+  - executeAnalyticsQuery
+  - createAlert
+  - updateAlert
+- status: 429
+  title: Too Many Requests
+  occurrences: 5
+  remediation: Rate limit exceeded; back off and retry after a delay.
+  example_operations:
+  - registerOAuthClient
+  - createBridgeCommand
+  - replaceOllieState
+- status: 500
+  title: Internal Server Error
+  occurrences: 2
+  remediation: Server error; retry with backoff and report to GitHub if persistent.
+  example_operations:
+  - listModels
+  - getRecentActivity
+- status: 501
+  title: Not Implemented
+  occurrences: 3
+  remediation: ''
+  example_operations:
+  - executeAnalyticsQuery
+  - cancelStudioOptimizations
+  - deleteSpanById
+- status: 502
+  title: Bad Gateway
+  occurrences: 1
+  remediation: ''
+  example_operations:
+  - testConnection
+- status: 503
+  title: Service Unavailable
+  occurrences: 2
+  remediation: Service temporarily unavailable; retry with backoff.
+  example_operations:
+  - listModels
+  - testConnection

@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: searched
+status: published
+source: https://github.com/comet-ml/opik-mcp
+docs: https://www.comet.com/docs/opik/mcp-server
+server:
+  name: opik-mcp
+  official: true
+  vendor: Comet ML
+  transport: stdio
+  alt_transport: streamable-http
+  install: uvx opik-mcp@latest
+  registry: https://pypi.org/project/opik-mcp/
+  hosted_docs_server: https://www.comet.com/docs/opik/latest/_mcp/server
+  description: >-
+    Official Model Context Protocol server for Opik. Connects MCP hosts
+    (Claude Code, Cursor, VS Code Copilot) directly to an Opik workspace to read
+    traces/spans/experiments/prompts, score outputs, save prompts, and run
+    evaluation experiments from chat.
+tools:
+- name: read
+  description: Retrieve entities by ID, name, or URI (projects, traces, spans, test suites, experiments, prompts).
+- name: list
+  description: Browse collections with optional filtering and pagination.
+- name: ask_ollie
+  description: Investigative queries and cross-entity synthesis via the Opik assistant (Ollie).
+- name: write
+  description: Universal dispatcher for logging traces, scoring, commenting, and managing prompts/experiments.
+- name: schema
+  description: Inspect the JSON shapes required for write operations before executing them.
+- name: run_experiment
+  description: Execute evaluation experiments end-to-end via Ollie.

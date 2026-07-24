@@ -1,0 +1,52 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/comet-opik-openapi-original.yml
+docs: https://www.comet.com/docs/opik/reference/rest-api/overview
+authentication:
+  style: api-key-header
+  header: authorization
+  bearer_prefix: false
+  workspace_header: Comet-Workspace
+  ref: authentication/comet-authentication.yml
+pagination:
+  style: page-number
+  request_params:
+  - page
+  - size
+  response_fields:
+  - content
+  - page
+  - size
+  - total
+  note: List endpoints (findProjects, findDatasets, findExperiments, getTracesByProject, etc.) accept page/size query params and return a paged envelope with total counts.
+filtering:
+  style: json-filter-string
+  param: filters
+  note: Many list endpoints accept a "filters" query parameter carrying a JSON array of field/operator/value predicates.
+batch_ingestion:
+  note: High-throughput ingestion uses dedicated batch endpoints (createTraces at /v1/private/traces/batch, createSpans at /v1/private/spans/batch) rather than per-item writes.
+idempotency:
+  supported: false
+  note: Opik does not document a client-supplied idempotency key. Trace/span ids are client-generated UUIDv7 values, so re-sending the same id upserts rather than duplicating, but there is no dedicated Idempotency-Key header.
+versioning:
+  scheme: uri-path
+  current: v1
+  note: All endpoints are under /v1; the API is marked beta and subject to change.
+error_envelope:
+  schema: ErrorMessage
+  fields:
+  - code
+  - message
+  - details
+  write_variant:
+    schema: ErrorMessage_Write
+    fields:
+    - errors
+  format: custom
+  ref: errors/comet-error-codes.yml
+rate_limiting:
+  documented: false
+  note: The REST reference does not publish explicit rate-limit numbers; the OpenAPI defines 429 responses on several ingestion endpoints, indicating server-side throttling exists.
+telemetry_ingestion:
+  opentelemetry: true
+  note: Opik accepts OpenTelemetry trace ingestion via /v1/private/otel/v1/traces (OTLP protobuf), in addition to native trace/span batch endpoints.

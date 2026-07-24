@@ -1,0 +1,61 @@
+{
+  "provider": "comet",
+  "sources": [
+    "comet-opik-openapi-original.yml"
+  ],
+  "outputs": [
+    "comet-agent-configs-api-openapi.yml",
+    "comet-agent-insights-api-openapi.yml",
+    "comet-agent-insights-jobs-api-openapi.yml",
+    "comet-alerts-api-openapi.yml",
+    "comet-annotation-queues-api-openapi.yml",
+    "comet-assertion-results-api-openapi.yml",
+    "comet-attachments-api-openapi.yml",
+    "comet-automation-rule-evaluators-api-openapi.yml",
+    "comet-chat-completions-api-openapi.yml",
+    "comet-check-api-openapi.yml",
+    "comet-dashboards-api-openapi.yml",
+    "comet-datasets-api-openapi.yml",
+    "comet-environments-api-openapi.yml",
+    "comet-experiments-api-openapi.yml",
+    "comet-feedback-definitions-api-openapi.yml",
+    "comet-guardrails-api-openapi.yml",
+    "comet-insights-views-api-openapi.yml",
+    "comet-is-alive-api-openapi.yml",
+    "comet-llm-models-api-openapi.yml",
+    "comet-llmproviderkey-api-openapi.yml",
+    "comet-mcp-oauth-api-openapi.yml",
+    "comet-manual-evaluation-api-openapi.yml",
+    "comet-ollama-api-openapi.yml",
+    "comet-ollie-state-api-openapi.yml",
+    "comet-opentelemetry-ingestion-api-openapi.yml",
+    "comet-optimizations-api-openapi.yml",
+    "comet-pairing-api-openapi.yml",
+    "comet-projects-api-openapi.yml",
+    "comet-prompts-api-openapi.yml",
+    "comet-redirect-api-openapi.yml",
+    "comet-report-failures-api-openapi.yml",
+    "comet-reports-api-openapi.yml",
+    "comet-retention-rules-api-openapi.yml",
+    "comet-runners-api-openapi.yml",
+    "comet-service-toggles-api-openapi.yml",
+    "comet-spans-api-openapi.yml",
+    "comet-system-analytics-queries-api-openapi.yml",
+    "comet-system-usage-api-openapi.yml",
+    "comet-traces-api-openapi.yml",
+    "comet-welcome-wizard-api-openapi.yml",
+    "comet-workspace-permissions-api-openapi.yml",
+    "comet-workspaces-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/comet-opik-openapi-original.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "comet-opik-openapi-original.yml: tagged GET /is-alive/ping -> Is Alive",
+    "comet-opik-openapi-original.yml: tagged GET /is-alive/ver -> Is Alive",
+    "comet-opik-openapi-original.yml: declared missing tag: Is Alive"
+  ],
+  "skipped": []
+}

@@ -1,0 +1,73 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/comet-opik-openapi-original.yml
+note: Entity-relationship graph derived from Opik OpenAPI schema names and id-reference fields. 532 component
+  schemas; core observability/evaluation entities below.
+entities:
+- name: Project
+- name: Trace
+- name: Span
+- name: Dataset
+- name: DatasetItem
+- name: Experiment
+- name: ExperimentItem
+- name: Prompt
+- name: PromptVersion
+- name: FeedbackScore
+- name: Optimization
+- name: Alert
+- name: Guardrail
+- name: AnnotationQueue
+relationships:
+- from: Trace
+  type: belongs_to
+  to: Project
+  via: project_name
+- from: Span
+  type: belongs_to
+  to: Trace
+  via: trace_id
+- from: Span
+  type: belongs_to
+  to: Project
+  via: project_name
+- from: Span
+  type: has_one
+  to: Span
+  via: parent_span_id
+- from: DatasetItem
+  type: belongs_to
+  to: Dataset
+  via: dataset_id
+- from: Experiment
+  type: belongs_to
+  to: Dataset
+  via: dataset_name
+- from: ExperimentItem
+  type: belongs_to
+  to: Experiment
+  via: experiment_id
+- from: ExperimentItem
+  type: belongs_to
+  to: DatasetItem
+  via: dataset_item_id
+- from: ExperimentItem
+  type: belongs_to
+  to: Trace
+  via: trace_id
+- from: PromptVersion
+  type: belongs_to
+  to: Prompt
+  via: prompt_id
+- from: FeedbackScore
+  type: belongs_to
+  to: Trace
+  via: trace/span id
+- from: Optimization
+  type: belongs_to
+  to: Dataset
+  via: dataset_name
+- from: Alert
+  type: belongs_to
+  to: Project
+  via: project_id

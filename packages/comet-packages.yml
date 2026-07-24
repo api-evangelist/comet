@@ -1,0 +1,48 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/comet-ml/opik
+packages:
+- language: python
+  registry: pypi
+  name: opik
+  url: https://pypi.org/project/opik/
+  install: pip install opik
+  official: true
+  repo: https://github.com/comet-ml/opik
+  description: Open-source AI observability, evaluation, and optimization SDK for Opik.
+- language: python
+  registry: pypi
+  name: comet-ml
+  url: https://pypi.org/project/comet-ml/
+  install: pip install comet-ml
+  official: true
+  description: Comet ML experiment tracking / MLOps SDK.
+- language: python
+  registry: pypi
+  name: opik-optimizer
+  url: https://pypi.org/project/opik-optimizer/
+  install: pip install opik-optimizer
+  official: true
+  description: Prompt-optimization algorithms for Opik.
+- language: python
+  registry: pypi
+  name: opik-mcp
+  url: https://pypi.org/project/opik-mcp/
+  install: uvx opik-mcp@latest
+  official: true
+  description: Official Opik Model Context Protocol (MCP) server.
+- language: javascript
+  registry: npm
+  name: opik
+  url: https://www.npmjs.com/package/opik
+  install: npm install opik
+  official: true
+  repo: https://github.com/comet-ml/opik
+  description: Opik TypeScript / JavaScript SDK.
+- language: javascript
+  registry: npm
+  name: opik-mcp
+  url: https://www.npmjs.com/package/opik-mcp
+  install: npx opik-mcp
+  official: true
+  description: Opik MCP server (npm distribution).

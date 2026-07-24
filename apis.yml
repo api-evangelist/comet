@@ -1,24 +1,1026 @@
 aid: comet
 name: Comet
-description: 'Comet is a company surfaced as a portfolio company of hv-capital and added to the API Evangelist
-  network as a stub for enrichment. Sector: ai-enterprise-software. This profile is a lead awaiting the
-  enrichment pipeline.'
+description: 'Comet is an enterprise AI/ML developer platform used by over 150,000 developers
+  and organizations including Netflix, Uber, and Autodesk. Its flagship open-source product,
+  Opik, is an LLM observability, evaluation, and optimization suite for building, testing,
+  and monitoring generative AI applications, RAG systems, and agentic workflows — with tracing,
+  automated LLM-as-a-judge and heuristic evaluations, prompt management and optimization, and
+  production dashboards. Comet also provides classic MLOps tooling for experiment management,
+  model registry, artifacts, and production monitoring. Opik exposes a full REST API, Python and
+  TypeScript SDKs, a CLI, and an official Model Context Protocol (MCP) server, and runs on Comet
+  Cloud, self-hosted (Docker/Kubernetes), or enterprise deployments. Sector: ai-enterprise-software.'
 url: https://raw.githubusercontent.com/api-evangelist/comet/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - hv-capital
-x-tier: stub
+x-tier: enriched
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://cdn.comet.com/img/facebook-1200x630.png
 tags:
 - Company
 - Ai Enterprise Software
-apis: []
+- LLM Observability
+- LLMOps
+- MLOps
+- Evaluation
+- Experiment Tracking
+- Model Monitoring
+- Prompt Management
+- Agents
+- Open Source
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: comet:comet-agent-configs-api
+  name: Comet Agent Configs API
+  description: Agent configuration management
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Agent Configs
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-agent-configs-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-agent-insights-api
+  name: Comet Agent Insights API
+  description: Agent Insights report results
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Agent Insights
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-agent-insights-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-agent-insights-jobs-api
+  name: Comet Agent Insights Jobs API
+  description: Per-(workspace, project) Agent Insights report configuration
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Agent Insights Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-agent-insights-jobs-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-alerts-api
+  name: Comet Alerts API
+  description: Alert resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-alerts-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-annotation-queues-api
+  name: Comet Annotation Queues API
+  description: Private annotation queue operations
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Annotation Queues
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-annotation-queues-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-assertion-results-api
+  name: Comet Assertion Results API
+  description: Assertion result related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Assertion Results
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-assertion-results-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-attachments-api
+  name: Comet Attachments API
+  description: Attachments related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Attachments
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-attachments-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-automation-rule-evaluators-api
+  name: Comet Automation rule evaluators API
+  description: Automation rule evaluators resource
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Automation rule evaluators
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-automation-rule-evaluators-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-chat-completions-api
+  name: Comet Chat Completions API
+  description: Chat Completions related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Chat Completions
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-chat-completions-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-check-api
+  name: Comet Check API
+  description: Access check resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Check
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-check-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-dashboards-api
+  name: Comet Dashboards API
+  description: Workspace Dashboard resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Dashboards
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-dashboards-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-datasets-api
+  name: Comet Datasets API
+  description: Dataset resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-datasets-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-environments-api
+  name: Comet Environments API
+  description: Environment related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-environments-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-experiments-api
+  name: Comet Experiments API
+  description: Experiment resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Experiments
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-experiments-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-feedback-definitions-api
+  name: Comet Feedback-definitions API
+  description: Feedback definitions related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Feedback-definitions
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-feedback-definitions-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-guardrails-api
+  name: Comet Guardrails API
+  description: Guardrails related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Guardrails
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-guardrails-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-insights-views-api
+  name: Comet Insights Views API
+  description: Insights View resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Insights Views
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-insights-views-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-is-alive-api
+  name: Comet Is Alive API
+  description: The Is Alive API from Comet — 2 operation(s) for is alive.
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Is Alive
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-is-alive-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-llm-models-api
+  name: Comet LLM Models API
+  description: LLM model registry resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - LLM Models
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-llm-models-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-llmproviderkey-api
+  name: Comet LlmProviderKey API
+  description: LLM Provider Key
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - LlmProviderKey
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-llmproviderkey-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-manual-evaluation-api
+  name: Comet Manual Evaluation API
+  description: Manual evaluation resources for traces, threads, and spans
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Manual Evaluation
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-manual-evaluation-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-mcp-oauth-api
+  name: Comet MCP OAuth API
+  description: MCP OAuth 2.1 Authorization Server resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - MCP OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-mcp-oauth-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-ollama-api
+  name: Comet Ollama API
+  description: Ollama provider configuration endpoints with OpenAI-compatible API support.
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Ollama
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-ollama-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-ollie-state-api
+  name: Comet Ollie State API
+  description: Ollie pod state persistence
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Ollie State
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-ollie-state-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-opentelemetry-ingestion-api
+  name: Comet OpenTelemetry Ingestion API
+  description: Resource to ingest Traces and Spans via OpenTelemetry
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - OpenTelemetry Ingestion
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-opentelemetry-ingestion-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-optimizations-api
+  name: Comet Optimizations API
+  description: Optimization resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Optimizations
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-optimizations-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-pairing-api
+  name: Comet Pairing API
+  description: Pairing sessions for the `opik connect` and `opik endpoint` CLI commands
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Pairing
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-pairing-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-projects-api
+  name: Comet Projects API
+  description: Project related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-projects-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-prompts-api
+  name: Comet Prompts API
+  description: Prompt resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Prompts
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-prompts-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-redirect-api
+  name: Comet Redirect API
+  description: Redirects for SDK generated links
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Redirect
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-redirect-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-report-failures-api
+  name: Comet Report Failures API
+  description: Generic failure log for reports/jobs
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Report Failures
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-report-failures-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-reports-api
+  name: Comet Reports API
+  description: Ollie daily report management
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-reports-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-retention-rules-api
+  name: Comet Retention Rules API
+  description: Data retention rule management
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Retention Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-retention-rules-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-runners-api
+  name: Comet Runners API
+  description: Local runner management endpoints
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Runners
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-runners-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-service-toggles-api
+  name: Comet Service Toggles API
+  description: Service Toggles resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Service Toggles
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-service-toggles-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-spans-api
+  name: Comet Spans API
+  description: Span related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Spans
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-spans-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-system-analytics-queries-api
+  name: Comet System analytics queries API
+  description: Internal endpoint to run Agent Insights free-form SQL
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - System analytics queries
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-system-analytics-queries-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-system-usage-api
+  name: Comet System usage API
+  description: System usage related resource
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - System usage
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-system-usage-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-traces-api
+  name: Comet Traces API
+  description: Trace related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Traces
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-traces-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-welcome-wizard-api
+  name: Comet Welcome Wizard API
+  description: Welcome wizard tracking resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Welcome Wizard
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-welcome-wizard-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-workspace-permissions-api
+  name: Comet Workspace permissions API
+  description: Workspace permissions related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Workspace permissions
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-workspace-permissions-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+- aid: comet:comet-workspaces-api
+  name: Comet Workspaces API
+  description: Workspace related resources
+  humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
+  baseURL: https://www.comet.com/opik/api/v1
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/comet-workspaces-api-openapi.yml
+  - type: Authentication
+    url: authentication/comet-authentication.yml
+  - type: ErrorCatalog
+    url: errors/comet-error-codes.yml
+  - type: Conventions
+    url: conventions/comet-conventions.yml
+  - type: DataModel
+    url: data-model/comet-data-model.yml
+  - type: Conformance
+    url: conformance/comet-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/comet-lifecycle.yml
+common:
+- type: TrustCenter
+  url: security/comet-trust-center.yml
+- type: Compliance
+  url: https://trust.comet.com/
+- type: DomainSecurity
+  url: security/comet-domain-security.yml
+- type: DeveloperPortal
+  url: https://www.comet.com/docs/opik/
+- type: Documentation
+  url: https://www.comet.com/docs/opik/
+- type: APIReference
+  url: https://www.comet.com/docs/opik/reference/rest-api/overview
+- type: GettingStarted
+  url: https://www.comet.com/docs/opik/quickstart
+- type: Support
+  url: https://github.com/comet-ml/opik/issues
+- type: Blog
+  url: https://www.comet.com/site/blog/
+- type: GitHubOrganization
+  url: https://github.com/comet-ml
+- type: Pricing
+  url: https://www.comet.com/site/pricing/
+- type: SignUp
+  url: https://www.comet.com/signup
+- type: TermsOfService
+  url: https://www.comet.com/site/terms-of-service/
+- type: PrivacyPolicy
+  url: https://www.comet.com/site/privacy-policy/
+- type: StatusPage
+  url: https://status.comet.com/
+- type: LLMsTxt
+  url: llms/comet-llms.txt
+- type: Packages
+  url: packages/comet-packages.yml
+- type: SDKs
+  url: packages/comet-packages.yml
+- type: CLI
+  url: cli/comet-cli.yml
+- type: MCPServer
+  url: mcp/comet-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ChangeLog
+  url: changelog/comet-changelog.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
