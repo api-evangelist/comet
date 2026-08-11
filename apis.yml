@@ -975,6 +975,8 @@ apis:
   - type: Lifecycle
     url: lifecycle/comet-lifecycle.yml
 common:
+- type: Overlay
+  url: overlays/comet-opik-overlay.yaml
 - type: TrustCenter
   url: security/comet-trust-center.yml
 - type: Compliance
