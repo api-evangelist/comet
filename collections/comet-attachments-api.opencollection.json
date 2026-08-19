@@ -1,0 +1,187 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Attachments API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attachments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Attachments list for entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/attachment/list",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Attachments list for entity"
+        },
+        {
+          "info": {
+            "name": "Complete multipart attachment upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/attachment/upload-complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete multipart attachment upload"
+        },
+        {
+          "info": {
+            "name": "Delete attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/attachment/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete attachments"
+        },
+        {
+          "info": {
+            "name": "Download attachment from MinIO",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/attachment/download",
+            "params": [
+              {
+                "name": "workspace_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "container_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "file_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "mime_type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Download attachment from MinIO"
+        },
+        {
+          "info": {
+            "name": "Start multipart attachment upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/attachment/upload-start",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start multipart attachment upload"
+        },
+        {
+          "info": {
+            "name": "Upload attachment to MinIO",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/attachment/upload",
+            "params": [
+              {
+                "name": "file_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "mime_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entity_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Upload attachment to MinIO"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

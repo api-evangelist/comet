@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Manual Evaluation API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Manual Evaluation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Manually evaluate spans",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/manual-evaluation/spans",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Manually trigger evaluation rules on selected spans. Bypasses sampling and enqueues all specified spans for evaluation."
+        },
+        {
+          "info": {
+            "name": "Manually evaluate threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/manual-evaluation/threads",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Manually trigger evaluation rules on selected threads. Bypasses sampling and enqueues all specified threads for evaluation."
+        },
+        {
+          "info": {
+            "name": "Manually evaluate traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/manual-evaluation/traces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Manually trigger evaluation rules on selected traces. Bypasses sampling and enqueues all specified traces for evaluation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Report Failures API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Report Failures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List failures for a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/report-failures",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns failures for the given project id and type, most recent first."
+        },
+        {
+          "info": {
+            "name": "Record a report/job failure",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/report-failures",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Appends a failure row keyed by (project_id, type). Append-only — never overwrites earlier failures."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

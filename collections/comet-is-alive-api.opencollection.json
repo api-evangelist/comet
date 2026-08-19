@@ -1,0 +1,38 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Is Alive API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Is Alive",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "isAlive",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/is-alive/ping"
+          }
+        },
+        {
+          "info": {
+            "name": "version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/is-alive/ver"
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

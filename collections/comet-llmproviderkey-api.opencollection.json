@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST LlmProviderKey API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LlmProviderKey",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Delete LLM Provider's ApiKeys",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/llm-provider-key/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete LLM Provider's ApiKeys batch"
+        },
+        {
+          "info": {
+            "name": "Find LLM Provider's ApiKeys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/llm-provider-key"
+          },
+          "docs": "Find LLM Provider's ApiKeys"
+        },
+        {
+          "info": {
+            "name": "Store LLM Provider's ApiKey",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/llm-provider-key",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Store LLM Provider's ApiKey"
+        },
+        {
+          "info": {
+            "name": "Get LLM Provider's ApiKey by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/llm-provider-key/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get LLM Provider's ApiKey by id"
+        },
+        {
+          "info": {
+            "name": "Update LLM Provider's ApiKey",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/llm-provider-key/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update LLM Provider's ApiKey"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

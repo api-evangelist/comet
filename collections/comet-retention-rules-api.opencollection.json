@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Retention Rules API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Retention Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find retention rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/retention/rules",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_inactive",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List retention rules for the caller's workspace. Defaults to active only."
+        },
+        {
+          "info": {
+            "name": "Create retention rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/retention/rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new retention rule. Auto-deactivates any existing active rule for the same scope."
+        },
+        {
+          "info": {
+            "name": "Get retention rule by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/retention/rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific retention rule by id"
+        },
+        {
+          "info": {
+            "name": "Deactivate retention rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/retention/rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Soft-deactivate a retention rule (sets enabled=false). Rules are never hard-deleted for audit trail."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

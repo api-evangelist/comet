@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Agent Insights Jobs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Insights Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Agent Insights job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/jobs/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the Agent Insights job for the (workspace, project), or 404 if none exists."
+        },
+        {
+          "info": {
+            "name": "Create Agent Insights job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/jobs/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates the Agent Insights job for a project. 409 if one already exists."
+        },
+        {
+          "info": {
+            "name": "Update Agent Insights job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/jobs/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially updates the Agent Insights job for a project (e.g. status; never deletes). Returns the updated job, or 404 if none exists."
+        },
+        {
+          "info": {
+            "name": "Trigger Agent Insights job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/jobs/:projectId/trigger",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Triggers an immediate report run for an existing job (over the last 24h). Fire-and-forget; returns 202. 404 if none exists."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

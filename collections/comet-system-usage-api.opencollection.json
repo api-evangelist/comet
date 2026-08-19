@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST System usage API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "System usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get datasets information for BI events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/bi-datasets"
+          },
+          "docs": "Get datasets information for BI events per user per workspace"
+        },
+        {
+          "info": {
+            "name": "Get experiments information for BI events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/bi-experiments"
+          },
+          "docs": "Get experiments information for BI events per user per workspace"
+        },
+        {
+          "info": {
+            "name": "Get spans information for BI events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/bi-spans"
+          },
+          "docs": "Get spans information for BI events per user per workspace"
+        },
+        {
+          "info": {
+            "name": "Get spans count on previous day grouped by workspace, project and user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/workspace-span-counts-breakdown"
+          },
+          "docs": "Get spans count on previous day grouped by workspace, project and user"
+        },
+        {
+          "info": {
+            "name": "Get spans count on previous day for all available workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/workspace-span-counts"
+          },
+          "docs": "Get spans count on previous day for all available workspaces"
+        },
+        {
+          "info": {
+            "name": "Get traces information for BI events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/bi-traces"
+          },
+          "docs": "Get traces information for BI events per user per workspace"
+        },
+        {
+          "info": {
+            "name": "Get traces count on previous day for all available workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/internal/usage/workspace-trace-counts"
+          },
+          "docs": "Get traces count on previous day for all available workspaces"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

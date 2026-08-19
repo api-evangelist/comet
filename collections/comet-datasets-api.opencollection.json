@@ -1,0 +1,846 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Datasets API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Apply changes to dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/items/changes",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "override",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply delta changes (add, edit, delete) to a dataset version with conflict detection.\n\nThis endpoint:\n- Creates a new version with the applied changes\n- Validates that baseVersion matches the latest version (unless override=true)\n- Returns 409 Conflict if baseVersion is stale and override is not set\n\nUse `override=true` query parameter to force version creation even with stale baseVersion.\n\nSet 'copy_from_dataset_id' and 'copy_from_version_id' together on the request body to read\ncarry-forward r"
+        },
+        {
+          "info": {
+            "name": "Batch update dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple dataset items"
+        },
+        {
+          "info": {
+            "name": "Find datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "with_experiments_only",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "with_optimizations_only",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "prompt_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find datasets"
+        },
+        {
+          "info": {
+            "name": "Create dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create dataset"
+        },
+        {
+          "info": {
+            "name": "Create/update dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/datasets/items",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create/update dataset items based on dataset item id.\nEach item's 'id' field is the stable identifier and upsert key.\nProvide it to update an existing item, or omit it to create a new one.\n\nSet 'copy_from_dataset_id' and 'copy_from_version_id' together to read carry-forward rows\nfrom the supplied (dataset, version) pair instead of the destination's prior version. When\nthe fields are null, carry-forward rows are read from the destination's prior version."
+        },
+        {
+          "info": {
+            "name": "Create dataset items from CSV file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/from-csv",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "dataset_id",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create dataset items from uploaded CSV file. CSV should have headers in the first row. Processing happens asynchronously in batches."
+        },
+        {
+          "info": {
+            "name": "Create dataset items from JSON file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/from-json",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "dataset_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "format",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Create dataset items from an uploaded JSON or JSONL file. JSON files must contain a top-level array of objects.\nJSONL files contain one JSON object per non-blank line; multi-line JSON objects are not supported.\nReserved keys (id, source, description, tags, evaluators, execution_policy) are extracted into the\ncorresponding DatasetItem fields; all remaining keys form the item's data map and preserve their JSON types.\nTo link dataset items to specific traces or spans use the dedicated /items/from-t"
+        },
+        {
+          "info": {
+            "name": "Create dataset items from spans",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:dataset_id/items/from-spans",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create dataset items from spans with enriched metadata"
+        },
+        {
+          "info": {
+            "name": "Create dataset items from traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:dataset_id/items/from-traces",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create dataset items from traces with enriched metadata"
+        },
+        {
+          "info": {
+            "name": "Get dataset by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get dataset by id"
+        },
+        {
+          "info": {
+            "name": "Update dataset by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update dataset by id"
+        },
+        {
+          "info": {
+            "name": "Delete dataset by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete dataset by id"
+        },
+        {
+          "info": {
+            "name": "Delete dataset by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete dataset by name"
+        },
+        {
+          "info": {
+            "name": "Delete dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete dataset items using one of two modes:\n1. **Delete by IDs**: Provide 'item_ids' to delete specific items by their IDs\n2. **Delete by filters**: Provide 'dataset_id' with optional 'filters' to delete items matching criteria\n\nWhen using filters, an empty 'filters' array will delete all items in the specified dataset.\n"
+        },
+        {
+          "info": {
+            "name": "Delete datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/delete-batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete datasets batch"
+        },
+        {
+          "info": {
+            "name": "Download dataset export file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/export-jobs/:jobId/download",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Downloads the exported CSV file for a completed export job. This endpoint proxies the file download to avoid exposing internal storage URLs."
+        },
+        {
+          "info": {
+            "name": "Expand dataset with synthetic samples",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/expansions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate synthetic dataset samples using LLM based on existing data patterns"
+        },
+        {
+          "info": {
+            "name": "Find dataset items with experiment items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/items/experiments/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "experiment_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "truncate",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find dataset items with experiment items"
+        },
+        {
+          "info": {
+            "name": "Get dataset by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/retrieve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get dataset by name"
+        },
+        {
+          "info": {
+            "name": "Get experiment items stats for dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/items/experiments/items/stats",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "experiment_ids",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get experiment items stats for dataset"
+        },
+        {
+          "info": {
+            "name": "Get dataset export job status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/export-jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves the current status of a dataset export job"
+        },
+        {
+          "info": {
+            "name": "Get all dataset export jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/export-jobs"
+          },
+          "docs": "Retrieves all export jobs for the workspace. This is used to restore the export panel state after page refresh."
+        },
+        {
+          "info": {
+            "name": "Get dataset item by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/:itemId",
+            "params": [
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get dataset item by id"
+        },
+        {
+          "info": {
+            "name": "Partially update dataset item by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/:itemId",
+            "params": [
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially update dataset item by id. Only provided fields will be updated."
+        },
+        {
+          "info": {
+            "name": "Get dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "truncate",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get dataset items"
+        },
+        {
+          "info": {
+            "name": "Get dataset items output columns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/items/experiments/items/output/columns",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "experiment_ids",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get dataset items output columns"
+        },
+        {
+          "info": {
+            "name": "Mark dataset export job as viewed",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/datasets/export-jobs/:jobId/mark-viewed",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Marks a dataset export job as viewed by setting the viewed_at timestamp. This is used to track that a user has seen a failed job's error message. This operation is idempotent."
+        },
+        {
+          "info": {
+            "name": "Start dataset CSV export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/export",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Initiates an asynchronous CSV export job for the dataset. Returns immediately with job details for polling."
+        },
+        {
+          "info": {
+            "name": "Stream dataset items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/items/stream",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Stream dataset items"
+        },
+        {
+          "info": {
+            "name": "Compare latest version with draft",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/diff",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Compare the latest committed dataset version with the current draft state. This endpoint provides insights into changes made since the last version was committed. The comparison calculates additions, modifications, deletions, and unchanged items between the latest version snapshot and current draft."
+        },
+        {
+          "info": {
+            "name": "Create version tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/hash/:versionHash/tags",
+            "params": [
+              {
+                "name": "versionHash",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a tag to a specific dataset version for easy reference (e.g., 'baseline', 'v1.0', 'production')"
+        },
+        {
+          "info": {
+            "name": "Delete version tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/:versionHash/tags/:tag",
+            "params": [
+              {
+                "name": "versionHash",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a tag from a dataset version. The version itself is not deleted, only the tag reference."
+        },
+        {
+          "info": {
+            "name": "List dataset versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get paginated list of versions for a dataset, ordered by creation time (newest first)"
+        },
+        {
+          "info": {
+            "name": "Restore dataset to a previous version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/restore",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Restores the dataset to a previous version state by creating a new version with items copied from the specified version. If the version is already the latest, returns it as-is (no-op)."
+        },
+        {
+          "info": {
+            "name": "Retrieve dataset version by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/retrieve",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get a specific version by its version name (e.g., 'v1', 'v373'). This is more efficient than paginating through all versions for large datasets."
+        },
+        {
+          "info": {
+            "name": "Update dataset version",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/datasets/:id/versions/hash/:versionHash",
+            "params": [
+              {
+                "name": "versionHash",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a dataset version's change_description and/or add new tags"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

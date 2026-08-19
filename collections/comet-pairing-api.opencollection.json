@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Pairing API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pairing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Activate a pairing session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/pairing/sessions/:sessionId/activate",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify the activation HMAC and flip the runner row to CONNECTED"
+        },
+        {
+          "info": {
+            "name": "Create a pairing session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/pairing/sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a short-lived pairing session that a local daemon will later activate via HMAC"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

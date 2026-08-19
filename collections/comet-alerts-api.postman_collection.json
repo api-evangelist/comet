@@ -1,0 +1,1153 @@
+{
+  "item": [
+    {
+      "id": "f55412d4-eaa5-409d-bc6b-a433332ff028",
+      "name": "Alerts",
+      "description": {
+        "content": "Alert resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "57ee29f2-2d2c-408b-8f75-ba4d6cfe7261",
+          "name": "Find alerts",
+          "request": {
+            "name": "Find alerts",
+            "description": {
+              "content": "Find alerts",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "sorting",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cdf9168d-ba57-43e0-9c3c-c4318376653d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 8586,\n  \"size\": 7044,\n  \"total\": 4673,\n  \"content\": [\n    {\n      \"webhook\": {\n        \"url\": \"string\",\n        \"id\": \"e0b6d88c-ec58-7eb1-c12f-ad76bd9101ce\",\n        \"name\": \"string\",\n        \"secret_token\": \"string\",\n        \"headers\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"created_at\": \"1972-09-05T09:47:30.661Z\",\n        \"created_by\": \"string\",\n        \"last_updated_at\": \"2000-09-28T18:45:21.047Z\",\n        \"last_updated_by\": \"string\"\n      },\n      \"id\": \"238c2b5c-67d1-2fcd-3d9c-d4dbb0119022\",\n      \"name\": \"string\",\n      \"enabled\": false,\n      \"alert_type\": \"pagerduty\",\n      \"metadata\": {\n        \"key_0\": \"string\"\n      },\n      \"triggers\": [\n        {\n          \"event_type\": \"experiment:finished\",\n          \"id\": \"f64dbfaf-504c-5ee7-093b-5ed3b900717b\",\n          \"alert_id\": \"6d787574-e302-ed8f-c2b5-09119ad1d348\",\n          \"trigger_configs\": [\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"created_at\": \"1969-02-21T12:07:03.572Z\",\n          \"created_by\": \"string\"\n        },\n        {\n          \"event_type\": \"prompt:committed\",\n          \"id\": \"225e6f1e-6467-c220-d1b2-e3da79f85193\",\n          \"alert_id\": \"f4f5549d-ee60-3676-9bdb-e7e29d10c6ba\",\n          \"trigger_configs\": [\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"created_at\": \"1968-05-22T00:19:00.939Z\",\n          \"created_by\": \"string\"\n        }\n      ],\n      \"created_at\": \"1959-12-08T04:31:04.119Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"1955-02-25T10:45:14.880Z\",\n      \"last_updated_by\": \"string\",\n      \"project_id\": \"2d7f1f30-c887-47fe-d164-e7ed92f6a6dd\"\n    },\n    {\n      \"webhook\": {\n        \"url\": \"string\",\n        \"id\": \"ebed80f3-9497-5dd1-ce96-b02109618ac0\",\n        \"name\": \"string\",\n        \"secret_token\": \"string\",\n        \"headers\": {\n          \"key_0\": \"string\"\n        },\n        \"created_at\": \"2017-10-03T18:12:20.212Z\",\n        \"created_by\": \"string\",\n        \"last_updated_at\": \"1955-05-31T17:39:03.407Z\",\n        \"last_updated_by\": \"string\"\n      },\n      \"id\": \"5c970dc2-7af9-a6ea-d229-658b1f391c7e\",\n      \"name\": \"string\",\n      \"enabled\": false,\n      \"alert_type\": \"slack\",\n      \"metadata\": {\n        \"key_0\": \"string\"\n      },\n      \"triggers\": [\n        {\n          \"event_type\": \"trace:latency\",\n          \"id\": \"c51032a5-d6da-2734-1038-596b728cf14e\",\n          \"alert_id\": \"05d27e23-83d2-1086-a0fa-baa5121e5b28\",\n          \"trigger_configs\": [\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"created_at\": \"1989-01-22T22:05:13.034Z\",\n          \"created_by\": \"string\"\n        },\n        {\n          \"event_type\": \"prompt:committed\",\n          \"id\": \"1b093e41-1d82-e2a5-cf4e-f42d7312d80d\",\n          \"alert_id\": \"5c82a8be-846f-b66c-1025-f05dd110ecfe\",\n          \"trigger_configs\": [\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"alert_trigger_id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"config_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"group_index\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"created_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_at\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"last_updated_by\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"created_at\": \"2024-12-02T19:01:25.523Z\",\n          \"created_by\": \"string\"\n        }\n      ],\n      \"created_at\": \"1997-05-07T23:35:45.298Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"1998-11-15T12:08:58.872Z\",\n      \"last_updated_by\": \"string\",\n      \"project_id\": \"fa2a012c-395b-0099-f137-0d580963ee9a\"\n    }\n  ],\n  \"sortable_by\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0da1bea-fff1-4616-9f19-22ab779b104d",
+          "name": "Create alert",
+          "request": {
+            "name": "Create alert",
+            "description": {
+              "content": "Create alert",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"webhook\": {\n    \"url\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secret_token\": \"<string>\",\n    \"headers\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    },\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a4cf93c2-ae1b-47f3-93b9-072533bb7a8d",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) ",
+                  "key": "Location",
+                  "value": "${basePath}/v1/private/alerts/{alertId}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7836b707-aae1-4c21-8eb5-d3a8582d7756",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25c6aef5-79ab-4c11-8218-778df6f83ecf",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8e6a747-cceb-4fb1-94a2-b161a0896573",
+              "name": "Unprocessable Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2df3880a-9ad7-471a-b4a9-11859336de49",
+          "name": "Delete alert batch",
+          "request": {
+            "name": "Delete alert batch",
+            "description": {
+              "content": "Delete multiple alerts by their IDs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5c163f17-84bf-42ef-892b-f0a498b92352",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "61bf570e-4ae9-471b-b516-81e9b6f4b7ff",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "adc3bf17-c782-4a0d-a475-67a98a0e83c3",
+          "name": "Get Alert by id",
+          "request": {
+            "name": "Get Alert by id",
+            "description": {
+              "content": "Get Alert by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b6011b48-9367-4bd2-8abf-945e8fac5bd7",
+              "name": "Alert resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"0c118e2b-eea4-1de7-d009-eba2d80bb2d2\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    },\n    \"created_at\": \"1992-07-30T13:59:53.926Z\",\n    \"created_by\": \"string\",\n    \"last_updated_at\": \"1976-07-26T14:29:54.818Z\",\n    \"last_updated_by\": \"string\"\n  },\n  \"id\": \"feddbfaf-fea3-55b2-d030-fded6981df2e\",\n  \"name\": \"string\",\n  \"enabled\": true,\n  \"alert_type\": \"general\",\n  \"metadata\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"7c467cad-76b1-a46a-23bc-ba29b9bb8748\",\n      \"alert_id\": \"ccb96cf4-7309-5ec1-5027-6f467a2797f9\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:errors\",\n          \"id\": \"f857234d-8af9-ba58-8e23-62ef858fac1d\",\n          \"alert_trigger_id\": \"d02e8d97-839d-5be9-ae69-54a736c0d973\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 2385,\n          \"created_at\": \"1953-09-23T08:47:21.488Z\",\n          \"created_by\": \"string\",\n          \"last_updated_at\": \"1974-12-05T20:42:36.614Z\",\n          \"last_updated_by\": \"string\"\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"db30c213-93a7-a06c-5844-3c414c2082a1\",\n          \"alert_trigger_id\": \"155b341b-05d2-02bd-74f0-f14dd0b9a97a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 6418,\n          \"created_at\": \"1972-06-01T01:11:00.776Z\",\n          \"created_by\": \"string\",\n          \"last_updated_at\": \"2026-06-02T21:38:05.378Z\",\n          \"last_updated_by\": \"string\"\n        }\n      ],\n      \"created_at\": \"1963-04-17T11:16:19.317Z\",\n      \"created_by\": \"string\"\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"22b229d7-f3dc-d968-33bc-dac21dc49b15\",\n      \"alert_id\": \"7421966c-1e6f-8dd8-416f-d7f4c1a77e85\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:latency\",\n          \"id\": \"d3ecf1fe-69ef-4042-2958-f707d2e91110\",\n          \"alert_trigger_id\": \"076cdc1e-d715-66a0-13bd-6ccad5d931fc\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 4308,\n          \"created_at\": \"1972-05-05T17:26:30.068Z\",\n          \"created_by\": \"string\",\n          \"last_updated_at\": \"1985-06-23T03:14:28.281Z\",\n          \"last_updated_by\": \"string\"\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"15a297bc-2381-3e65-d7fb-334dbb07293e\",\n          \"alert_trigger_id\": \"5c638c7b-1b04-4869-8b71-610e4a54b32e\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 4756,\n          \"created_at\": \"2004-02-28T06:06:06.786Z\",\n          \"created_by\": \"string\",\n          \"last_updated_at\": \"1974-08-25T21:52:14.833Z\",\n          \"last_updated_by\": \"string\"\n        }\n      ],\n      \"created_at\": \"1956-07-10T20:15:17.718Z\",\n      \"created_by\": \"string\"\n    }\n  ],\n  \"created_at\": \"1973-07-07T09:18:25.547Z\",\n  \"created_by\": \"string\",\n  \"last_updated_at\": \"2001-01-10T20:34:58.895Z\",\n  \"last_updated_by\": \"string\",\n  \"project_id\": \"94991167-e2dd-48e5-a7ef-a0a80c72de2d\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f95a7a3-9c50-4bd7-8796-3d5e715e13fe",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52159802-2826-443b-8f3c-cdd4c8ba19cb",
+          "name": "Update alert",
+          "request": {
+            "name": "Update alert",
+            "description": {
+              "content": "Update alert",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"webhook\": {\n    \"url\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secret_token\": \"<string>\",\n    \"headers\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    },\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c04a2aa5-1e20-44ee-b269-75bc359ea625",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8af71aa7-1aad-4329-8220-05ec9c926057",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9fe6b45-56de-4f58-b302-cb67a643fd35",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff5c0f57-dd0b-43f8-bd99-e3ef04262da3",
+              "name": "Unprocessable Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2622e138-1bed-4a4e-8048-b9eeb3d8375c",
+          "name": "Get webhook payload examples",
+          "request": {
+            "name": "Get webhook payload examples",
+            "description": {
+              "content": "Get webhook payload examples for all alert event types, optionally filtered by alert type",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts",
+                "webhooks",
+                "examples"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "alert_type",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5208c458-b1f2-4b0d-9868-827f03a3858a",
+              "name": "Webhook examples",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    "webhooks",
+                    "examples"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "alert_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_examples\": {\n    \"key_0\": {},\n    \"key_1\": {},\n    \"key_2\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "baf6ae6e-d77b-4b89-8159-c8451379e25d",
+          "name": "Test alert webhook",
+          "request": {
+            "name": "Test alert webhook",
+            "description": {
+              "content": "Test alert webhook",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "alerts",
+                "webhooks",
+                "tests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"webhook\": {\n    \"url\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secret_token\": \"<string>\",\n    \"headers\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    },\n    {\n      \"event_type\": \"<string>\",\n      \"id\": \"<uuid>\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"id\": \"<uuid>\",\n          \"config_value\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"group_index\": \"<integer>\"\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e782c72b-3a91-40c2-820a-cf3c61c97664",
+              "name": "Webhook test",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    "webhooks",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failure\",\n  \"status_code\": 9602,\n  \"request_body\": \"string\",\n  \"error_message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42df3414-0812-4a4a-9289-6d3ec46e00ab",
+              "name": "Unprocessable Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "alerts",
+                    "webhooks",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"webhook\": {\n    \"url\": \"string\",\n    \"id\": \"3d9c55f7-ba01-70a9-017e-2fecb09fcc78\",\n    \"name\": \"string\",\n    \"secret_token\": \"string\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_type\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"triggers\": [\n    {\n      \"event_type\": \"trace:guardrails_triggered\",\n      \"id\": \"5f2156e4-fbde-9dda-1095-9ea7259555a3\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:feedback_score\",\n          \"id\": \"e0ebc6df-c0c8-b6cd-ecbd-0afcf2f81905\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 5353\n        },\n        {\n          \"type\": \"scope:project\",\n          \"id\": \"dad60b1e-a834-5e50-2494-5cdb11b8647c\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 7486\n        }\n      ]\n    },\n    {\n      \"event_type\": \"trace:cost\",\n      \"id\": \"3752345e-a695-7d31-ce39-e9cf6202391e\",\n      \"trigger_configs\": [\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"4655ea3f-f4e5-04f1-009d-37260c752ad1\",\n          \"config_value\": {\n            \"key_0\": \"string\"\n          },\n          \"group_index\": 1407\n        },\n        {\n          \"type\": \"threshold:cost\",\n          \"id\": \"77ed9685-8508-9088-6282-929b9ba2738a\",\n          \"config_value\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"group_index\": 3039\n        }\n      ]\n    }\n  ],\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6784,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "706d71f1-f74a-4bd5-b16e-df70985770b1",
+    "name": "Opik REST Alerts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

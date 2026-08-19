@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Workspaces API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workspaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get costs summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/workspaces/costs/summaries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get costs summary"
+        },
+        {
+          "info": {
+            "name": "Get workspace configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/workspaces/configurations"
+          },
+          "docs": "Get workspace configuration"
+        },
+        {
+          "info": {
+            "name": "Upsert workspace configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/workspaces/configurations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upsert workspace configuration"
+        },
+        {
+          "info": {
+            "name": "Delete workspace configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/workspaces/configurations"
+          },
+          "docs": "Delete workspace configuration"
+        },
+        {
+          "info": {
+            "name": "Get cost daily data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/workspaces/costs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get cost daily data"
+        },
+        {
+          "info": {
+            "name": "Get metric daily data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/workspaces/metrics",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get metric daily data"
+        },
+        {
+          "info": {
+            "name": "Get workspace span metric",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/workspaces/metrics/spans",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets a span metric time series aggregated across the workspace. When project_ids is empty, all projects in the workspace are included; otherwise only the given projects."
+        },
+        {
+          "info": {
+            "name": "Get workspace version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/workspaces/versions"
+          },
+          "docs": "Determines whether the workspace should use Opik V1 (legacy workspace-scoped)\nor Opik V2 (project-first) navigation. The backend is the single authority for this\ndetermination, clients must never derive the version themselves.\n\nDetermination logic (priority order):\n1) V2 workspace allowlist (TOGGLE_V2_WORKSPACE_ALLOWLIST)\n2) Feature flag override (TOGGLE_FORCE_WORKSPACE_VERSION)\n3) Auth one-way V2 gate (authenticated mode only)\n4) Version 1 entity check (entities without project_id)\n5) Fallback "
+        },
+        {
+          "info": {
+            "name": "Get metrics summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/workspaces/metrics/summaries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get metrics summary"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

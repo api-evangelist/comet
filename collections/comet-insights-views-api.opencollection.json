@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Insights Views API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Insights Views",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find insights views",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/insights-views",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find insights views in a workspace"
+        },
+        {
+          "info": {
+            "name": "Create insights view",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/insights-views",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new insights view in a workspace"
+        },
+        {
+          "info": {
+            "name": "Get insights view by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/insights-views/:insightsViewId",
+            "params": [
+              {
+                "name": "insightsViewId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get insights view by id"
+        },
+        {
+          "info": {
+            "name": "Update insights view",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/insights-views/:insightsViewId",
+            "params": [
+              {
+                "name": "insightsViewId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update insights view by id. Partial updates are supported - only provided fields will be updated."
+        },
+        {
+          "info": {
+            "name": "Delete insights view",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/insights-views/:insightsViewId",
+            "params": [
+              {
+                "name": "insightsViewId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete insights view by id"
+        },
+        {
+          "info": {
+            "name": "Delete insights views",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/insights-views/delete-batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete insights views batch"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

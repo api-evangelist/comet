@@ -1,0 +1,226 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Annotation Queues API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Annotation Queues",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add items to annotation queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:id/items/add",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add traces or threads to annotation queue"
+        },
+        {
+          "info": {
+            "name": "Find annotation queues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find annotation queues with filtering and sorting"
+        },
+        {
+          "info": {
+            "name": "Create annotation queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create annotation queue for human annotation workflows"
+        },
+        {
+          "info": {
+            "name": "Create annotation queue batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create multiple annotation queues for human annotation workflows"
+        },
+        {
+          "info": {
+            "name": "Delete annotation queue batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete multiple annotation queues by their IDs"
+        },
+        {
+          "info": {
+            "name": "Get annotation queue by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get annotation queue by id"
+        },
+        {
+          "info": {
+            "name": "Update annotation queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update annotation queue by id"
+        },
+        {
+          "info": {
+            "name": "Get all active locks for an annotation queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:queueId/locks",
+            "params": [
+              {
+                "name": "queueId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns lock status for all actively locked items in the queue"
+        },
+        {
+          "info": {
+            "name": "Create or extend annotation queue item lock",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:queueId/items/:itemId/lock",
+            "params": [
+              {
+                "name": "queueId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "itemId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Claim an annotation queue item for the current user, or extend an existing lock"
+        },
+        {
+          "info": {
+            "name": "Remove items from annotation queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/annotation-queues/:id/items/delete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove items from annotation queue"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

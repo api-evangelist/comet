@@ -1,0 +1,384 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Prompts API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prompts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get prompts"
+        },
+        {
+          "info": {
+            "name": "Create prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create prompt"
+        },
+        {
+          "info": {
+            "name": "Create prompt version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create prompt version"
+        },
+        {
+          "info": {
+            "name": "Update prompt versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update one or more prompt versions.\n\nNote: Prompt versions are immutable by design.\nOnly organizational properties, such as tags etc., can be updated.\nCore properties like template and metadata cannot be modified after creation.\n\nPATCH semantics:\n- non-empty values update the field\n- null values preserve existing field values (no change)\n- empty values explicitly clear the field\n"
+        },
+        {
+          "info": {
+            "name": "Get prompt by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional mask version id; when set, requestedVersion is the mask row for that id"
+              },
+              {
+                "name": "environment",
+                "value": "",
+                "type": "query",
+                "description": "Optional environment name; when set, requestedVersion is the version mapped to that environment for the prompt"
+              }
+            ]
+          },
+          "docs": "Get prompt by id; when mask_id or environment is provided, requestedVersion is populated with the resolved version. mask_id and environment are mutually exclusive."
+        },
+        {
+          "info": {
+            "name": "Update prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/prompts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update prompt"
+        },
+        {
+          "info": {
+            "name": "Delete prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/prompts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete prompt"
+        },
+        {
+          "info": {
+            "name": "Delete prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete prompts batch"
+        },
+        {
+          "info": {
+            "name": "Get prompt by commit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts/by-commit/:commit",
+            "params": [
+              {
+                "name": "commit",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get prompt by commit"
+        },
+        {
+          "info": {
+            "name": "Get prompt version by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions/:versionId",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get prompt version by id"
+        },
+        {
+          "info": {
+            "name": "Get prompt version by sequential number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts/:promptId/versions/by-number/:versionNumber",
+            "params": [
+              {
+                "name": "promptId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionNumber",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a prompt version by its sequential v<N> number for the given prompt."
+        },
+        {
+          "info": {
+            "name": "Get prompt versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/prompts/:id/versions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search text to find in template or change description fields"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get prompt versions"
+        },
+        {
+          "info": {
+            "name": "Get prompts by commits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/retrieve-by-commits",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get prompts by prompt version commits"
+        },
+        {
+          "info": {
+            "name": "Restore prompt version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/:promptId/versions/:versionId/restore",
+            "params": [
+              {
+                "name": "promptId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Restore a prompt version by creating a new version with the content from the specified version"
+        },
+        {
+          "info": {
+            "name": "Retrieve prompt version",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions/retrieve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve prompt version"
+        },
+        {
+          "info": {
+            "name": "Retrieve prompt versions by ids",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions/retrieve-by-ids",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve a batch of prompt versions by their ids. Typically used by the UI to resolve mask overlays."
+        },
+        {
+          "info": {
+            "name": "Set prompt version environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/prompts/versions/:versionId/environments",
+            "params": [
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set or clear the environment owned by a prompt version.\nSetting a non-null environment moves ownership atomically: any previous owner of that\nenvironment for the same prompt has its environment cleared in the same transaction.\nSetting null clears the environment from the version.\nThe environment must already exist in the workspace registry; unknown names return 404.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

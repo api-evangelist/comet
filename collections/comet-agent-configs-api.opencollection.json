@@ -1,0 +1,299 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Agent Configs API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Configs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create optimizer config with initial blueprint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new optimizer config with initial blueprint. Fails if the project already has a config."
+        },
+        {
+          "info": {
+            "name": "Add blueprint to existing config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new blueprint to an existing optimizer config. Fails if the project has no config yet."
+        },
+        {
+          "info": {
+            "name": "Create blueprint from mask",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/projects/:project_id/masks/:mask_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Creates a new blueprint by applying a mask's changes on top of the latest blueprint for the project."
+        },
+        {
+          "info": {
+            "name": "Create or update environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/environments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates environment-to-blueprint mappings"
+        },
+        {
+          "info": {
+            "name": "Retrieve blueprint by environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/environments/:env_name/projects/:project_id",
+            "params": [
+              {
+                "name": "env_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves the blueprint associated with a specific environment"
+        },
+        {
+          "info": {
+            "name": "Set environment by blueprint name",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/environments/:env_name/projects/:project_id",
+            "params": [
+              {
+                "name": "env_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets an environment to point to a blueprint identified by name"
+        },
+        {
+          "info": {
+            "name": "Delete environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/environments/:env_name/projects/:project_id",
+            "params": [
+              {
+                "name": "env_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Soft-deletes an environment by setting its ended_at timestamp"
+        },
+        {
+          "info": {
+            "name": "Retrieve blueprint by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/:blueprint_id",
+            "params": [
+              {
+                "name": "blueprint_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific blueprint by its ID"
+        },
+        {
+          "info": {
+            "name": "Retrieve blueprint by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/projects/:project_id/names/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific blueprint by its name within a project"
+        },
+        {
+          "info": {
+            "name": "Get blueprint history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/history/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves paginated blueprint history for a project"
+        },
+        {
+          "info": {
+            "name": "Retrieve delta by blueprint ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/:blueprint_id/deltas",
+            "params": [
+              {
+                "name": "blueprint_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves only the changes (delta) introduced in a specific blueprint"
+        },
+        {
+          "info": {
+            "name": "Retrieve latest blueprint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/latest/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "mask_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves the latest blueprint for a project"
+        },
+        {
+          "info": {
+            "name": "Remove configuration parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-configs/blueprints/remove-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes configuration parameters by creating a new blueprint that closes the specified keys. Returns 204 if no changes were needed (idempotent)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1132 @@
+{
+  "item": [
+    {
+      "id": "42dc93ae-ff3a-4de0-b790-879860437aad",
+      "name": "Agent Insights",
+      "description": {
+        "content": "Agent Insights report results",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eb6150d0-add1-4c47-9a54-f735880ae882",
+          "name": "Find agent insights issues",
+          "request": {
+            "name": "Find agent insights issues",
+            "description": {
+              "content": "Returns a paginated list of issues that have at least one detail row within the requested time window, with metrics aggregated over the window",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "agent-insights",
+                "issues"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "from_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "severity",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sorting",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "436c9eb2-0183-478a-bedf-a51490b8a55f",
+              "name": "Issues page",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 2776,\n  \"size\": 3236,\n  \"total\": 6063,\n  \"content\": [\n    {\n      \"id\": \"5c71ce8d-3fa8-201e-57f1-7cac8b91d170\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"status\": \"resolved\",\n      \"severity\": \"critical\",\n      \"traces_query\": \"string\",\n      \"total_occurrences\": 5519,\n      \"latest_count\": 4840,\n      \"total\": 6440,\n      \"users_impacted\": 9729,\n      \"total_users\": 4856,\n      \"first_seen\": \"2017-11-08\",\n      \"last_seen\": \"1971-04-10\",\n      \"days_reported\": 6554,\n      \"created_by\": \"string\",\n      \"created_at\": \"1985-03-06T11:49:14.236Z\",\n      \"last_updated_by\": \"string\",\n      \"last_updated_at\": \"2016-12-03T11:31:00.905Z\"\n    },\n    {\n      \"id\": \"92dc1801-a3ed-fe30-9a0e-8ca951a00866\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"status\": \"closed\",\n      \"severity\": \"medium\",\n      \"traces_query\": \"string\",\n      \"total_occurrences\": 1373,\n      \"latest_count\": 9787,\n      \"total\": 1478,\n      \"users_impacted\": 4580,\n      \"total_users\": 404,\n      \"first_seen\": \"2016-07-20\",\n      \"last_seen\": \"1951-09-15\",\n      \"days_reported\": 6914,\n      \"created_by\": \"string\",\n      \"created_at\": \"2009-10-17T15:21:27.444Z\",\n      \"last_updated_by\": \"string\",\n      \"last_updated_at\": \"1978-09-27T00:32:46.975Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2ccf320-c2c5-4961-9442-2eb062deeeb5",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb29fd6a-3170-42c4-b5bc-07eb2bc309dd",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32ef2af2-cc7d-4147-b3cd-49f65dbe294f",
+          "name": "Store agent insights report results",
+          "request": {
+            "name": "Store agent insights report results",
+            "description": {
+              "content": "Upserts the detected issues and their per-day metrics for the given report day in a single transaction. Issue status is never modified by this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "agent-insights",
+                "issues"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issues\": [\n    {\n      \"count\": \"<long>\",\n      \"name\": \"<string>\",\n      \"severity\": \"<string>\",\n      \"total_count\": \"<long>\",\n      \"total_users\": \"<long>\",\n      \"users_impacted\": \"<long>\",\n      \"id\": \"<uuid>\",\n      \"description\": \"<string>\",\n      \"cause\": \"<string>\",\n      \"suggested_fix\": \"<string>\",\n      \"traces_query\": \"<string>\",\n      \"metadata\": \"<object>\"\n    },\n    {\n      \"count\": \"<long>\",\n      \"name\": \"<string>\",\n      \"severity\": \"<string>\",\n      \"total_count\": \"<long>\",\n      \"total_users\": \"<long>\",\n      \"users_impacted\": \"<long>\",\n      \"id\": \"<uuid>\",\n      \"description\": \"<string>\",\n      \"cause\": \"<string>\",\n      \"suggested_fix\": \"<string>\",\n      \"traces_query\": \"<string>\",\n      \"metadata\": \"<object>\"\n    }\n  ],\n  \"project_id\": \"<uuid>\",\n  \"report_day\": \"<date>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4dfcdcb9-016b-4302-8fd9-946e469c7175",
+              "name": "Report stored",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issues\": [\n    {\n      \"count\": 1797,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 3821,\n      \"total_users\": 5156,\n      \"users_impacted\": 9437,\n      \"id\": \"08df4f8f-12b0-1670-5e68-738731a030be\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    },\n    {\n      \"count\": 4252,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 6725,\n      \"total_users\": 3262,\n      \"users_impacted\": 3704,\n      \"id\": \"b393ca0c-5c59-bd91-4942-77e183c4ce75\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    }\n  ],\n  \"project_id\": \"<uuid>\",\n  \"report_day\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ec6e4bb-6a29-499f-bfcd-ed8dac0a9277",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issues\": [\n    {\n      \"count\": 1797,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 3821,\n      \"total_users\": 5156,\n      \"users_impacted\": 9437,\n      \"id\": \"08df4f8f-12b0-1670-5e68-738731a030be\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    },\n    {\n      \"count\": 4252,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 6725,\n      \"total_users\": 3262,\n      \"users_impacted\": 3704,\n      \"id\": \"b393ca0c-5c59-bd91-4942-77e183c4ce75\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    }\n  ],\n  \"project_id\": \"<uuid>\",\n  \"report_day\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c80e3dd8-c6dd-44fa-b395-4ddc9b2043b5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issues\": [\n    {\n      \"count\": 1797,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 3821,\n      \"total_users\": 5156,\n      \"users_impacted\": 9437,\n      \"id\": \"08df4f8f-12b0-1670-5e68-738731a030be\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    },\n    {\n      \"count\": 4252,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 6725,\n      \"total_users\": 3262,\n      \"users_impacted\": 3704,\n      \"id\": \"b393ca0c-5c59-bd91-4942-77e183c4ce75\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    }\n  ],\n  \"project_id\": \"<uuid>\",\n  \"report_day\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9775d2fe-dc9d-487b-8064-f9106b9acf79",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"issues\": [\n    {\n      \"count\": 1797,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 3821,\n      \"total_users\": 5156,\n      \"users_impacted\": 9437,\n      \"id\": \"08df4f8f-12b0-1670-5e68-738731a030be\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    },\n    {\n      \"count\": 4252,\n      \"name\": \"string\",\n      \"severity\": \"critical\",\n      \"total_count\": 6725,\n      \"total_users\": 3262,\n      \"users_impacted\": 3704,\n      \"id\": \"b393ca0c-5c59-bd91-4942-77e183c4ce75\",\n      \"description\": \"string\",\n      \"cause\": \"string\",\n      \"suggested_fix\": \"string\",\n      \"traces_query\": \"string\",\n      \"metadata\": {}\n    }\n  ],\n  \"project_id\": \"<uuid>\",\n  \"report_day\": \"<date>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e9d5182-f94e-4d47-9ccf-5f2e9cb3a046",
+          "name": "Get agent insights issue by id",
+          "request": {
+            "name": "Get agent insights issue by id",
+            "description": {
+              "content": "Returns the issue together with its per-day breakdown within the requested time window",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "agent-insights",
+                "issues",
+                ":issue_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "from_date",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_date",
+                  "value": "<date>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "issue_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8c6ac7a-d400-4518-98fd-d1f3044fd2c6",
+              "name": "Issue with details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"d7bfdda0-4ccc-1987-d1ed-0f90d3344553\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"cause\": \"string\",\n  \"suggested_fix\": \"string\",\n  \"status\": \"open\",\n  \"severity\": \"low\",\n  \"traces_query\": \"string\",\n  \"created_by\": \"string\",\n  \"created_at\": \"1959-11-15T18:13:22.230Z\",\n  \"last_updated_by\": \"string\",\n  \"last_updated_at\": \"1965-12-21T01:29:03.157Z\",\n  \"details\": [\n    {\n      \"report_day\": \"1952-12-25\",\n      \"count\": 584,\n      \"total_count\": 9751,\n      \"users_impacted\": 1584,\n      \"total_users\": 953,\n      \"metadata\": {}\n    },\n    {\n      \"report_day\": \"2007-04-18\",\n      \"count\": 2420,\n      \"total_count\": 3861,\n      \"users_impacted\": 874,\n      \"total_users\": 8517,\n      \"metadata\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b27b8a33-eb29-49fc-a733-b819966dd175",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aab04fb0-03d2-4b04-b2fc-1004dd404d26",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f833d858-d4d6-4442-8cdd-bda139c448a4",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "from_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "235d0ac4-fd76-456e-b2a1-45cd609a9f91",
+          "name": "Update agent insights issue status",
+          "request": {
+            "name": "Update agent insights issue status",
+            "description": {
+              "content": "Moves an issue through its lifecycle: open, resolved or closed",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "agent-insights",
+                "issues",
+                ":issue_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "issue_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": \"<uuid>\",\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "34716599-11db-4b7b-ab68-9a4bee1ac0a4",
+              "name": "Issue updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<uuid>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ed57f904-eb78-4355-9d3f-56c75fdcccc4",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<uuid>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0443ecf-16cd-460b-a1de-1103216363e0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<uuid>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a255f7b-5184-4d1a-b9fb-2fccafd0623d",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "agent-insights",
+                    "issues",
+                    ":issue_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "issue_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"<uuid>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5912,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "55ae2ba4-1dec-43fd-bc04-7d3382f59624",
+    "name": "Opik REST Agent Insights API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

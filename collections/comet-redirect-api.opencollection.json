@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Redirect API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Redirect",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create dataset redirect url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/session/redirect/datasets",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "workspace_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create dataset redirect url"
+        },
+        {
+          "info": {
+            "name": "Create experiment redirect url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/session/redirect/experiments",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "experiment_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "workspace_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create experiment redirect url"
+        },
+        {
+          "info": {
+            "name": "Create optimization redirect url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/session/redirect/optimizations",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "optimization_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "workspace_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create optimization redirect url"
+        },
+        {
+          "info": {
+            "name": "Create project redirect url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/session/redirect/projects",
+            "params": [
+              {
+                "name": "trace_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "workspace_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create project redirect url"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

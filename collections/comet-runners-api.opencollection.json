@@ -1,0 +1,426 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Runners API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Runners",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get local runner job logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs/:jobId/logs",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get log entries for a local runner job"
+        },
+        {
+          "info": {
+            "name": "Append local runner job logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs/:jobId/logs",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Append log entries for a running local runner job"
+        },
+        {
+          "info": {
+            "name": "Cancel local runner job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs/:jobId/cancel",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a pending or running local runner job"
+        },
+        {
+          "info": {
+            "name": "Submit bridge command",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/bridge/commands",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a bridge command for execution by the local daemon"
+        },
+        {
+          "info": {
+            "name": "Create local runner job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a local runner job and enqueue it for execution"
+        },
+        {
+          "info": {
+            "name": "Get local runner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single local runner with its registered agents"
+        },
+        {
+          "info": {
+            "name": "Disconnect local runner",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Disconnect a local runner, terminating its connection and failing any pending jobs"
+        },
+        {
+          "info": {
+            "name": "Get bridge command",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/bridge/commands/:commandId",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "commandId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get bridge command status, optionally long-polling for completion"
+        },
+        {
+          "info": {
+            "name": "Get local runner job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single local runner job's status and results"
+        },
+        {
+          "info": {
+            "name": "Local runner heartbeat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/heartbeats",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Refresh local runner heartbeat"
+        },
+        {
+          "info": {
+            "name": "List local runner jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/jobs",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List jobs for a local runner"
+        },
+        {
+          "info": {
+            "name": "List local runners",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/local-runners",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List local runners owned by the current user in the workspace"
+        },
+        {
+          "info": {
+            "name": "Poll next bridge commands",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/bridge/commands/next",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Long-poll for pending bridge commands (batch)"
+        },
+        {
+          "info": {
+            "name": "Next local runner job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/jobs/next",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Long-poll for the next pending local runner job"
+        },
+        {
+          "info": {
+            "name": "Patch runner checklist",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/checklist",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partial update of the runner's checklist (deep merge)"
+        },
+        {
+          "info": {
+            "name": "Register local runner agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/agents",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register or update the local runner's agent list"
+        },
+        {
+          "info": {
+            "name": "Report bridge command result",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/:runnerId/bridge/commands/:commandId/results",
+            "params": [
+              {
+                "name": "runnerId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "commandId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report bridge command completion or failure"
+        },
+        {
+          "info": {
+            "name": "Report local runner job result",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/local-runners/jobs/:jobId/results",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Report local runner job completion or failure"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

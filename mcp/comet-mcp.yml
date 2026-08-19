@@ -12,14 +12,13 @@ server:
   install: uvx opik-mcp@latest
   registry: https://pypi.org/project/opik-mcp/
   hosted_docs_server: https://www.comet.com/docs/opik/latest/_mcp/server
-  description: >-
-    Official Model Context Protocol server for Opik. Connects MCP hosts
-    (Claude Code, Cursor, VS Code Copilot) directly to an Opik workspace to read
-    traces/spans/experiments/prompts, score outputs, save prompts, and run
-    evaluation experiments from chat.
+  description: Official Model Context Protocol server for Opik. Connects MCP hosts (Claude Code, Cursor,
+    VS Code Copilot) directly to an Opik workspace to read traces/spans/experiments/prompts, score outputs,
+    save prompts, and run evaluation experiments from chat.
 tools:
 - name: read
-  description: Retrieve entities by ID, name, or URI (projects, traces, spans, test suites, experiments, prompts).
+  description: Retrieve entities by ID, name, or URI (projects, traces, spans, test suites, experiments,
+    prompts).
 - name: list
   description: Browse collections with optional filtering and pagination.
 - name: ask_ollie
@@ -30,3 +29,11 @@ tools:
   description: Inspect the JSON shapes required for write operations before executing them.
 - name: run_experiment
   description: Execute evaluation experiments end-to-end via Ollie.
+deployment:
+  mode: remote
+  endpoint: https://www.comet.com/docs/opik/latest/_mcp/server
+  verified: probed
+  probe: live
+  tools: 1
+  checked: '2026-08-12'
+  source: catalog MCP census

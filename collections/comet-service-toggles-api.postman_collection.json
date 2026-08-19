@@ -1,0 +1,106 @@
+{
+  "item": [
+    {
+      "id": "fb4d8fc7-4968-44a8-8ab4-3a08f526ffaf",
+      "name": "Service Toggles",
+      "description": {
+        "content": "Service Toggles resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "02211d50-38b6-47b2-96e3-3b484415b264",
+          "name": "Get Service Toggles",
+          "request": {
+            "name": "Get Service Toggles",
+            "description": {
+              "content": "Get Service Toggles",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "toggles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b7e59554-ab1e-4b98-89bb-622036739064",
+              "name": "Service Toggles",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "toggles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agentInsightsEnabled\": true,\n  \"agenticToolsEnabled\": false,\n  \"alertsEnabled\": true,\n  \"anthropicProviderEnabled\": false,\n  \"bedrockProviderEnabled\": false,\n  \"costIntelligenceEnabled\": true,\n  \"customllmProviderEnabled\": false,\n  \"datasetExportEnabled\": false,\n  \"datasetVersioningEnabled\": false,\n  \"demoDataEnabled\": false,\n  \"exportEnabled\": false,\n  \"forceWorkspaceVersion\": \"string\",\n  \"geminiProviderEnabled\": false,\n  \"guardrailsEnabled\": true,\n  \"ollamaProviderEnabled\": true,\n  \"ollieEnabled\": false,\n  \"onlineScoringTracingEnabled\": false,\n  \"openaiProviderEnabled\": false,\n  \"openrouterProviderEnabled\": false,\n  \"opikAIEnabled\": false,\n  \"projectHomepageEnabled\": false,\n  \"pythonEvaluatorEnabled\": false,\n  \"spanLlmAsJudgeEnabled\": true,\n  \"spanUserDefinedMetricPythonEnabled\": true,\n  \"traceThreadPythonEvaluatorEnabled\": true,\n  \"v1WorkspaceAllowlistIds\": [\n    \"string\",\n    \"stri\"\n  ],\n  \"v2WorkspaceAllowlistIds\": [\n    \"string\",\n    \"stri\"\n  ],\n  \"vertexaiProviderEnabled\": true,\n  \"welcomeWizardEnabled\": false,\n  \"defaultPageSize\": 89\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "dd9ce734-a0ee-44c3-9561-178ea0047bc2",
+    "name": "Opik REST Service Toggles API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

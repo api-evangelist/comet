@@ -1,0 +1,827 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Traces API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Traces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add thread comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/:id/comments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add thread comment"
+        },
+        {
+          "info": {
+            "name": "Add trace comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/:id/comments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add trace comment"
+        },
+        {
+          "info": {
+            "name": "Add trace feedback score",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/traces/:id/feedback-scores",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add trace feedback score"
+        },
+        {
+          "info": {
+            "name": "Create traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create traces"
+        },
+        {
+          "info": {
+            "name": "Batch update traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple traces"
+        },
+        {
+          "info": {
+            "name": "Batch update threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple threads"
+        },
+        {
+          "info": {
+            "name": "Close trace thread(s)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/close",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Close one or multiple trace threads. Supports both single thread_id and multiple thread_ids for batch operations."
+        },
+        {
+          "info": {
+            "name": "Get traces by project_name or project_id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "truncate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "strip_attachments",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "exclude",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "annotation_queue_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get traces by project_name or project_id"
+        },
+        {
+          "info": {
+            "name": "Create trace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get trace"
+        },
+        {
+          "info": {
+            "name": "Get trace by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "strip_attachments",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get trace by id"
+        },
+        {
+          "info": {
+            "name": "Update trace by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update trace by id"
+        },
+        {
+          "info": {
+            "name": "Delete trace by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/traces/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete trace by id"
+        },
+        {
+          "info": {
+            "name": "Delete thread comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/comments/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete thread comments"
+        },
+        {
+          "info": {
+            "name": "Delete thread feedback scores",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/feedback-scores/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete thread feedback scores"
+        },
+        {
+          "info": {
+            "name": "Delete trace comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/comments/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete trace comments"
+        },
+        {
+          "info": {
+            "name": "Delete trace feedback score",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/:id/feedback-scores/delete",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete trace feedback score"
+        },
+        {
+          "info": {
+            "name": "Delete trace threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete trace threads"
+        },
+        {
+          "info": {
+            "name": "Delete traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete traces"
+        },
+        {
+          "info": {
+            "name": "Find Feedback Score names",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/feedback-scores/names",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find Feedback Score names"
+        },
+        {
+          "info": {
+            "name": "Find Trace Threads Feedback Score names",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/feedback-scores/names",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find Trace Threads Feedback Score names"
+        },
+        {
+          "info": {
+            "name": "Get trace stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/stats",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_time",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get trace stats"
+        },
+        {
+          "info": {
+            "name": "Get thread comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/:threadId/comments/:commentId",
+            "params": [
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "threadId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get thread comment"
+        },
+        {
+          "info": {
+            "name": "Get trace thread stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/stats",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_time",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get trace thread stats"
+        },
+        {
+          "info": {
+            "name": "Get trace comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/:traceId/comments/:commentId",
+            "params": [
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "traceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get trace comment"
+        },
+        {
+          "info": {
+            "name": "Get trace thread",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/retrieve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get trace thread"
+        },
+        {
+          "info": {
+            "name": "Get trace threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/threads",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "truncate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "strip_attachments",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_time",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "annotation_queue_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get trace threads"
+        },
+        {
+          "info": {
+            "name": "Open trace thread",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/open",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Open trace thread"
+        },
+        {
+          "info": {
+            "name": "Batch feedback scoring for threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/feedback-scores",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch feedback scoring for threads"
+        },
+        {
+          "info": {
+            "name": "Batch feedback scoring for traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/traces/feedback-scores",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch feedback scoring for traces"
+        },
+        {
+          "info": {
+            "name": "Search trace threads",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search trace threads"
+        },
+        {
+          "info": {
+            "name": "Search traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/traces/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search traces"
+        },
+        {
+          "info": {
+            "name": "Check whether a project has traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/traces/exists",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "project_name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "thread_only",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns whether the project has at least one trace matching the given scope. Cheap existence probe (LIMIT 1) used to drive empty-state decisions without scanning or aggregating the whole project."
+        },
+        {
+          "info": {
+            "name": "Update thread",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/:threadModelId",
+            "params": [
+              {
+                "name": "threadModelId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update thread"
+        },
+        {
+          "info": {
+            "name": "Update thread comment by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/threads/comments/:commentId",
+            "params": [
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update thread comment by id"
+        },
+        {
+          "info": {
+            "name": "Update trace comment by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/traces/comments/:commentId",
+            "params": [
+              {
+                "name": "commentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update trace comment by id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

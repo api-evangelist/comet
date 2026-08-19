@@ -1,0 +1,683 @@
+{
+  "item": [
+    {
+      "id": "ff5d0302-ca06-4dfb-96cd-51ffc288b102",
+      "name": "Automation rule evaluators",
+      "description": {
+        "content": "Automation rule evaluators resource",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "87ba15c6-e80e-4953-b445-9d2521947f32",
+          "name": "Find project Evaluators",
+          "request": {
+            "name": "Find project Evaluators",
+            "description": {
+              "content": "Find project Evaluators",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sorting",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "21311873-1cdd-424c-992d-7fcdaf187a0a",
+              "name": "Evaluators resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1804,\n  \"size\": 4487,\n  \"total\": 6565,\n  \"content\": [\n    {\n      \"action\": \"evaluator\",\n      \"name\": \"string\",\n      \"type\": \"llm_as_judge\",\n      \"id\": \"53cb8ced-01e7-62e0-f6a8-d89687b692cd\",\n      \"project_id\": \"1f913773-f698-5a4a-51a3-be8356805f51\",\n      \"project_name\": \"string\",\n      \"projects\": [\n        {\n          \"project_id\": \"945f230c-8531-fcd4-f6dc-961d0eb2ad75\",\n          \"project_name\": \"string\"\n        },\n        {\n          \"project_id\": \"45441a6d-c2a1-e9a0-7837-939719c75e2f\",\n          \"project_name\": \"string\"\n        }\n      ],\n      \"sampling_rate\": 8360.579148383373,\n      \"enabled\": false,\n      \"created_at\": \"1971-03-17T13:37:04.261Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"1995-09-10T17:55:13.207Z\",\n      \"last_updated_by\": \"string\"\n    },\n    {\n      \"action\": \"evaluator\",\n      \"name\": \"string\",\n      \"type\": \"user_defined_metric_python\",\n      \"id\": \"fbbdece4-b726-b0c3-a0ec-c792741f456b\",\n      \"project_id\": \"13bd47ba-14e5-cfc5-55cd-63dbb51627d4\",\n      \"project_name\": \"string\",\n      \"projects\": [\n        {\n          \"project_id\": \"80a7434d-3c53-c926-5775-da75e3b860ae\",\n          \"project_name\": \"string\"\n        },\n        {\n          \"project_id\": \"1326d96b-cca5-8847-9c2e-1a4bd82bd775\",\n          \"project_name\": \"string\"\n        }\n      ],\n      \"sampling_rate\": 3949.7889194392046,\n      \"enabled\": false,\n      \"created_at\": \"2015-02-10T22:53:38.876Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"1957-10-14T08:20:42.748Z\",\n      \"last_updated_by\": \"string\"\n    }\n  ],\n  \"sortable_by\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1fb47a76-9d7a-43cc-a204-bf2a6057f9a7",
+          "name": "Create automation rule evaluator",
+          "request": {
+            "name": "Create automation rule evaluator",
+            "description": {
+              "content": "Create automation rule evaluator",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"project_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"sampling_rate\": \"<float>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ba9e8810-35d7-4aa5-8430-a4ef601194e5",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"project_ids\": [\n    \"<uuid>\"\n  ],\n  \"sampling_rate\": \"<float>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) ",
+                  "key": "Location",
+                  "value": "${basePath}/v1/private/automations/evaluators/{evaluatorId}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c51d8ed-30a7-424e-aff9-6903963f5b7d",
+          "name": "Delete automation rule evaluators",
+          "request": {
+            "name": "Delete automation rule evaluators",
+            "description": {
+              "content": "Delete automation rule evaluators batch",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6e68758d-d6c6-45fa-a15a-c6a14cc00806",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81bdb11e-9b45-4d57-b9d0-8c25000bbb04",
+          "name": "Get automation rule evaluator by id",
+          "request": {
+            "name": "Get automation rule evaluator by id",
+            "description": {
+              "content": "Get automation rule by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "befdad11-cede-4dfb-b301-a83631d4d022",
+              "name": "Automation Rule resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"action\": \"evaluator\",\n  \"name\": \"string\",\n  \"type\": \"span_llm_as_judge\",\n  \"id\": \"7c6617a3-52d7-02d0-ec2e-afa718a13a68\",\n  \"project_id\": \"1bfd6b29-6508-e773-e27d-6945b1172e3e\",\n  \"project_name\": \"string\",\n  \"projects\": [\n    {\n      \"project_id\": \"d2061247-c8df-4e04-1c2b-8c83051a952c\",\n      \"project_name\": \"string\"\n    },\n    {\n      \"project_id\": \"cf8b9e5d-f73e-e182-9849-981d36969ab2\",\n      \"project_name\": \"string\"\n    }\n  ],\n  \"sampling_rate\": 3652.243970654836,\n  \"enabled\": false,\n  \"created_at\": \"2015-06-01T21:33:23.770Z\",\n  \"created_by\": \"string\",\n  \"last_updated_at\": \"1974-06-16T13:56:37.014Z\",\n  \"last_updated_by\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2af3253a-dc53-4e3c-8554-f08730987970",
+          "name": "Update Automation Rule Evaluator by id",
+          "request": {
+            "name": "Update Automation Rule Evaluator by id",
+            "description": {
+              "content": "Update Automation Rule Evaluator by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"name\": \"<string>\",\n  \"sampling_rate\": \"<float>\",\n  \"enabled\": \"<boolean>\",\n  \"project_id\": \"<uuid>\",\n  \"project_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c52c1c3d-4e86-4f7e-bd3a-7d4005a2faf9",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"<string>\",\n  \"name\": \"<string>\",\n  \"sampling_rate\": \"<float>\",\n  \"enabled\": \"<boolean>\",\n  \"project_id\": \"<uuid>\",\n  \"project_ids\": [\n    \"<uuid>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "39210097-0246-4911-b430-0dcdd3f15871",
+          "name": "Get automation rule evaluator logs by id",
+          "request": {
+            "name": "Get automation rule evaluator logs by id",
+            "description": {
+              "content": "Get automation rule evaluator logs by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "automations",
+                "evaluators",
+                ":id",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "1000"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0fa6d22b-ea90-422e-80c8-e6ac3a93ea36",
+              "name": "Automation rule evaluator logs resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "automations",
+                    "evaluators",
+                    ":id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "size",
+                      "value": "1000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": [\n    {\n      \"timestamp\": \"1993-08-22T13:55:29.901Z\",\n      \"rule_id\": \"68d46afe-6ec5-70dc-d876-fd5553bef4e6\",\n      \"level\": \"ERROR\",\n      \"message\": \"string\",\n      \"markers\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    },\n    {\n      \"timestamp\": \"2009-11-17T19:08:07.532Z\",\n      \"rule_id\": \"d29d677a-205c-0cea-b5a2-26975a3bde2a\",\n      \"level\": \"WARN\",\n      \"message\": \"string\",\n      \"markers\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ],\n  \"page\": 199,\n  \"size\": 7224,\n  \"total\": 1307\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "54a135eb-bf91-40db-80dc-2f3f0b70a4f4",
+    "name": "Opik REST Automation rule evaluators API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

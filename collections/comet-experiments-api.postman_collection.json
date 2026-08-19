@@ -1,0 +1,2468 @@
+{
+  "item": [
+    {
+      "id": "ea9a3297-ce64-4ef6-8bbf-bd54f91f196d",
+      "name": "Experiments",
+      "description": {
+        "content": "Experiment resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b845476b-888a-4279-9ba1-701be6dfabb9",
+          "name": "Batch update experiments",
+          "request": {
+            "name": "Batch update experiments",
+            "description": {
+              "content": "Update multiple experiments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ],\n  \"update\": {\n    \"name\": \"<string>\",\n    \"metadata\": \"<object>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"tags_to_add\": [\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"tags_to_remove\": [\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"type\": \"<string>\",\n    \"status\": \"<string>\",\n    \"experiment_scores\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<number>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<number>\"\n      }\n    ]\n  },\n  \"merge_tags\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4851cd56-faaf-4d4e-925b-5af858c26c2a",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b65fe0de-e105-4e38-a425-62d4267db800",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6d1e5771-8099-4a5b-a2c8-0f6ad23ee248",
+          "name": "Find experiments",
+          "request": {
+            "name": "Find experiments",
+            "description": {
+              "content": "Find experiments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "datasetId",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "optimization_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "dataset_deleted",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "prompt_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_deleted",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sorting",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "experiment_ids",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "force_sorting",
+                  "value": "false"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6abb0c38-8b94-43d8-94e7-95e5352e9516",
+              "name": "Experiments resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "datasetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "optimization_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prompt_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "experiment_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "force_sorting",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8635cdf-71a4-4d9b-802a-24b04a78dfba",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "datasetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "optimization_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "prompt_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "sorting",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "experiment_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "force_sorting",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e7a0f93-f551-4082-8ebe-f6471ebc7acc",
+          "name": "Create experiment",
+          "request": {
+            "name": "Create experiment",
+            "description": {
+              "content": "Create experiment",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"project_id\": \"<uuid>\",\n  \"project_name\": \"<string>\",\n  \"name\": \"<string>\",\n  \"metadata\": \"<object>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"evaluation_method\": \"<string>\",\n  \"optimization_id\": \"<uuid>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\"\n    }\n  ],\n  \"prompt_version\": {\n    \"id\": \"<uuid>\"\n  },\n  \"prompt_versions\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"dataset_version_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "57541a26-bca1-4ed1-a3a1-5f0479fa9286",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"project_id\": \"<uuid>\",\n  \"project_name\": \"<string>\",\n  \"name\": \"<string>\",\n  \"metadata\": {},\n  \"tags\": [\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"evaluation_method\": \"<string>\",\n  \"optimization_id\": \"<uuid>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 7852.607043867503\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 9612.423383295238\n    }\n  ],\n  \"prompt_version\": {\n    \"id\": \"f115fda6-4489-0d3e-5ad3-9f0c84901bb9\"\n  },\n  \"prompt_versions\": [\n    {\n      \"id\": \"c95fbdd9-8b78-e936-0854-06a49d4e3bb6\"\n    },\n    {\n      \"id\": \"baa48e0a-4fb4-4376-2b10-4797dfe08c48\"\n    }\n  ],\n  \"dataset_version_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) ",
+                  "key": "Location",
+                  "value": "${basePath}/v1/private/experiments/{id}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2647d14f-4734-43a8-88c3-79fafc1854b7",
+          "name": "Create experiment items",
+          "request": {
+            "name": "Create experiment items",
+            "description": {
+              "content": "Create experiment items",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"experiment_items\": [\n    {\n      \"dataset_item_id\": \"<uuid>\",\n      \"experiment_id\": \"<uuid>\",\n      \"trace_id\": \"<uuid>\",\n      \"id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"input\": \"<object>\",\n      \"output\": \"<object>\",\n      \"trace_metadata\": \"<object>\",\n      \"execution_policy\": {\n        \"runs_per_item\": \"<integer>\",\n        \"pass_threshold\": \"<integer>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f0eb9fa8-373a-4881-8bb8-4b0fc4541c4a",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7f3dd1b-a534-4882-99ea-2ad15b9e2486",
+          "name": "Delete experiment items",
+          "request": {
+            "name": "Delete experiment items",
+            "description": {
+              "content": "Delete experiment items",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "items",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a04a38b5-8a95-49fc-80d3-cb11ad2ae339",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f98e9e8-b93c-4d0e-94a4-6d648cb95591",
+          "name": "Delete experiments by id",
+          "request": {
+            "name": "Delete experiments by id",
+            "description": {
+              "content": "Delete experiments by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ceccc07b-b3cf-46bd-835b-5cf0485fd11e",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f544fd24-3997-47a8-ab09-03887c09b267",
+          "name": "Create and execute experiment",
+          "request": {
+            "name": "Create and execute experiment",
+            "description": {
+              "content": "Creates experiments for each prompt variant and asynchronously processes all dataset items",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "execute"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_id\": \"<uuid>\",\n  \"dataset_name\": \"<string>\",\n  \"prompts\": [\n    {\n      \"messages\": [\n        {\n          \"content\": \"<object>\",\n          \"role\": \"<string>\"\n        }\n      ],\n      \"model\": \"<string>\",\n      \"configs\": {\n        \"key_0\": \"<object>\"\n      },\n      \"prompt_versions\": [\n        {\n          \"id\": \"<uuid>\"\n        },\n        {\n          \"id\": \"<uuid>\"\n        }\n      ]\n    }\n  ],\n  \"dataset_version_id\": \"<uuid>\",\n  \"project_name\": \"<string>\",\n  \"version_hash\": \"<string>\",\n  \"prompt_versions\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "24e975e6-0f13-40b1-bc16-e925482c247e",
+              "name": "Experiments created and processing started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "execute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dataset_id\": \"<uuid>\",\n  \"dataset_name\": \"<string>\",\n  \"prompts\": [\n    {\n      \"messages\": [\n        {\n          \"content\": {},\n          \"role\": \"string\"\n        }\n      ],\n      \"model\": \"string\",\n      \"configs\": {\n        \"key_0\": {},\n        \"key_1\": {},\n        \"key_2\": {}\n      },\n      \"prompt_versions\": [\n        {\n          \"id\": \"3ecd3acd-cf98-143f-f326-8d5712a1d5b6\"\n        },\n        {\n          \"id\": \"b3c805b0-cf4f-55f5-e953-89ac8de5e555\"\n        }\n      ]\n    }\n  ],\n  \"dataset_version_id\": \"<uuid>\",\n  \"project_name\": \"<string>\",\n  \"version_hash\": \"<string>\",\n  \"prompt_versions\": [\n    {\n      \"id\": \"57812b95-3925-c5d2-2b83-d6ffe9293b80\"\n    },\n    {\n      \"id\": \"b73c57fb-ab51-2079-ca0c-c72b22dae609\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"experiments\": [\n    {\n      \"experiment_id\": \"e22c2965-1870-3f2f-6c57-6c0f91037e0b\",\n      \"prompt_index\": 3220\n    },\n    {\n      \"experiment_id\": \"985b5356-eea3-683c-c0fa-737b91f30d6f\",\n      \"prompt_index\": 2994\n    }\n  ],\n  \"total_items\": 2464\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2872a1a5-9e5e-40e7-a6fb-b12dccd97f92",
+          "name": "Record experiment items in bulk",
+          "request": {
+            "name": "Record experiment items in bulk",
+            "description": {
+              "content": "Record experiment items in bulk with traces, spans, and feedback scores. Maximum request size is 4MB.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "items",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"experiment_name\": \"<string>\",\n  \"items\": [\n    {\n      \"dataset_item_id\": \"<uuid>\",\n      \"evaluate_task_result\": \"<object>\",\n      \"trace\": {\n        \"start_time\": \"<dateTime>\",\n        \"id\": \"<uuid>\",\n        \"project_name\": \"<string>\",\n        \"name\": \"<string>\",\n        \"end_time\": \"<dateTime>\",\n        \"input\": \"<object>\",\n        \"output\": \"<object>\",\n        \"metadata\": \"<object>\",\n        \"tags\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"error_info\": {\n          \"exception_type\": \"<string>\",\n          \"traceback\": \"<string>\",\n          \"message\": \"<string>\"\n        },\n        \"last_updated_at\": \"<dateTime>\",\n        \"ttft\": \"<double>\",\n        \"thread_id\": \"<string>\",\n        \"source\": \"<string>\",\n        \"environment\": \"<string>\"\n      },\n      \"spans\": [\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\",\n            \"key_2\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\",\n            \"key_2\": \"<integer>\",\n            \"key_3\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        },\n        {\n          \"start_time\": \"<dateTime>\",\n          \"id\": \"<uuid>\",\n          \"parent_span_id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"end_time\": \"<dateTime>\",\n          \"input\": \"<object>\",\n          \"output\": \"<object>\",\n          \"metadata\": \"<object>\",\n          \"model\": \"<string>\",\n          \"provider\": \"<string>\",\n          \"tags\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"usage\": {\n            \"key_0\": \"<integer>\",\n            \"key_1\": \"<integer>\",\n            \"key_2\": \"<integer>\"\n          },\n          \"error_info\": {\n            \"exception_type\": \"<string>\",\n            \"traceback\": \"<string>\",\n            \"message\": \"<string>\"\n          },\n          \"last_updated_at\": \"<dateTime>\",\n          \"total_estimated_cost\": \"<number>\",\n          \"total_estimated_cost_version\": \"<string>\",\n          \"ttft\": \"<double>\",\n          \"source\": \"<string>\",\n          \"environment\": \"<string>\"\n        }\n      ],\n      \"feedback_scores\": [\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"source\": \"<string>\",\n          \"value\": \"<number>\",\n          \"category_name\": \"<string>\",\n          \"reason\": \"<string>\",\n          \"source_queue_id\": \"<uuid>\"\n        }\n      ]\n    }\n  ],\n  \"experiment_id\": \"<uuid>\",\n  \"project_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f7bdb270-4814-4986-927b-6aa55187b83c",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bb8122da-c33f-4a1d-95e1-463b35086b95",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fef7b76-470d-4c01-8c4c-77e9a5c1ff9a",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b470563b-5f4c-40c3-ab80-1b98bc377d5c",
+              "name": "Unprocessable Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "null",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f1088a0f-cb79-41bc-8e4d-b368c71217b3",
+          "name": "Find Feedback Score names",
+          "request": {
+            "name": "Find Feedback Score names",
+            "description": {
+              "content": "Find Feedback Score names",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "feedback-scores",
+                "names"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "experiment_ids",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "22ce4613-61d1-4cdc-b296-de20066420bb",
+              "name": "Feedback Scores resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "feedback-scores",
+                    "names"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "experiment_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"scores\": [\n    {\n      \"name\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "39058ab3-a751-45a4-bc56-2be2de86341a",
+          "name": "Find experiment groups",
+          "request": {
+            "name": "Find experiment groups",
+            "description": {
+              "content": "Find experiments grouped by specified fields",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "groups",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_deleted",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3adaac06-d771-4515-b3f4-f416ec287a22",
+              "name": "Experiment groups",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "groups",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": {\n    \"key_0\": {\n      \"label\": \"string\"\n    }\n  },\n  \"details\": {\n    \"groups_details\": [\n      {\n        \"group_sorting\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"group_sorting\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d11ac82b-ce24-4a52-8c38-425ff0c7721f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "groups",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6be5fbc9-7e50-499f-85c0-e59f49d29d60",
+          "name": "Find experiment groups with aggregations",
+          "request": {
+            "name": "Find experiment groups with aggregations",
+            "description": {
+              "content": "Find experiments grouped by specified fields with aggregation metrics",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "groups",
+                "aggregations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "groups",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "types",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_deleted",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b124f04-2fd2-4f47-a88a-a07b03ffb8ea",
+              "name": "Experiment groups with aggregations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "groups",
+                    "aggregations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "groups",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"content\": {\n    \"key_0\": {\n      \"label\": \"string\",\n      \"aggregations\": {\n        \"experiment_count\": 2601,\n        \"trace_count\": 1579,\n        \"total_estimated_cost\": 182.24167446307948,\n        \"total_estimated_cost_avg\": 8764.863616907449,\n        \"duration\": {\n          \"p50\": 5593.860913717409,\n          \"p90\": 2557.315442269601,\n          \"p99\": 3380.3608313172626\n        },\n        \"feedback_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 7514.325025757184\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 6140.576357584608\n          }\n        ],\n        \"experiment_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 7219.199946376612\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 1780.4225567472365\n          }\n        ],\n        \"pass_rate_avg\": 9105.248732649867,\n        \"passed_count_sum\": 1522,\n        \"total_count_sum\": 7809\n      }\n    },\n    \"key_1\": {\n      \"label\": \"string\",\n      \"aggregations\": {\n        \"experiment_count\": 6398,\n        \"trace_count\": 6009,\n        \"total_estimated_cost\": 7100.032213727315,\n        \"total_estimated_cost_avg\": 3793.7526739137916,\n        \"duration\": {\n          \"p50\": 5648.441287459292,\n          \"p90\": 1116.488593153836,\n          \"p99\": 8204.862326887906\n        },\n        \"feedback_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 6570.394096483081\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 3815.077284648516\n          }\n        ],\n        \"experiment_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 488.1737929226104\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 3257.495616761078\n          }\n        ],\n        \"pass_rate_avg\": 3525.7506750855096,\n        \"passed_count_sum\": 983,\n        \"total_count_sum\": 200\n      }\n    },\n    \"key_2\": {\n      \"label\": \"string\",\n      \"aggregations\": {\n        \"experiment_count\": 501,\n        \"trace_count\": 1990,\n        \"total_estimated_cost\": 1455.906354382308,\n        \"total_estimated_cost_avg\": 8977.137998607233,\n        \"duration\": {\n          \"p50\": 6465.95640099011,\n          \"p90\": 6610.778114534634,\n          \"p99\": 8765.921153288546\n        },\n        \"feedback_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 9394.653830410898\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 7760.084476397828\n          }\n        ],\n        \"experiment_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 7711.829281254171\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 7506.306419137112\n          }\n        ],\n        \"pass_rate_avg\": 5238.910530018811,\n        \"passed_count_sum\": 9587,\n        \"total_count_sum\": 2493\n      }\n    },\n    \"key_3\": {\n      \"label\": \"string\",\n      \"aggregations\": {\n        \"experiment_count\": 9834,\n        \"trace_count\": 8291,\n        \"total_estimated_cost\": 6626.616250554784,\n        \"total_estimated_cost_avg\": 9918.919379301307,\n        \"duration\": {\n          \"p50\": 6303.1529656039065,\n          \"p90\": 1448.9701407378975,\n          \"p99\": 7290.841630155146\n        },\n        \"feedback_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 8681.670423602838\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 9713.360411564749\n          }\n        ],\n        \"experiment_scores\": [\n          {\n            \"name\": \"string\",\n            \"value\": 4112.13864469295\n          },\n          {\n            \"name\": \"string\",\n            \"value\": 8218.849044705154\n          }\n        ],\n        \"pass_rate_avg\": 9072.5140021275,\n        \"passed_count_sum\": 3517,\n        \"total_count_sum\": 7534\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9429c2f4-f015-408a-aaac-fab23fdd72c8",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "groups",
+                    "aggregations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "groups",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "project_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bbc2e5b1-607c-4efb-8706-fbda3523db79",
+          "name": "Finish experiments",
+          "request": {
+            "name": "Finish experiments",
+            "description": {
+              "content": "Finish experiments and trigger alert events",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "finish"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "736175c2-eeaa-4b7d-8c6d-c353136eb7ad",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "finish"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4d12adfe-27cf-4816-8d89-cb143d5c7301",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "finish"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "022801b2-32a2-4886-9825-5184ba6e2fc5",
+          "name": "Get experiment by id",
+          "request": {
+            "name": "Get experiment by id",
+            "description": {
+              "content": "Get experiment by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "521ec4a6-a8f0-4a6c-84af-662570c501e0",
+              "name": "Experiment resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "null",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f879daab-17d7-4b3a-83cf-5b513685b383",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4118e874-dd17-425f-9c33-61818485296f",
+          "name": "Update experiment by id",
+          "request": {
+            "name": "Update experiment by id",
+            "description": {
+              "content": "Update experiment by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"metadata\": \"<object>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags_to_add\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"tags_to_remove\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<number>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a2b7403-fa98-435b-bf63-7ffd9c9a41b8",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"metadata\": {},\n  \"tags\": [\n    \"<string>\"\n  ],\n  \"tags_to_add\": [\n    \"<string>\"\n  ],\n  \"tags_to_remove\": [\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 2968.1135105386534\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 8357.619402005037\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7667fe8f-7497-4fb0-abf8-e0849a6683af",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"metadata\": {},\n  \"tags\": [\n    \"<string>\"\n  ],\n  \"tags_to_add\": [\n    \"<string>\"\n  ],\n  \"tags_to_remove\": [\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 2968.1135105386534\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 8357.619402005037\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "091ee3b4-69d1-48d4-87c0-25d673856f58",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"metadata\": {},\n  \"tags\": [\n    \"<string>\"\n  ],\n  \"tags_to_add\": [\n    \"<string>\"\n  ],\n  \"tags_to_remove\": [\n    \"<string>\"\n  ],\n  \"type\": \"<string>\",\n  \"status\": \"<string>\",\n  \"experiment_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 2968.1135105386534\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 8357.619402005037\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20657e2a-caac-4f71-a2e3-b91af3b99b11",
+          "name": "Get experiment item by id",
+          "request": {
+            "name": "Get experiment item by id",
+            "description": {
+              "content": "Get experiment item by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "items",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a62f8d98-66d0-48b1-b770-1c3c4960d983",
+              "name": "Experiment item resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataset_item_id\": \"48a7d025-0623-a4c7-c82f-67e7f6ef82c0\",\n  \"experiment_id\": \"25fa8fe1-c9e7-10fb-9b4d-9ede63adb1c5\",\n  \"trace_id\": \"d666cf2f-2b25-59a0-ceb7-b2e46e66bd42\",\n  \"id\": \"e84145b4-1276-5d9a-b463-12112806fdba\",\n  \"project_id\": \"bdbbe6eb-5ae6-fe8c-27ed-d7cc450dab3c\",\n  \"created_at\": \"2018-11-22T20:45:30.471Z\",\n  \"last_updated_at\": \"2004-04-06T01:25:02.692Z\",\n  \"created_by\": \"string\",\n  \"last_updated_by\": \"string\",\n  \"trace_visibility_mode\": \"hidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d76765c1-aea1-41d3-8574-166ad4d6b253",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5381,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "828e6e97-2049-41ff-88c1-0c94d642fab3",
+          "name": "Stream experiment items",
+          "request": {
+            "name": "Stream experiment items",
+            "description": {
+              "content": "Stream experiment items",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "items",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"experiment_name\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"last_retrieved_id\": \"<uuid>\",\n  \"truncate\": true,\n  \"project_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bccc9d34-1c68-4ff0-9980-5104a7c49cc3",
+              "name": "Experiment items stream or error during process",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "items",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"experiment_name\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"last_retrieved_id\": \"<uuid>\",\n  \"truncate\": true,\n  \"project_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c5262631-fc36-433e-a175-1f5d091a6df4",
+          "name": "Stream experiments",
+          "request": {
+            "name": "Stream experiments",
+            "description": {
+              "content": "Stream experiments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "experiments",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"last_retrieved_id\": \"<uuid>\",\n  \"project_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8facfc5f-2d80-4b22-8e88-c8900f470649",
+              "name": "Experiments stream or error during process",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "experiments",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"last_retrieved_id\": \"<uuid>\",\n  \"project_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ea678210-f3f5-480f-89d2-3876e3926897",
+    "name": "Opik REST Experiments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,988 @@
+{
+  "item": [
+    {
+      "id": "62fbfbe1-1788-45fa-ac33-860f8f38ba09",
+      "name": "Optimizations",
+      "description": {
+        "content": "Optimization resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "36232086-a0b1-4987-8103-26252f9131ce",
+          "name": "Cancel Studio optimizations",
+          "request": {
+            "name": "Cancel Studio optimizations",
+            "description": {
+              "content": "Cancel Studio optimizations by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations",
+                "studio",
+                ":id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "49a3ffed-f9b2-4f07-9a1e-0a9e9b7c863c",
+              "name": "Not Implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    "studio",
+                    ":id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "653fcad5-5d0c-4466-b39e-23fb1ced2585",
+          "name": "Find optimizations",
+          "request": {
+            "name": "Find optimizations",
+            "description": {
+              "content": "Find optimizations",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "dataset_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "dataset_name",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "dataset_deleted",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "project_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "96b5b8b1-70d5-477d-8672-588ba1d71502",
+              "name": "Optimizations resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "dataset_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 5759,\n  \"size\": 3753,\n  \"total\": 8560,\n  \"content\": [\n    {\n      \"dataset_name\": \"string\",\n      \"objective_name\": \"string\",\n      \"status\": \"running\",\n      \"id\": \"0f0327d6-88bc-2e64-34d6-554e89b7fcfa\",\n      \"name\": \"string\",\n      \"project_id\": \"b35b4960-42d6-8e6e-77dc-9c160fc1db5d\",\n      \"metadata\": {},\n      \"studio_config\": {\n        \"dataset_name\": \"string\",\n        \"evaluation\": {\n          \"metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"llm_model\": {\n          \"model\": \"string\",\n          \"parameters\": {}\n        },\n        \"optimizer\": {\n          \"type\": \"string\",\n          \"parameters\": {}\n        },\n        \"prompt\": {\n          \"messages\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"dataset_id\": \"7827544c-710b-b148-3899-ee5322a92533\",\n      \"num_trials\": 2175,\n      \"feedback_scores\": [\n        {\n          \"name\": \"string\",\n          \"value\": 4604.549572296859\n        },\n        {\n          \"name\": \"string\",\n          \"value\": 3984.013384345022\n        }\n      ],\n      \"experiment_scores\": [\n        {\n          \"name\": \"string\",\n          \"value\": 7993.241948693397\n        },\n        {\n          \"name\": \"string\",\n          \"value\": 8251.308446454897\n        }\n      ],\n      \"created_at\": \"1962-02-18T00:08:48.877Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"2000-10-25T11:53:22.882Z\",\n      \"last_updated_by\": \"string\",\n      \"baseline_objective_score\": 7130.944740550873,\n      \"best_objective_score\": 8691.109122062757,\n      \"baseline_duration\": 4023.2007200406383,\n      \"best_duration\": 7895.28941696176,\n      \"baseline_cost\": 9427.654700266377,\n      \"best_cost\": 910.1359601658932,\n      \"total_optimization_cost\": 9165.545948800114\n    },\n    {\n      \"dataset_name\": \"string\",\n      \"objective_name\": \"string\",\n      \"status\": \"running\",\n      \"id\": \"49c9e50b-723f-fc12-f049-014e3dd6612c\",\n      \"name\": \"string\",\n      \"project_id\": \"8d1c426a-bec9-06a4-2a81-3fa94e70c35c\",\n      \"metadata\": {},\n      \"studio_config\": {\n        \"dataset_name\": \"string\",\n        \"evaluation\": {\n          \"metrics\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"llm_model\": {\n          \"model\": \"string\",\n          \"parameters\": {}\n        },\n        \"optimizer\": {\n          \"type\": \"string\",\n          \"parameters\": {}\n        },\n        \"prompt\": {\n          \"messages\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"dataset_id\": \"fd2b8d4b-812f-1b0a-24bd-6c3bcecd75dc\",\n      \"num_trials\": 4251,\n      \"feedback_scores\": [\n        {\n          \"name\": \"string\",\n          \"value\": 9635.26452095292\n        },\n        {\n          \"name\": \"string\",\n          \"value\": 1441.662675460319\n        }\n      ],\n      \"experiment_scores\": [\n        {\n          \"name\": \"string\",\n          \"value\": 9789.085286795023\n        },\n        {\n          \"name\": \"string\",\n          \"value\": 7547.155775566496\n        }\n      ],\n      \"created_at\": \"1959-06-21T09:47:04.739Z\",\n      \"created_by\": \"string\",\n      \"last_updated_at\": \"1975-05-20T17:50:52.934Z\",\n      \"last_updated_by\": \"string\",\n      \"baseline_objective_score\": 3386.597704051857,\n      \"best_objective_score\": 2836.5354750585648,\n      \"baseline_duration\": 8335.787797610286,\n      \"best_duration\": 3149.086858075193,\n      \"baseline_cost\": 358.74812981437134,\n      \"best_cost\": 1759.5116363838104,\n      \"total_optimization_cost\": 4069.0560730225156\n    }\n  ],\n  \"sortableBy\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5902ae2b-7c3d-40b8-b462-82886faf44a8",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "dataset_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "dataset_deleted",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "project_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8064,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a5dc4e4-1d7d-45e5-860e-b0878b4e152c",
+          "name": "Upsert optimization",
+          "request": {
+            "name": "Upsert optimization",
+            "description": {
+              "content": "Upsert optimization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"objective_name\": \"<string>\",\n  \"status\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"project_name\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"metadata\": \"<object>\",\n  \"studio_config\": {\n    \"dataset_name\": \"<string>\",\n    \"evaluation\": {\n      \"metrics\": [\n        {\n          \"type\": \"<string>\",\n          \"parameters\": \"<object>\"\n        }\n      ]\n    },\n    \"llm_model\": {\n      \"model\": \"<string>\",\n      \"parameters\": \"<object>\"\n    },\n    \"optimizer\": {\n      \"type\": \"<string>\",\n      \"parameters\": \"<object>\"\n    },\n    \"prompt\": {\n      \"messages\": [\n        {\n          \"content\": \"<string>\",\n          \"role\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"last_updated_at\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9b9fdfe7-8ad3-4fc1-95ba-9bd0446956ca",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"objective_name\": \"<string>\",\n  \"status\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"project_name\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"metadata\": {},\n  \"studio_config\": {\n    \"dataset_name\": \"string\",\n    \"evaluation\": {\n      \"metrics\": [\n        {\n          \"type\": \"string\",\n          \"parameters\": {}\n        }\n      ]\n    },\n    \"llm_model\": {\n      \"model\": \"string\",\n      \"parameters\": {}\n    },\n    \"optimizer\": {\n      \"type\": \"string\",\n      \"parameters\": {}\n    },\n    \"prompt\": {\n      \"messages\": [\n        {\n          \"content\": \"strin\",\n          \"role\": \"string\"\n        }\n      ]\n    }\n  },\n  \"last_updated_at\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) ",
+                  "key": "Location",
+                  "value": "${basePath}/v1/private/optimizations/{id}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08899cab-ed23-44b1-a120-d60bd1ff7872",
+          "name": "Create optimization",
+          "request": {
+            "name": "Create optimization",
+            "description": {
+              "content": "Create optimization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"objective_name\": \"<string>\",\n  \"status\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"project_name\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"metadata\": \"<object>\",\n  \"studio_config\": {\n    \"dataset_name\": \"<string>\",\n    \"evaluation\": {\n      \"metrics\": [\n        {\n          \"type\": \"<string>\",\n          \"parameters\": \"<object>\"\n        }\n      ]\n    },\n    \"llm_model\": {\n      \"model\": \"<string>\",\n      \"parameters\": \"<object>\"\n    },\n    \"optimizer\": {\n      \"type\": \"<string>\",\n      \"parameters\": \"<object>\"\n    },\n    \"prompt\": {\n      \"messages\": [\n        {\n          \"content\": \"<string>\",\n          \"role\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"last_updated_at\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d2364704-b2ec-4705-af45-b81dbe84790f",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dataset_name\": \"<string>\",\n  \"objective_name\": \"<string>\",\n  \"status\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"project_name\": \"<string>\",\n  \"project_id\": \"<uuid>\",\n  \"metadata\": {},\n  \"studio_config\": {\n    \"dataset_name\": \"string\",\n    \"evaluation\": {\n      \"metrics\": [\n        {\n          \"type\": \"string\",\n          \"parameters\": {}\n        }\n      ]\n    },\n    \"llm_model\": {\n      \"model\": \"string\",\n      \"parameters\": {}\n    },\n    \"optimizer\": {\n      \"type\": \"string\",\n      \"parameters\": {}\n    },\n    \"prompt\": {\n      \"messages\": [\n        {\n          \"content\": \"strin\",\n          \"role\": \"string\"\n        }\n      ]\n    }\n  },\n  \"last_updated_at\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "(Required) ",
+                  "key": "Location",
+                  "value": "${basePath}/v1/private/optimizations/{id}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1accfed-7d79-441a-ac5e-945f17cbe4e5",
+          "name": "Delete optimizations by id",
+          "request": {
+            "name": "Delete optimizations by id",
+            "description": {
+              "content": "Delete optimizations by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4553ce72-7503-40b8-aa6c-81b716aef7f1",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c476a5ee-30ff-487f-a65e-d9dcecd96965",
+          "name": "Get optimization by id",
+          "request": {
+            "name": "Get optimization by id",
+            "description": {
+              "content": "Get optimization by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f8f46f6c-5e5d-49ae-8266-0856fa588096",
+              "name": "Optimization resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataset_name\": \"string\",\n  \"objective_name\": \"string\",\n  \"status\": \"error\",\n  \"id\": \"c7c5699f-b143-ccb2-78b7-63232bb24fb0\",\n  \"name\": \"string\",\n  \"project_id\": \"7bb71c04-1f04-fecb-7a68-b4d9d51629dd\",\n  \"metadata\": {},\n  \"studio_config\": {\n    \"dataset_name\": \"string\",\n    \"evaluation\": {\n      \"metrics\": [\n        {\n          \"type\": \"string\",\n          \"parameters\": {}\n        }\n      ]\n    },\n    \"llm_model\": {\n      \"model\": \"string\",\n      \"parameters\": {}\n    },\n    \"optimizer\": {\n      \"type\": \"string\",\n      \"parameters\": {}\n    },\n    \"prompt\": {\n      \"messages\": [\n        {\n          \"content\": \"string\",\n          \"role\": \"string\"\n        }\n      ]\n    }\n  },\n  \"dataset_id\": \"5ef16bbb-1f93-6cda-7dbf-915eee3d6e89\",\n  \"num_trials\": 9616,\n  \"feedback_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 4613.544061281278\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 8243.030979539739\n    }\n  ],\n  \"experiment_scores\": [\n    {\n      \"name\": \"string\",\n      \"value\": 9402.445406409912\n    },\n    {\n      \"name\": \"string\",\n      \"value\": 5503.718933108297\n    }\n  ],\n  \"created_at\": \"1977-11-24T05:46:17.056Z\",\n  \"created_by\": \"string\",\n  \"last_updated_at\": \"1981-10-11T12:45:44.332Z\",\n  \"last_updated_by\": \"string\",\n  \"baseline_objective_score\": 4250.682117240691,\n  \"best_objective_score\": 1070.300807183302,\n  \"baseline_duration\": 1312.0767257062428,\n  \"best_duration\": 1983.272812402671,\n  \"baseline_cost\": 9473.34605529547,\n  \"best_cost\": 8642.91693154581,\n  \"total_optimization_cost\": 1962.394110104676\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b707e84-05ad-41b5-b252-1814403fee2c",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8064,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18c4094c-7cbe-461c-af7c-82e0485c378c",
+          "name": "Update optimization by id",
+          "request": {
+            "name": "Update optimization by id",
+            "description": {
+              "content": "Update optimization by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6059218d-9d26-430e-87cc-9ebfa49cd079",
+              "name": "No content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc0f0ce1-411e-4539-887f-bd02d77825b0",
+          "name": "Get Studio optimization logs",
+          "request": {
+            "name": "Get Studio optimization logs",
+            "description": {
+              "content": "Get presigned S3 URL for downloading optimization logs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "private",
+                "optimizations",
+                "studio",
+                ":id",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1308c43-0d93-407e-b554-e4c27db77c8b",
+              "name": "Logs response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    "studio",
+                    ":id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"string\",\n  \"last_modified\": \"2008-12-29T21:17:17.307Z\",\n  \"expires_at\": \"1968-06-13T19:42:17.919Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cd639a7-06bf-4745-9e66-9c3bbea7fa94",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "private",
+                    "optimizations",
+                    "studio",
+                    ":id",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8064,\n  \"message\": \"string\",\n  \"details\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:5173/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c69fdb78-aa44-49b1-a7df-a0202549ea97",
+    "name": "Opik REST Optimizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n\n\nContact Support:\n Name: Github Repository",
+      "type": "text/plain"
+    }
+  }
+}

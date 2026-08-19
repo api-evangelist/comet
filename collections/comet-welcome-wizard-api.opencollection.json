@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Welcome Wizard API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Welcome Wizard",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get welcome wizard tracking status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/welcome-wizard"
+          },
+          "docs": "Get welcome wizard tracking status for the current workspace"
+        },
+        {
+          "info": {
+            "name": "Submit welcome wizard",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/welcome-wizard",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit welcome wizard with user information"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

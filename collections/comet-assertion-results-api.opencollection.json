@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Assertion Results API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assertion Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Batch ingestion of assertion results",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/assertion-results",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch ingestion of assertion results for traces or spans"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

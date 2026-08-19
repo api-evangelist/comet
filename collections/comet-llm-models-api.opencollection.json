@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST LLM Models API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LLM Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get LLM models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/llm/models"
+          },
+          "docs": "Get the list of supported LLM models grouped by provider"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

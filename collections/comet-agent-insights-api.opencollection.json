@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Agent Insights API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find agent insights issues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/issues",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sorting",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of issues that have at least one detail row within the requested time window, with metrics aggregated over the window"
+        },
+        {
+          "info": {
+            "name": "Store agent insights report results",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/issues",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upserts the detected issues and their per-day metrics for the given report day in a single transaction. Issue status is never modified by this endpoint."
+        },
+        {
+          "info": {
+            "name": "Get agent insights issue by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/issues/:issue_id",
+            "params": [
+              {
+                "name": "issue_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from_date",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to_date",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the issue together with its per-day breakdown within the requested time window"
+        },
+        {
+          "info": {
+            "name": "Update agent insights issue status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "http://localhost:5173/api/v1/private/agent-insights/issues/:issue_id",
+            "params": [
+              {
+                "name": "issue_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Moves an issue through its lifecycle: open, resolved or closed"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

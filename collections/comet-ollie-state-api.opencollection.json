@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Opik REST Ollie State API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ollie State",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download ollie state",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:5173/api/v1/private/ollie/state"
+          },
+          "docs": "Download stored ollie state file"
+        },
+        {
+          "info": {
+            "name": "Replace ollie state",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://localhost:5173/api/v1/private/ollie/state",
+            "headers": [
+              {
+                "name": "Content-Length",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Upload gzip-compressed SQLite DB file, replacing any existing state"
+        },
+        {
+          "info": {
+            "name": "Delete ollie state",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:5173/api/v1/private/ollie/state"
+          },
+          "docs": "Clear stored ollie state"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
