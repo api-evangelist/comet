@@ -43,6 +43,18 @@ tags:
 - Model Monitoring
 - Prompt Management
 - Agents
+- Open-Source
+tags_raw:
+- Company
+- Ai Enterprise Software
+- LLM Observability
+- LLMOps
+- MLOps
+- Evaluation
+- Experiment Tracking
+- Model Monitoring
+- Prompt Management
+- Agents
 - Open Source
 maintainers:
 - FN: Kin Lane
@@ -650,6 +662,8 @@ apis:
   humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
   baseURL: https://www.comet.com/opik/api/v1
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
