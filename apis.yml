@@ -1001,6 +1001,9 @@ apis:
   - type: Lifecycle
     url: lifecycle/comet-lifecycle.yml
 common:
+- type: CapabilityMap
+  url: capabilities/comet-capability-edges.yml
+  name: Comet Business Capability Map
 - type: Overlay
   url: overlays/comet-opik-overlay.yaml
 - type: TrustCenter

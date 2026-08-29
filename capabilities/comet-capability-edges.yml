@@ -1,0 +1,64 @@
+slug: comet
+provider: Comet
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Automation rule evaluators
+  spec_file: comet-automation-rule-evaluators-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /v1/private/automations/evaluators  createAutomationRuleEvaluator  Create automation
+    rule evaluator; GET /v1/private/automations/evaluators  findEvaluators  Find project Evaluators
+  reason: Configures automated evaluators (LLM-as-a-judge / heuristic rules per the vendor description)
+    that score model outputs — this is AI/ML model evaluation and responsible-AI tooling, i.e. Artificial
+    Intelligence Management.
+- tag: Datasets
+  spec_file: comet-datasets-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /v1/private/datasets/{dataset_id}/items/from-traces  createDatasetItemsFromTraces  Create
+    dataset items from traces; POST /v1/private/datasets/items/from-csv  createDatasetItemsFromCsv
+  reason: Management and versioning of evaluation datasets built from traces/spans for testing GenAI applications
+    — dataset curation within the AI/ML model lifecycle.
+- tag: Experiments
+  spec_file: comet-experiments-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /v1/private/experiments/execute  executeExperiment  Create and execute experiment; GET
+    /v1/private/experiments/feedback-scores/names  findFeedbackScoreNames
+  reason: Evaluation experiments over datasets with feedback scores and prompt-version links — model/prompt
+    evaluation runs in the AI/ML lifecycle, not product A/B testing.
+- tag: Guardrails
+  spec_file: comet-guardrails-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /v1/private/guardrails  createGuardrails  Create guardrails for traces in a batch
+  reason: Guardrail results attached to LLM traces are responsible-AI controls over model behaviour, falling
+    under Artificial Intelligence Management.
+- tag: Manual Evaluation
+  spec_file: comet-manual-evaluation-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /v1/private/manual-evaluation/traces  evaluateTraces  Manually evaluate traces; ManualEvaluationRequest
+  reason: Operations record human evaluation/scoring of LLM traces, spans and threads — part of the AI/ML
+    model and application lifecycle (evaluation, responsible AI) on this AI developer platform.
