@@ -1002,6 +1002,8 @@ apis:
   - type: Lifecycle
     url: lifecycle/comet-lifecycle.yml
 common:
+- type: Website
+  url: https://www.comet.com/
 - type: CapabilityMap
   url: capabilities/comet-capability-edges.yml
   name: Comet Business Capability Map
