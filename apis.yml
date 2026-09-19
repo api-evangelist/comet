@@ -345,6 +345,8 @@ apis:
   humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
   baseURL: https://www.comet.com/opik/api/v1
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
@@ -985,6 +987,8 @@ apis:
   humanURL: https://www.comet.com/docs/opik/reference/rest-api/overview
   baseURL: https://www.comet.com/opik/api/v1
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
