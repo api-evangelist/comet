@@ -1,0 +1,84 @@
+# Rate limits transcribed from the provider's own documentation — see provenance. Quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.comet.com/docs/v2/guides/experiment-management/limits-and-performance/
+sources:
+- https://www.comet.com/docs/v2/guides/experiment-management/limits-and-performance/
+provenance:
+  tool: planning/api-economics/harvest_ratelimits.py
+  run: 20260920T133210
+  grounding: every limit_text was found verbatim in the fetched page text
+published: true
+note: Page documents per-data-type rate limits, hard limits, and a REST API per-API-key hourly limit;
+  no headers or HTTP status documented. Offline Experiments have no rate limits.
+limit_count: 15
+limits:
+- name: Logging metrics
+  limit_text: 'Logging metrics: 12,000 per minute'
+  limit: 12000
+  window: minute
+  scope: unclear
+  endpoint: metrics logging
+- name: Logging parameters
+  limit_text: 'Logging parameters: 10,000 per minute'
+  limit: 10000
+  window: minute
+  scope: unclear
+  endpoint: parameters logging
+- name: Logging output
+  limit_text: 'Logging output: 12,000 per minute'
+  limit: 12000
+  window: minute
+  scope: unclear
+  endpoint: output logging
+- name: Logging everything else
+  limit_text: 'Logging everything else: 8,000 per minute'
+  limit: 8000
+  window: minute
+  scope: unclear
+- name: REST API submissions
+  limit_text: Each API key is allowed to make 15,000 submissions per hour.
+  limit: 15000
+  window: hour
+  scope: api-key
+  endpoint: REST API
+- name: Metric sampling
+  limit_text: you can log 15,000 total values for each metric, per experiment
+  limit: 15000
+  scope: unclear
+- name: Experiments per project
+  limit_text: Maximum of 25,000 experiments per Experiment Management project
+  limit: 25000
+  scope: unclear
+- name: Prompts per LLM project
+  limit_text: Maximum of 250,000 prompts per LLM project.
+  limit: 250000
+  scope: unclear
+- name: Unique metrics
+  limit_text: Maximum of 50,000 unique metrics
+  limit: 50000
+  scope: unclear
+- name: Unique parameters
+  limit_text: Maximum of 50,000 unique parameters
+  limit: 50000
+  scope: unclear
+- name: Images
+  limit_text: Maximum of 100,000 image
+  limit: 100000
+  scope: unclear
+- name: Curves
+  limit_text: Maximum of 1000 curves
+  limit: 1000
+  scope: unclear
+- name: Models
+  limit_text: Maximum of 100 models
+  limit: 100
+  scope: unclear
+- name: Text samples
+  limit_text: Maxmimum of 500 text samples
+  limit: 500
+  scope: unclear
+- name: Videos
+  limit_text: Maximum of 5000 videos
+  limit: 5000
+  scope: unclear

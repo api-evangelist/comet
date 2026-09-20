@@ -1006,6 +1006,8 @@ apis:
   - type: Lifecycle
     url: lifecycle/comet-lifecycle.yml
 common:
+- type: RateLimits
+  url: rate-limits/comet-rate-limits.yml
 - type: Plans
   url: plans/comet-plans-pricing.yml
 - type: Website
