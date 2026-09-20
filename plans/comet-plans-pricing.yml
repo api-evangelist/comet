@@ -1,0 +1,62 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.comet.com/site/pricing/
+sources:
+- https://www.comet.com/site/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+note: Single pricing page covering both Opik (observability) and MLOps plans; overage priced per spans,
+  training hours and storage. Ollie coding harness listed as 'Free trial then purchase tokens' without
+  numeric price.
+plan_count: 7
+currency: USD
+plans:
+- name: Opik Open Source
+  price_text: $0
+  price: 0
+  currency: USD
+  period: none
+  included_quota: Full AI observability & agent testing feature set; unlimited spans
+- name: Opik Free Cloud
+  price_text: $0
+  price: 0
+  currency: USD
+  period: month
+  included_quota: Up to 10 team members, 25k spans per month, 60-day data retention
+- name: Opik Pro Cloud
+  price_text: $19
+  price: 19
+  currency: USD
+  period: month
+  included_quota: Up to 50 team members, 100k spans per month, 60-day data retention
+  overage: $5/100k spans; Additional Span Retention $29/100k spans
+- name: Opik Enterprise
+  price_text: Custom
+  period: none
+  included_quota: Unlimited team members, custom usage plans
+- name: MLOps Free
+  price_text: $0
+  price: 0
+  currency: USD
+  period: month
+  included_quota: 1 platform user, 100GB data usage, fair usage policy
+- name: MLOps Pro
+  price_text: $19
+  price: 19
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: Up to 10 users, 1500 training hours included, 500GB included
+  overage: $1/training hours; $3/100GB/month
+- name: MLOps Enterprise
+  price_text: Custom
+  period: none
+  included_quota: Unlimited users, unlimited training hours
+rate_limit_statements:
+- API Rate Limits Unlimited Unlimited Unlimited Unlimited
