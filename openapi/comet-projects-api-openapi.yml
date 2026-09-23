@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Opik REST Projects API
-  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  description: The Opik REST API is currently in beta and subject to change.
   contact:
     name: Github Repository
     url: https://github.com/comet-ml/opik
@@ -370,7 +370,6 @@ paths:
       tags:
       - Projects
       summary: Find projects
-      description: Find projects
       operationId: findProjects
       parameters:
       - name: page
@@ -407,7 +406,6 @@ paths:
       tags:
       - Projects
       summary: Create project
-      description: Create project
       operationId: createProject
       requestBody:
         content:
@@ -441,7 +439,6 @@ paths:
       tags:
       - Projects
       summary: Get project by id
-      description: Get project by id
       operationId: getProjectById
       parameters:
       - name: id
@@ -461,7 +458,6 @@ paths:
       tags:
       - Projects
       summary: Delete project by id
-      description: Delete project by id
       operationId: deleteProjectById
       parameters:
       - name: id
@@ -483,7 +479,6 @@ paths:
       tags:
       - Projects
       summary: Update project by id
-      description: Update project by id
       operationId: updateProject
       parameters:
       - name: id
@@ -532,7 +527,6 @@ paths:
       tags:
       - Projects
       summary: Find Feedback Score names By Project Ids
-      description: Find Feedback Score names By Project Ids
       operationId: findFeedbackScoreNamesByProjectIds
       parameters:
       - name: project_ids
@@ -551,7 +545,6 @@ paths:
       tags:
       - Projects
       summary: Find Token Usage names
-      description: Find Token Usage names
       operationId: findTokenUsageNames
       parameters:
       - name: id
@@ -642,7 +635,6 @@ paths:
       tags:
       - Projects
       summary: Get Project Stats
-      description: Get Project Stats
       operationId: getProjectStats
       parameters:
       - name: page
@@ -684,7 +676,6 @@ paths:
       tags:
       - Projects
       summary: Retrieve project
-      description: Retrieve project
       operationId: retrieveProject
       requestBody:
         content:
@@ -766,191 +757,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage_Public'
 components:
   schemas:
-    Comment_Public:
-      required:
-      - text
+    ErrorMessage:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        text:
-          minLength: 1
-          type: string
-        source_queue_id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-      readOnly: true
-    TraceFilter_Public:
-      type: object
-      properties:
-        field:
-          type: string
-        operator:
-          type: string
-          enum:
-          - contains
-          - not_contains
-          - starts_with
-          - ends_with
-          - '='
-          - '!='
-          - '>'
-          - '>='
-          - <
-          - <=
-          - is_empty
-          - is_not_empty
-          - in
-          - not_in
-        key:
-          type: string
-        value:
-          type: string
-    ErrorCountWithDeviation:
-      type: object
-      properties:
-        count:
+        code:
           type: integer
-          format: int64
-        deviation:
-          type: integer
-          format: int64
-        deviation_percentage:
-          type: integer
-          format: int64
-    ExperimentScore_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
+          format: int32
+        message:
           type: string
-        value:
-          type: number
-    ProjectRetrieve_Detailed:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
+        details:
           type: string
-        includeStats:
-          type: boolean
-    KpiCardRequest:
-      required:
-      - entity_type
-      - interval_start
-      type: object
-      properties:
-        entity_type:
-          type: string
-          enum:
-          - traces
-          - spans
-          - threads
-        filters:
-          type: string
-        interval_start:
-          type: string
-          format: date-time
-        interval_end:
-          type: string
-          format: date-time
-    JsonNode_Public:
-      type: object
-    PromptVersionLink_Public:
-      type: object
-      properties:
-        prompt_version_id:
-          type: string
-          format: uuid
-        commit:
-          type: string
-        prompt_id:
-          type: string
-          format: uuid
-        prompt_name:
-          type: string
-    Project_Write:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        visibility:
-          type: string
-          enum:
-          - private
-          - public
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-    TokenUsageNames:
-      type: object
-      properties:
-        names:
-          type: array
-          items:
-            type: string
-    ProjectUpdate:
-      type: object
-      properties:
-        name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-        visibility:
-          type: string
-          enum:
-          - private
-          - public
-    PercentageValues_Public:
-      type: object
-      properties:
-        p50:
-          type: number
-        p90:
-          type: number
-        p99:
-          type: number
-    BatchDelete:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
     PromptPage_Public:
       type: object
       properties:
@@ -971,613 +787,15 @@ components:
           type: array
           items:
             type: string
-    Alert_Public:
-      required:
-      - webhook
+    PercentageValues_Public:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          maxLength: 255
-          minLength: 0
-          type: string
-        enabled:
-          type: boolean
-        alert_type:
-          type: string
-          enum:
-          - general
-          - slack
-          - pagerduty
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-        webhook:
-          $ref: '#/components/schemas/Webhook_Public'
-        triggers:
-          type: array
-          items:
-            $ref: '#/components/schemas/AlertTrigger_Public'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        project_id:
-          type: string
-          description: Optional project scope for this alert. When set, the alert is scoped to the specified project. Do NOT also provide a 'scope:project' trigger config — the system will create it automatically from this field. Sending both project_id and a scope:project trigger config will result in an error.
-          format: uuid
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    AlertPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Alert_Public'
-        sortable_by:
-          type: array
-          items:
-            type: string
-    RecentActivityItem_Public:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - trace_daily
-          - experiment
-          - dataset_version
-          - test_suite_version
-          - alert_event
-          - optimization
-          - prompt_version
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        resource_id:
-          type: string
-          format: uuid
-        created_by:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    ErrorMessage_Detailed:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-    BreakdownConfig_Public:
-      type: object
-      properties:
-        field:
-          type: string
-          enum:
-          - none
-          - tags
-          - metadata
-          - name
-          - error_info
-          - error_type
-          - model
-          - provider
-          - type
-        metadata_key:
-          type: string
-        sub_metric:
-          type: string
-    OptimizationPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Optimization_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    StudioPrompt_Public:
-      required:
-      - messages
-      type: object
-      properties:
-        messages:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/StudioMessage_Public'
-    Project_Detailed:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          minLength: 1
-          type: string
-        visibility:
-          type: string
-          enum:
-          - private
-          - public
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        last_updated_trace_at:
-          type: string
-          format: date-time
-          readOnly: true
-        feedback_scores:
-          type: array
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/FeedbackScoreAverage_Detailed'
-        duration:
-          $ref: '#/components/schemas/PercentageValues_Detailed'
-        total_estimated_cost:
+        p50:
           type: number
-          format: double
-          readOnly: true
-        total_estimated_cost_sum:
+        p90:
           type: number
-          format: double
-          readOnly: true
-        usage:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-            readOnly: true
-          readOnly: true
-        trace_count:
-          type: integer
-          format: int64
-          readOnly: true
-        thread_count:
-          type: integer
-          format: int64
-          readOnly: true
-        guardrails_failed_count:
-          type: integer
-          format: int64
-          readOnly: true
-        error_count:
-          $ref: '#/components/schemas/ErrorCountWithDeviation_Detailed'
-    ProjectPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    AlertTrigger_Public:
-      required:
-      - event_type
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        alert_id:
-          type: string
-          format: uuid
-          readOnly: true
-        event_type:
-          type: string
-          enum:
-          - trace:errors
-          - trace:feedback_score
-          - trace_thread:feedback_score
-          - prompt:created
-          - prompt:committed
-          - trace:guardrails_triggered
-          - prompt:deleted
-          - experiment:finished
-          - trace:cost
-          - trace:latency
-        trigger_configs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AlertTriggerConfig_Public'
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-    Prompt_Public:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          minLength: 1
-          type: string
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        template_structure:
-          type: string
-          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
-          default: text
-          enum:
-          - text
-          - chat
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        version_count:
-          type: integer
-          format: int64
-          readOnly: true
-    DatasetVersionSummary_Public:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the version
-          format: uuid
-        version_hash:
-          type: string
-          description: Hash of the version content
-        version_name:
-          type: string
-          description: Sequential version name formatted as 'v1', 'v2', etc.
-        change_description:
-          type: string
-          description: Description of changes in this version
-        tags:
-          uniqueItems: true
-          type: array
-          description: Tags associated with this version
-          items:
-            type: string
-            description: Tags associated with this version
-      description: Summary of the latest dataset version
-      readOnly: true
-    ExperimentPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Experiment_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    AssertionScoreAverage_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
+        p99:
           type: number
-      description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
-      readOnly: true
-    OptimizationStudioConfig_Public:
-      required:
-      - dataset_name
-      - evaluation
-      - llm_model
-      - optimizer
-      - prompt
-      type: object
-      properties:
-        dataset_name:
-          minLength: 1
-          type: string
-        prompt:
-          $ref: '#/components/schemas/StudioPrompt_Public'
-        llm_model:
-          $ref: '#/components/schemas/StudioLlmModel_Public'
-        evaluation:
-          $ref: '#/components/schemas/StudioEvaluation_Public'
-        optimizer:
-          $ref: '#/components/schemas/StudioOptimizer_Public'
-    ErrorCountWithDeviation_Detailed:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        deviation:
-          type: integer
-          format: int64
-        deviation_percentage:
-          type: integer
-          format: int64
-      readOnly: true
-    Dataset_Public:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          minLength: 1
-          type: string
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        type:
-          type: string
-          enum:
-          - dataset
-          - evaluation_suite
-        visibility:
-          type: string
-          enum:
-          - private
-          - public
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        experiment_count:
-          type: integer
-          format: int64
-          readOnly: true
-        dataset_items_count:
-          type: integer
-          format: int64
-          readOnly: true
-        optimization_count:
-          type: integer
-          format: int64
-          readOnly: true
-        most_recent_experiment_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_created_experiment_at:
-          type: string
-          format: date-time
-          readOnly: true
-        most_recent_optimization_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_created_optimization_at:
-          type: string
-          format: date-time
-          readOnly: true
-        status:
-          type: string
-          readOnly: true
-          enum:
-          - unknown
-          - processing
-          - completed
-          - failed
-        latest_version:
-          $ref: '#/components/schemas/DatasetVersionSummary_Public'
-    TraceThreadFilter_Public:
-      type: object
-      properties:
-        field:
-          type: string
-        operator:
-          type: string
-          enum:
-          - contains
-          - not_contains
-          - starts_with
-          - ends_with
-          - '='
-          - '!='
-          - '>'
-          - '>='
-          - <
-          - <=
-          - is_empty
-          - is_not_empty
-          - in
-          - not_in
-        key:
-          type: string
-        value:
-          type: string
-    FeedbackScoreNames:
-      type: object
-      properties:
-        scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoreName'
-    RecentActivityPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecentActivityItem_Public'
-    Project_Public:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          minLength: 1
-          type: string
-        visibility:
-          type: string
-          enum:
-          - private
-          - public
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        last_updated_trace_at:
-          type: string
-          format: date-time
-          readOnly: true
     Optimization_Public:
       required:
       - dataset_name
@@ -1664,16 +882,100 @@ components:
         total_optimization_cost:
           type: number
           readOnly: true
-    StudioOptimizer_Public:
-      required:
-      - type
+    OptimizationPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Optimization_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    PromptVersionLink_Public:
+      type: object
+      properties:
+        prompt_version_id:
+          type: string
+          format: uuid
+        commit:
+          type: string
+        prompt_id:
+          type: string
+          format: uuid
+        prompt_name:
+          type: string
+    SpanFilter_Public:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    KpiMetric:
       type: object
       properties:
         type:
-          minLength: 1
           type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
+          enum:
+          - count
+          - errors
+          - avg_duration
+          - total_cost
+        current_value:
+          type: number
+          description: 'Metric value for the current period. Unit depends on `type`: `count` is an integer count; `errors` is a percentage in [0, 100]; `avg_duration` is milliseconds; `total_cost` is in USD.'
+          format: double
+        previous_value:
+          type: number
+          description: Metric value for the immediately preceding period of equal length. Same unit as `current_value`.
+          format: double
+    StudioEvaluation_Public:
+      required:
+      - metrics
+      type: object
+      properties:
+        metrics:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMetric_Public'
+    ProjectStatsSummary:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStatsSummaryItem'
     Webhook_Public:
       required:
       - url
@@ -1709,180 +1011,15 @@ components:
         last_updated_by:
           type: string
           readOnly: true
-    ProjectMetricRequest_Public:
+    ResultsNumber_Public:
       type: object
       properties:
-        metric_type:
+        name:
           type: string
-          enum:
-          - FEEDBACK_SCORES
-          - TRACE_COUNT
-          - TOKEN_USAGE
-          - DURATION
-          - COST
-          - GUARDRAILS_FAILED_COUNT
-          - THREAD_COUNT
-          - THREAD_DURATION
-          - THREAD_FEEDBACK_SCORES
-          - SPAN_FEEDBACK_SCORES
-          - SPAN_COUNT
-          - SPAN_DURATION
-          - SPAN_TOKEN_USAGE
-          - TRACE_AVERAGE_DURATION
-          - TRACE_ERROR_RATE
-          - SPAN_AVERAGE_DURATION
-          - SPAN_COST
-          - SPAN_ERROR_RATE
-          - THREAD_AVERAGE_DURATION
-          - THREAD_COST
-        interval:
-          type: string
-          enum:
-          - HOURLY
-          - DAILY
-          - WEEKLY
-          - TOTAL
-        interval_start:
-          type: string
-          format: date-time
-        interval_end:
-          type: string
-          format: date-time
-        span_filters:
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/SpanFilter_Public'
-        trace_filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/TraceFilter_Public'
-        thread_filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/TraceThreadFilter_Public'
-        breakdown:
-          $ref: '#/components/schemas/BreakdownConfig_Public'
-    JsonListString_Public:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
-    DataPointNumber_Public:
-      required:
-      - time
-      type: object
-      properties:
-        time:
-          type: string
-          format: date-time
-        value:
-          type: number
-    AlertTriggerConfig_Public:
-      required:
-      - type
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        alert_trigger_id:
-          type: string
-          format: uuid
-          readOnly: true
-        type:
-          type: string
-          enum:
-          - scope:project
-          - threshold:feedback_score
-          - threshold:cost
-          - threshold:latency
-          - threshold:errors
-        config_value:
-          type: object
-          additionalProperties:
-            type: string
-        group_index:
-          type: integer
-          description: 'Groups configs within a trigger: same group_index means AND between configs, different group_index means OR between groups. Null means a legacy/singleton group of one config. Always null for scope:project configs.'
-          format: int32
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-    ProjectStatsSummary:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectStatsSummaryItem'
-    StudioLlmModel_Public:
-      required:
-      - model
-      type: object
-      properties:
-        model:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
-    KpiMetric:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - count
-          - errors
-          - avg_duration
-          - total_cost
-        current_value:
-          type: number
-          description: 'Metric value for the current period. Unit depends on `type`: `count` is an integer count; `errors` is a percentage in [0, 100]; `avg_duration` is milliseconds; `total_cost` is in USD.'
-          format: double
-        previous_value:
-          type: number
-          description: Metric value for the immediately preceding period of equal length. Same unit as `current_value`.
-          format: double
-    PercentageValues:
-      type: object
-      properties:
-        p50:
-          type: number
-        p90:
-          type: number
-        p99:
-          type: number
-    StudioMetric_Public:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
-    KpiCardResponse:
-      type: object
-      properties:
-        stats:
-          type: array
-          items:
-            $ref: '#/components/schemas/KpiMetric'
+            $ref: '#/components/schemas/DataPointNumber_Public'
     Experiment_Public:
       required:
       - dataset_name
@@ -2024,16 +1161,376 @@ components:
           readOnly: true
           items:
             $ref: '#/components/schemas/AssertionScoreAverage_Public'
-    PercentageValues_Detailed:
+    Comment_Public:
+      required:
+      - text
       type: object
       properties:
-        p50:
-          type: number
-        p90:
-          type: number
-        p99:
-          type: number
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
       readOnly: true
+    KpiCardResponse:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/KpiMetric'
+    StudioMetric_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    ProjectMetricRequest_Public:
+      type: object
+      properties:
+        metric_type:
+          type: string
+          enum:
+          - FEEDBACK_SCORES
+          - TRACE_COUNT
+          - TOKEN_USAGE
+          - DURATION
+          - COST
+          - GUARDRAILS_FAILED_COUNT
+          - THREAD_COUNT
+          - THREAD_DURATION
+          - THREAD_FEEDBACK_SCORES
+          - SPAN_FEEDBACK_SCORES
+          - SPAN_COUNT
+          - SPAN_DURATION
+          - SPAN_TOKEN_USAGE
+          - TRACE_AVERAGE_DURATION
+          - TRACE_ERROR_RATE
+          - SPAN_AVERAGE_DURATION
+          - SPAN_COST
+          - SPAN_ERROR_RATE
+          - THREAD_AVERAGE_DURATION
+          - THREAD_COST
+        interval:
+          type: string
+          enum:
+          - HOURLY
+          - DAILY
+          - WEEKLY
+          - TOTAL
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+        span_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpanFilter_Public'
+        trace_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraceFilter_Public'
+        thread_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraceThreadFilter_Public'
+        breakdown:
+          $ref: '#/components/schemas/BreakdownConfig_Public'
+    Alert_Public:
+      required:
+      - webhook
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        enabled:
+          type: boolean
+        alert_type:
+          type: string
+          enum:
+          - general
+          - slack
+          - pagerduty
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        webhook:
+          $ref: '#/components/schemas/Webhook_Public'
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTrigger_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        project_id:
+          type: string
+          description: Optional project scope for this alert. When set, the alert is scoped to the specified project. Do NOT also provide a 'scope:project' trigger config — the system will create it automatically from this field. Sending both project_id and a scope:project trigger config will result in an error.
+          format: uuid
+    DatasetVersionSummary_Public:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the version
+          format: uuid
+        version_hash:
+          type: string
+          description: Hash of the version content
+        version_name:
+          type: string
+          description: Sequential version name formatted as 'v1', 'v2', etc.
+        change_description:
+          type: string
+          description: Description of changes in this version
+        tags:
+          uniqueItems: true
+          type: array
+          description: Tags associated with this version
+          items:
+            type: string
+            description: Tags associated with this version
+      description: Summary of the latest dataset version
+      readOnly: true
+    JsonNode_Public:
+      type: object
+    AlertTriggerConfig_Public:
+      required:
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        alert_trigger_id:
+          type: string
+          format: uuid
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - scope:project
+          - threshold:feedback_score
+          - threshold:cost
+          - threshold:latency
+          - threshold:errors
+        config_value:
+          type: object
+          additionalProperties:
+            type: string
+        group_index:
+          type: integer
+          description: 'Groups configs within a trigger: same group_index means AND between configs, different group_index means OR between groups. Null means a legacy/singleton group of one config. Always null for scope:project configs.'
+          format: int32
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    DataPointNumber_Public:
+      required:
+      - time
+      type: object
+      properties:
+        time:
+          type: string
+          format: date-time
+        value:
+          type: number
+    ScoreName:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    JsonListString_Public:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ExperimentScore_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    DatasetPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        sortableBy:
+          type: array
+          items:
+            type: string
+    TraceFilter_Public:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    AlertPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert_Public'
+        sortable_by:
+          type: array
+          items:
+            type: string
+    StudioMessage_Public:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          minLength: 1
+          type: string
+    RecentActivityItem_Public:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - trace_daily
+          - experiment
+          - dataset_version
+          - test_suite_version
+          - alert_event
+          - optimization
+          - prompt_version
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        resource_id:
+          type: string
+          format: uuid
+        created_by:
+          type: string
+        created_at:
+          type: string
+          format: date-time
     FeedbackScoreAverage:
       required:
       - name
@@ -2045,6 +1542,298 @@ components:
           type: string
         value:
           type: number
+    Prompt_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        template_structure:
+          type: string
+          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
+          default: text
+          enum:
+          - text
+          - chat
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        version_count:
+          type: integer
+          format: int64
+          readOnly: true
+    ErrorMessage_Detailed:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    StudioPrompt_Public:
+      required:
+      - messages
+      type: object
+      properties:
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMessage_Public'
+    ProjectPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    Dataset_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        type:
+          type: string
+          enum:
+          - dataset
+          - evaluation_suite
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        experiment_count:
+          type: integer
+          format: int64
+          readOnly: true
+        dataset_items_count:
+          type: integer
+          format: int64
+          readOnly: true
+        optimization_count:
+          type: integer
+          format: int64
+          readOnly: true
+        most_recent_experiment_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_created_experiment_at:
+          type: string
+          format: date-time
+          readOnly: true
+        most_recent_optimization_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_created_optimization_at:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - unknown
+          - processing
+          - completed
+          - failed
+        latest_version:
+          $ref: '#/components/schemas/DatasetVersionSummary_Public'
+    ProjectRetrieve_Detailed:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        includeStats:
+          type: boolean
+    FeedbackScoreNames:
+      type: object
+      properties:
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreName'
+    AlertTrigger_Public:
+      required:
+      - event_type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        alert_id:
+          type: string
+          format: uuid
+          readOnly: true
+        event_type:
+          type: string
+          enum:
+          - trace:errors
+          - trace:feedback_score
+          - trace_thread:feedback_score
+          - prompt:created
+          - prompt:committed
+          - trace:guardrails_triggered
+          - prompt:deleted
+          - experiment:finished
+          - trace:cost
+          - trace:latency
+        trigger_configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlertTriggerConfig_Public'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+    DashboardPage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dashboard_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        sortable_by:
+          type: array
+          items:
+            type: string
+    KpiCardRequest:
+      required:
+      - entity_type
+      - interval_start
+      type: object
+      properties:
+        entity_type:
+          type: string
+          enum:
+          - traces
+          - spans
+          - threads
+        filters:
+          type: string
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+    ErrorCountWithDeviation_Detailed:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        deviation:
+          type: integer
+          format: int64
+        deviation_percentage:
+          type: integer
+          format: int64
+      readOnly: true
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
     Dashboard_Public:
       required:
       - config
@@ -2100,6 +1889,367 @@ components:
           type: string
           format: date-time
           readOnly: true
+    StudioOptimizer_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    FeedbackScoreAverage_Detailed:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
+    TokenUsageNames:
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+    PercentageValues:
+      type: object
+      properties:
+        p50:
+          type: number
+        p90:
+          type: number
+        p99:
+          type: number
+    OptimizationStudioConfig_Public:
+      required:
+      - dataset_name
+      - evaluation
+      - llm_model
+      - optimizer
+      - prompt
+      type: object
+      properties:
+        dataset_name:
+          minLength: 1
+          type: string
+        prompt:
+          $ref: '#/components/schemas/StudioPrompt_Public'
+        llm_model:
+          $ref: '#/components/schemas/StudioLlmModel_Public'
+        evaluation:
+          $ref: '#/components/schemas/StudioEvaluation_Public'
+        optimizer:
+          $ref: '#/components/schemas/StudioOptimizer_Public'
+    ErrorCountWithDeviation:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        deviation:
+          type: integer
+          format: int64
+        deviation_percentage:
+          type: integer
+          format: int64
+    Project_Detailed:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          minLength: 1
+          type: string
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_trace_at:
+          type: string
+          format: date-time
+          readOnly: true
+        feedback_scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage_Detailed'
+        duration:
+          $ref: '#/components/schemas/PercentageValues_Detailed'
+        total_estimated_cost:
+          type: number
+          format: double
+          readOnly: true
+        total_estimated_cost_sum:
+          type: number
+          format: double
+          readOnly: true
+        usage:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+            readOnly: true
+          readOnly: true
+        trace_count:
+          type: integer
+          format: int64
+          readOnly: true
+        thread_count:
+          type: integer
+          format: int64
+          readOnly: true
+        guardrails_failed_count:
+          type: integer
+          format: int64
+          readOnly: true
+        error_count:
+          $ref: '#/components/schemas/ErrorCountWithDeviation_Detailed'
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+    ExperimentPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Experiment_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    PercentageValues_Detailed:
+      type: object
+      properties:
+        p50:
+          type: number
+        p90:
+          type: number
+        p99:
+          type: number
+      readOnly: true
+    TraceThreadFilter_Public:
+      type: object
+      properties:
+        field:
+          type: string
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    ProjectStatsSummaryItem:
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        feedback_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage'
+        duration:
+          $ref: '#/components/schemas/PercentageValues'
+        total_estimated_cost:
+          type: number
+          format: double
+        total_estimated_cost_sum:
+          type: number
+          format: double
+        usage:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        trace_count:
+          type: integer
+          format: int64
+        thread_count:
+          type: integer
+          format: int64
+        guardrails_failed_count:
+          type: integer
+          format: int64
+        error_count:
+          $ref: '#/components/schemas/ErrorCountWithDeviation'
+    Project_Write:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+    StudioLlmModel_Public:
+      required:
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    BreakdownConfig_Public:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+          - none
+          - tags
+          - metadata
+          - name
+          - error_info
+          - error_type
+          - model
+          - provider
+          - type
+        metadata_key:
+          type: string
+        sub_metric:
+          type: string
+    Project_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          minLength: 1
+          type: string
+        visibility:
+          type: string
+          enum:
+          - private
+          - public
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_trace_at:
+          type: string
+          format: date-time
+          readOnly: true
+    RecentActivityPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecentActivityItem_Public'
     ProjectMetricResponse_Public:
       type: object
       properties:
@@ -2140,84 +2290,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResultsNumber_Public'
-    StudioMessage_Public:
-      required:
-      - content
-      - role
-      type: object
-      properties:
-        role:
-          minLength: 1
-          type: string
-        content:
-          minLength: 1
-          type: string
-    DatasetPage_Public:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dataset_Public'
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        sortableBy:
-          type: array
-          items:
-            type: string
-    ResultsNumber_Public:
-      type: object
-      properties:
-        name:
-          type: string
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataPointNumber_Public'
-    SpanFilter_Public:
-      type: object
-      properties:
-        field:
-          type: string
-        operator:
-          type: string
-          enum:
-          - contains
-          - not_contains
-          - starts_with
-          - ends_with
-          - '='
-          - '!='
-          - '>'
-          - '>='
-          - <
-          - <=
-          - is_empty
-          - is_not_empty
-          - in
-          - not_in
-        key:
-          type: string
-        value:
-          type: string
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    FeedbackScoreAverage_Detailed:
+    AssertionScoreAverage_Public:
       required:
       - name
       - value
@@ -2228,87 +2301,5 @@ components:
           type: string
         value:
           type: number
+      description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
       readOnly: true
-    FeedbackScoreAverage_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-      readOnly: true
-    DashboardPage_Public:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dashboard_Public'
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        sortable_by:
-          type: array
-          items:
-            type: string
-    ProjectStatsSummaryItem:
-      type: object
-      properties:
-        project_id:
-          type: string
-          format: uuid
-        feedback_scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/FeedbackScoreAverage'
-        duration:
-          $ref: '#/components/schemas/PercentageValues'
-        total_estimated_cost:
-          type: number
-          format: double
-        total_estimated_cost_sum:
-          type: number
-          format: double
-        usage:
-          type: object
-          additionalProperties:
-            type: number
-            format: double
-        trace_count:
-          type: integer
-          format: int64
-        thread_count:
-          type: integer
-          format: int64
-        guardrails_failed_count:
-          type: integer
-          format: int64
-        error_count:
-          $ref: '#/components/schemas/ErrorCountWithDeviation'
-    StudioEvaluation_Public:
-      required:
-      - metrics
-      type: object
-      properties:
-        metrics:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/StudioMetric_Public'
-    ScoreName:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string

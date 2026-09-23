@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Opik REST Prompts API
-  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  description: The Opik REST API is currently in beta and subject to change.
   contact:
     name: Github Repository
     url: https://github.com/comet-ml/opik
@@ -23,7 +23,6 @@ paths:
       tags:
       - Prompts
       summary: Get prompts
-      description: Get prompts
       operationId: getPrompts
       parameters:
       - name: page
@@ -69,7 +68,6 @@ paths:
       tags:
       - Prompts
       summary: Create prompt
-      description: Create prompt
       operationId: createPrompt
       requestBody:
         content:
@@ -109,7 +107,6 @@ paths:
       tags:
       - Prompts
       summary: Create prompt version
-      description: Create prompt version
       operationId: createPromptVersion
       requestBody:
         content:
@@ -161,9 +158,7 @@ paths:
 
         - null values preserve existing field values (no change)
 
-        - empty values explicitly clear the field
-
-        '
+        - empty values explicitly clear the field'
       operationId: updatePromptVersions
       requestBody:
         content:
@@ -230,7 +225,6 @@ paths:
       tags:
       - Prompts
       summary: Update prompt
-      description: Update prompt
       operationId: updatePrompt
       parameters:
       - name: id
@@ -275,7 +269,6 @@ paths:
       tags:
       - Prompts
       summary: Delete prompt
-      description: Delete prompt
       operationId: deletePrompt
       parameters:
       - name: id
@@ -307,7 +300,6 @@ paths:
       tags:
       - Prompts
       summary: Get prompt by commit
-      description: Get prompt by commit
       operationId: getPromptByCommit
       parameters:
       - name: commit
@@ -346,7 +338,6 @@ paths:
       tags:
       - Prompts
       summary: Get prompt version by id
-      description: Get prompt version by id
       operationId: getPromptVersionById
       parameters:
       - name: versionId
@@ -373,7 +364,7 @@ paths:
       tags:
       - Prompts
       summary: Get prompt version by sequential number
-      description: Get a prompt version by its sequential v<N> number for the given prompt.
+      description: Get a prompt version by its sequential v number for the given prompt.
       operationId: getPromptVersionByNumber
       parameters:
       - name: promptId
@@ -414,7 +405,6 @@ paths:
       tags:
       - Prompts
       summary: Get prompt versions
-      description: Get prompt versions
       operationId: getPromptVersions
       parameters:
       - name: id
@@ -522,7 +512,6 @@ paths:
       tags:
       - Prompts
       summary: Retrieve prompt version
-      description: Retrieve prompt version
       operationId: retrievePromptVersion
       requestBody:
         content:
@@ -594,9 +583,7 @@ paths:
 
         Setting null clears the environment from the version.
 
-        The environment must already exist in the workspace registry; unknown names return 404.
-
-        '
+        The environment must already exist in the workspace registry; unknown names return 404.'
       operationId: setPromptVersionEnvironment
       parameters:
       - name: versionId
@@ -627,131 +614,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    PromptVersionIdsRequest_Detail:
-      required:
-      - ids
+    ErrorMessage:
       type: object
       properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            type: string
-            format: uuid
-    JsonNode_Public:
-      type: object
-    PromptVersionLink_Public:
-      type: object
-      properties:
-        prompt_version_id:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-          format: uuid
-        commit:
+        details:
           type: string
-        prompt_id:
-          type: string
-          format: uuid
-        prompt_name:
-          type: string
-    PromptVersion_Public:
-      required:
-      - template
-      type: object
-      properties:
-        id:
-          type: string
-          description: version unique identifier, generated if absent
-          format: uuid
-        prompt_id:
-          type: string
-          format: uuid
-          readOnly: true
-        commit:
-          pattern: ^[a-zA-Z0-9]{8}$
-          type: string
-          description: version short unique identifier, generated if absent. it must be 8 characters long
-        version_number:
-          type: string
-          description: sequential version number in the format v<N>; null for masks
-          readOnly: true
-        template:
-          minLength: 1
-          type: string
-        metadata:
-          $ref: '#/components/schemas/JsonNode_Public'
-        type:
-          type: string
-          enum:
-          - mustache
-          - jinja2
-          - python
-        version_type:
-          type: string
-          description: version type discriminator; defaults to prompt_version
-          enum:
-          - prompt_version
-          - mask
-        environment:
-          maxLength: 150
-          minLength: 0
-          pattern: ^[A-Za-z0-9_-]+$
-          type: string
-          description: 'Deprecated: use ''environments'' instead'
-          deprecated: true
-        environments:
-          maxItems: 100
-          minItems: 0
-          uniqueItems: true
-          type: array
-          items:
-            maxLength: 150
-            minLength: 0
-            pattern: ^[A-Za-z0-9_-]+$
-            type: string
-        change_description:
-          type: string
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            minLength: 1
-            type: string
-        template_structure:
-          type: string
-          readOnly: true
-          enum:
-          - text
-          - chat
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-    JsonNode_Write:
-      type: object
-    ErrorMessage_Detail:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-    BatchDelete:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
     PromptPage_Public:
       type: object
       properties:
@@ -772,68 +644,21 @@ components:
           type: array
           items:
             type: string
-    Prompt_Public:
-      required:
-      - name
+    JsonNode_Write:
+      type: object
+    PromptVersionLink_Public:
       type: object
       properties:
-        id:
+        prompt_version_id:
           type: string
           format: uuid
-        name:
-          minLength: 1
+        commit:
           type: string
-        project_id:
+        prompt_id:
           type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
           format: uuid
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+        prompt_name:
           type: string
-        template_structure:
-          type: string
-          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
-          default: text
-          enum:
-          - text
-          - chat
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        version_count:
-          type: integer
-          format: int64
-          readOnly: true
-    PromptVersionCommitsRequest_Public:
-      required:
-      - commits
-      type: object
-      properties:
-        commits:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            minLength: 1
-            type: string
     Prompt_Updatable:
       required:
       - name
@@ -852,57 +677,6 @@ components:
           type: array
           items:
             type: string
-    Prompt_Write:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          minLength: 1
-          type: string
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the prompt is created at workspace level.
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        template:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        metadata:
-          $ref: '#/components/schemas/JsonNode_Write'
-        change_description:
-          type: string
-        type:
-          type: string
-          enum:
-          - mustache
-          - jinja2
-          - python
-        template_structure:
-          type: string
-          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
-          default: text
-          enum:
-          - text
-          - chat
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-    JsonNode_Detail:
-      type: object
     PromptVersion_Detail:
       required:
       - template
@@ -986,10 +760,52 @@ components:
         created_by:
           type: string
           readOnly: true
-    PromptVersionBatchUpdate:
+    ErrorMessage_Detail:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    JsonNode_Public:
+      type: object
+    JsonNode_Detail:
+      type: object
+    PromptVersionPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersion_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    PromptVersionIdsRequest_Detail:
       required:
       - ids
-      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            type: string
+            format: uuid
+    BatchDelete:
+      required:
+      - ids
       type: object
       properties:
         ids:
@@ -997,28 +813,187 @@ components:
           minItems: 1
           uniqueItems: true
           type: array
-          description: IDs of prompt versions to update
           items:
             type: string
-            description: IDs of prompt versions to update
             format: uuid
-        update:
-          $ref: '#/components/schemas/PromptVersionUpdate'
-        merge_tags:
-          type: boolean
-          description: 'Tag merge behavior:
+    Prompt_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        template_structure:
+          type: string
+          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
+          default: text
+          enum:
+          - text
+          - chat
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        version_count:
+          type: integer
+          format: int64
+          readOnly: true
+    PromptVersion_Public:
+      required:
+      - template
+      type: object
+      properties:
+        id:
+          type: string
+          description: version unique identifier, generated if absent
+          format: uuid
+        prompt_id:
+          type: string
+          format: uuid
+          readOnly: true
+        commit:
+          pattern: ^[a-zA-Z0-9]{8}$
+          type: string
+          description: version short unique identifier, generated if absent. it must be 8 characters long
+        version_number:
+          type: string
+          description: sequential version number in the format v<N>; null for masks
+          readOnly: true
+        template:
+          minLength: 1
+          type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode_Public'
+        type:
+          type: string
+          enum:
+          - mustache
+          - jinja2
+          - python
+        version_type:
+          type: string
+          description: version type discriminator; defaults to prompt_version
+          enum:
+          - prompt_version
+          - mask
+        environment:
+          maxLength: 150
+          minLength: 0
+          pattern: ^[A-Za-z0-9_-]+$
+          type: string
+          description: 'Deprecated: use ''environments'' instead'
+          deprecated: true
+        environments:
+          maxItems: 100
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 150
+            minLength: 0
+            pattern: ^[A-Za-z0-9_-]+$
+            type: string
+        change_description:
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+        template_structure:
+          type: string
+          readOnly: true
+          enum:
+          - text
+          - chat
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+    PromptVersionEnvironmentUpdate:
+      required:
+      - environments
+      type: object
+      properties:
+        environments:
+          maxItems: 100
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 150
+            minLength: 0
+            pattern: ^[A-Za-z0-9_-]+$
+            type: string
+      description: 'Replace the full set of environments assigned to a prompt version.
 
-            - true: Add new tags to existing tags (union)
+        The provided set becomes the new complete set of environments for this version.
 
-            - false: Replace all existing tags with new tags (default behaviour if not provided)
+        - Non-empty set: assigns each environment to this version; if another version of the same prompt currently owns any of those environments, ownership is moved atomically.
 
-            '
-          default: false
-      description: 'Request to update one or more prompt versions.
+        - Empty set: clears all environments from this version.
 
-        Note: Prompt versions are immutable by design - only organizational properties (such as tags etc.) can be updated.
+        All environments must already exist in the workspace registry; unknown names return 404.
 
         '
+    CreatePromptVersion_Detail:
+      required:
+      - name
+      - version
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        version:
+          $ref: '#/components/schemas/PromptVersion_Detail'
+        template_structure:
+          type: string
+          description: 'Template structure for the prompt: ''text'' or ''chat''. Note: This field is only used when creating a new prompt. If a prompt with the given name already exists, this field is ignored and the existing prompt''s template structure is used. Template structure is immutable after prompt creation.'
+          default: text
+          enum:
+          - text
+          - chat
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If provided, scopes the prompt to the specified project. Ignored when project_id is provided.
     Prompt_Detail:
       required:
       - name
@@ -1073,70 +1048,88 @@ components:
           $ref: '#/components/schemas/PromptVersion_Detail'
         requested_version:
           $ref: '#/components/schemas/PromptVersion_Detail'
-    PromptVersionEnvironmentUpdate:
+    PromptVersionCommitsRequest_Public:
       required:
-      - environments
+      - commits
       type: object
       properties:
-        environments:
-          maxItems: 100
-          minItems: 0
-          uniqueItems: true
+        commits:
+          maxItems: 1000
+          minItems: 1
           type: array
           items:
-            maxLength: 150
-            minLength: 0
-            pattern: ^[A-Za-z0-9_-]+$
+            minLength: 1
             type: string
-      description: 'Replace the full set of environments assigned to a prompt version.
-
-        The provided set becomes the new complete set of environments for this version.
-
-        - Non-empty set: assigns each environment to this version; if another version of the same prompt currently owns any of those environments, ownership is moved atomically.
-
-        - Empty set: clears all environments from this version.
-
-        All environments must already exist in the workspace registry; unknown names return 404.
-
-        '
-    PromptVersionPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromptVersion_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    CreatePromptVersion_Detail:
+    PromptVersionRetrieve_Detail:
       required:
       - name
-      - version
       type: object
       properties:
         name:
           minLength: 1
           type: string
-        version:
-          $ref: '#/components/schemas/PromptVersion_Detail'
-        template_structure:
+        commit:
           type: string
-          description: 'Template structure for the prompt: ''text'' or ''chat''. Note: This field is only used when creating a new prompt. If a prompt with the given name already exists, this field is ignored and the existing prompt''s template structure is used. Template structure is immutable after prompt creation.'
-          default: text
-          enum:
-          - text
-          - chat
+        environment:
+          maxLength: 150
+          minLength: 0
+          pattern: ^[A-Za-z0-9_-]+$
+          type: string
+          description: If provided, resolves to the version mapped to this environment for the prompt; mutually exclusive with commit and version_number
+        version_number:
+          maxLength: 10
+          minLength: 0
+          pattern: v\d+
+          type: string
+          description: If provided, resolves to the version with this sequential number (e.g. v3); mutually exclusive with commit and environment
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If provided, scopes the search to the specified project
+    PromptVersionBatchUpdate:
+      required:
+      - ids
+      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: IDs of prompt versions to update
+          items:
+            type: string
+            description: IDs of prompt versions to update
+            format: uuid
+        update:
+          $ref: '#/components/schemas/PromptVersionUpdate'
+        merge_tags:
+          type: boolean
+          description: 'Tag merge behavior:
+
+            - true: Add new tags to existing tags (union)
+
+            - false: Replace all existing tags with new tags (default behaviour if not provided)
+
+            '
+          default: false
+      description: 'Request to update one or more prompt versions.
+
+        Note: Prompt versions are immutable by design - only organizational properties (such as tags etc.) can be updated.
+
+        '
+    Prompt_Write:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
         project_id:
           type: string
           description: Project ID. Takes precedence over project_name when both are provided.
@@ -1144,17 +1137,37 @@ components:
         project_name:
           pattern: (?s)^\s*(\S.*\S|\S)\s*$
           type: string
-          description: If provided, scopes the prompt to the specified project. Ignored when project_id is provided.
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
+          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the prompt is created at workspace level.
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
           type: string
-        details:
+        template:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
           type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode_Write'
+        change_description:
+          type: string
+        type:
+          type: string
+          enum:
+          - mustache
+          - jinja2
+          - python
+        template_structure:
+          type: string
+          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
+          default: text
+          enum:
+          - text
+          - chat
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     PromptVersionUpdate:
       type: object
       properties:
@@ -1198,29 +1211,3 @@ components:
         Core properties like template, metadata etc. cannot be modified after creation.
 
         '
-    PromptVersionRetrieve_Detail:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        commit:
-          type: string
-        environment:
-          maxLength: 150
-          minLength: 0
-          pattern: ^[A-Za-z0-9_-]+$
-          type: string
-          description: If provided, resolves to the version mapped to this environment for the prompt; mutually exclusive with commit and version_number
-        version_number:
-          maxLength: 10
-          minLength: 0
-          pattern: v\d+
-          type: string
-          description: If provided, resolves to the version with this sequential number (e.g. v3); mutually exclusive with commit and environment
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: If provided, scopes the search to the specified project

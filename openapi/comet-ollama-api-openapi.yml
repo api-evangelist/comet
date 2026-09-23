@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Opik REST Ollama API
-  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  description: The Opik REST API is currently in beta and subject to change.
   contact:
     name: Github Repository
     url: https://github.com/comet-ml/opik
@@ -94,6 +94,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     OllamaInstanceBaseUrlRequest:
       required:
       - base_url
@@ -108,29 +118,6 @@ components:
           type: string
           description: Optional API key for authenticated Ollama instances. If provided, will be sent as Bearer token in Authorization header.
       description: Request with Ollama instance base URL for connection testing or model discovery.
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    OllamaConnectionTestResponse:
-      type: object
-      properties:
-        connected:
-          type: boolean
-          description: Whether the connection was successful
-        version:
-          type: string
-          description: Server version (returned even if connection failed or version is incompatible)
-        error_message:
-          type: string
-          description: Error message if connection failed
-      description: Response from Ollama connection test.
     OllamaModel:
       required:
       - name
@@ -153,3 +140,16 @@ components:
           description: Model modification date
           format: date-time
       description: Ollama model information
+    OllamaConnectionTestResponse:
+      type: object
+      properties:
+        connected:
+          type: boolean
+          description: Whether the connection was successful
+        version:
+          type: string
+          description: Server version (returned even if connection failed or version is incompatible)
+        error_message:
+          type: string
+          description: Error message if connection failed
+      description: Response from Ollama connection test.

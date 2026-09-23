@@ -1,7 +1,7 @@
 {
   "provider": "comet",
   "sources": [
-    "comet-opik-openapi-original.yml"
+    "_original/comet-opik-openapi-original.yml"
   ],
   "outputs": [
     "comet-agent-configs-api-openapi.yml",
@@ -47,15 +47,59 @@
     "comet-workspace-permissions-api-openapi.yml",
     "comet-workspaces-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/comet-opik-openapi-original.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "comet-opik-openapi-original.yml: tagged GET /is-alive/ping -> Is Alive",
-    "comet-opik-openapi-original.yml: tagged GET /is-alive/ver -> Is Alive",
-    "comet-opik-openapi-original.yml: declared missing tag: Is Alive"
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "comet-opik-openapi-original.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "comet-opik-openapi-original.yml: tagged paths GET /is-alive/ping -> Is Alive",
+    "comet-opik-openapi-original.yml: tagged paths GET /is-alive/ver -> Is Alive",
+    "comet-opik-openapi-original.yml: declared missing tag: Is Alive",
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "comet-agent-configs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-agent-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-agent-insights-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-annotation-queues-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-assertion-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-attachments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-automation-rule-evaluators-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-chat-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-check-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-dashboards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-environments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-experiments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-feedback-definitions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-guardrails-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-insights-views-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-is-alive-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-llm-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-llmproviderkey-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-manual-evaluation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-mcp-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-ollama-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-ollie-state-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-opentelemetry-ingestion-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-optimizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-pairing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-redirect-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-report-failures-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-retention-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-runners-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-service-toggles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-spans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-system-analytics-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-system-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-traces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-welcome-wizard-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-workspace-permissions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "comet-workspaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

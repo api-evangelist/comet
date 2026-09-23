@@ -1,0 +1,38 @@
+# Front Door AI Index — comet — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: comet
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.comet.com
+  final_host: www.comet.com
+  ownership: own
+  owner: comet
+  shares_host_with:
+  - comet-ml
+  - opik
+  inherited_from: null
+  verdict: scored
+  score: 51
+  host_score: 51
+  density: 30.78
+  words: 1657
+  tiers:
+    agentic: 8
+    core: 36
+    model: 7
+  ambiguous: 18
+  top_terms:
+    agent: 16
+    LLMs: 12
+    ML: 10
+    AI: 8
+    OpenAI: 4
+    prompts: 4
+    MCP: 3
+    gen ai: 3
+    Claude: 2
+    deep learning: 2
+    intelligence: 2
+    agentic: 1

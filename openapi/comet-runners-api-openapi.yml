@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Opik REST Runners API
-  description: "The Opik REST API is currently in beta and subject to change. If you have any questions or feedback about the APIs, please reach out on GitHub: https://github.com/comet-ml/opik.\n\nAll of the methods listed in this documentation are used by either the SDK or the UI to interact with the Opik server. As a result,\nthe methods have been optimized for these use-cases in mind. If you are looking for a method that is not listed above, please create\nand issue on GitHub or raise a PR!\n\nOpik includes two main deployment options that results in slightly different API usage:\n\n- **Self-hosted Opik instance:** You will simply need to specify the URL as `http://localhost:5173/api/<endpoint_path>` or similar. This is the default option for the docs.\n- **Opik Cloud:** You will need to specify the Opik API Key and Opik Workspace in the header. The format of the header should be:\n\n  ```\n  {\n    \"Comet-Workspace\": \"your-workspace-name\",\n    \"authorization\": \"your-api-key\"\n  }\n  ```\n\n  The full payload would therefore look like:\n  \n  ```\n  curl -X GET 'https://www.comet.com/opik/api/v1/private/projects' \\\n  -H 'Accept: application/json' \\\n  -H 'Comet-Workspace: <your-workspace-name>' \\\n  -H 'authorization: <your-api-key>'\n  ```\n\n  Do take note here that the authorization header value does not include the `Bearer ` prefix. To switch to using the Opik Cloud in the documentation, you can\n  click on the edit button displayed when hovering over the `Base URL` displayed on the right hand side of the docs.\n"
+  description: The Opik REST API is currently in beta and subject to change.
   contact:
     name: Github Repository
     url: https://github.com/comet-ml/opik
@@ -638,238 +638,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    LocalRunnerJobMetadata:
+    ErrorMessage:
       type: object
       properties:
-        dataset_id:
-          type: string
-          format: uuid
-        dataset_version_id:
-          type: string
-          format: uuid
-        dataset_item_version_id:
-          type: string
-          format: uuid
-        dataset_item_id:
-          type: string
-          format: uuid
-    BridgeCommand:
-      type: object
-      properties:
-        command_id:
-          type: string
-          format: uuid
-        runner_id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - ReadFile
-          - WriteFile
-          - EditFile
-          - ListFiles
-          - SearchFiles
-          - Exec
-        status:
-          type: string
-          enum:
-          - pending
-          - picked_up
-          - completed
-          - failed
-          - timed_out
-        args:
-          $ref: '#/components/schemas/JsonNode'
-        result:
-          $ref: '#/components/schemas/JsonNode'
-        error:
-          $ref: '#/components/schemas/JsonNode'
-        timeout_seconds:
+        code:
           type: integer
           format: int32
-        submitted_at:
+        message:
           type: string
-          format: date-time
-        picked_up_at:
+        details:
           type: string
-          format: date-time
-        completed_at:
-          type: string
-          format: date-time
-        duration_ms:
-          type: integer
-          format: int64
-    BridgeCommandSubmitRequest:
-      required:
-      - args
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - ReadFile
-          - WriteFile
-          - EditFile
-          - ListFiles
-          - SearchFiles
-          - Exec
-        args:
-          $ref: '#/components/schemas/JsonNode'
-        timeout_seconds:
-          type: integer
-          format: int32
-    BridgeCommandItem:
-      type: object
-      properties:
-        command_id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - ReadFile
-          - WriteFile
-          - EditFile
-          - ListFiles
-          - SearchFiles
-          - Exec
-        args:
-          $ref: '#/components/schemas/JsonNode'
-        timeout_seconds:
-          type: integer
-          format: int32
-        submitted_at:
-          type: string
-          format: date-time
-    LocalRunnerHeartbeatResponse:
-      type: object
-      properties:
-        cancelled_job_ids:
-          type: array
-          items:
-            type: string
-            format: uuid
-    CreateLocalRunnerJobRequest:
-      required:
-      - agent_name
-      - project_id
-      type: object
-      properties:
-        agent_name:
-          minLength: 1
-          type: string
-        inputs:
-          $ref: '#/components/schemas/JsonNode'
-        project_id:
-          type: string
-          format: uuid
-        mask_id:
-          type: string
-          description: Deprecated. Use prompt_masks to pass one or more mask overlays keyed by prompt id.
-          format: uuid
-          deprecated: true
-        prompt_masks:
-          type: object
-          additionalProperties:
-            type: string
-            description: Mask overlays to apply during agent execution, keyed by prompt id.
-            format: uuid
-          description: Mask overlays to apply during agent execution, keyed by prompt id.
-        blueprint_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        metadata:
-          $ref: '#/components/schemas/LocalRunnerJobMetadata'
-    LocalRunner:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        project_id:
-          type: string
-          format: uuid
-        status:
-          type: string
-          enum:
-          - pairing
-          - connected
-          - disconnected
-        connected_at:
-          type: string
-          format: date-time
-        agents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agent'
-        capabilities:
-          type: array
-          items:
-            type: string
-        checklist:
-          $ref: '#/components/schemas/JsonNode'
-        type:
-          type: string
-          enum:
-          - connect
-          - endpoint
-    LocalRunnerJobPage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocalRunnerJob'
-    Param:
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        type:
-          minLength: 1
-          type: string
-        presence:
-          type: string
-          enum:
-          - required
-          - optional
-    LocalRunnerJobResultRequest:
-      required:
-      - status
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - pending
-          - running
-          - completed
-          - failed
-          - cancelled
-        result:
-          $ref: '#/components/schemas/JsonNode'
-        error:
-          type: string
-        trace_id:
-          type: string
-          format: uuid
     LocalRunnerJob:
       type: object
       properties:
@@ -930,6 +708,86 @@ components:
         completed_at:
           type: string
           format: date-time
+    LocalRunnerHeartbeatResponse:
+      type: object
+      properties:
+        cancelled_job_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    LocalRunnerLogEntry:
+      required:
+      - stream
+      - text
+      type: object
+      properties:
+        stream:
+          minLength: 1
+          type: string
+        text:
+          minLength: 1
+          type: string
+    LocalRunnerJobResultRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          - cancelled
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          type: string
+        trace_id:
+          type: string
+          format: uuid
+    BridgeCommandItem:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+        submitted_at:
+          type: string
+          format: date-time
+    Param:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          minLength: 1
+          type: string
+        presence:
+          type: string
+          enum:
+          - required
+          - optional
     LocalRunnerPage:
       type: object
       properties:
@@ -946,46 +804,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LocalRunner'
-    Agent:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        language:
-          type: string
-        executable:
-          type: string
-        source_file:
-          type: string
-        params:
-          type: array
-          items:
-            $ref: '#/components/schemas/Param'
-        timeout:
-          type: integer
-          format: int32
     BridgeCommandNextRequest:
       type: object
       properties:
         max_commands:
           type: integer
           format: int32
-    LocalRunnerLogEntry:
+    BridgeCommandSubmitRequest:
       required:
-      - stream
-      - text
+      - args
+      - type
       type: object
       properties:
-        stream:
-          minLength: 1
+        type:
           type: string
-        text:
-          minLength: 1
-          type: string
-    JsonNode:
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+    LocalRunnerHeartbeatRequest:
       type: object
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+    BridgeCommandBatchResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/BridgeCommandItem'
     BridgeCommandResultRequest:
       required:
       - status
@@ -1006,33 +864,175 @@ components:
         duration_ms:
           type: integer
           format: int64
-    BridgeCommandBatchResponse:
+    JsonNode:
+      type: object
+    LocalRunnerJobPage:
       type: object
       properties:
-        commands:
-          type: array
-          items:
-            $ref: '#/components/schemas/BridgeCommandItem'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
+        page:
           type: integer
           format: int32
-        message:
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalRunnerJob'
+    CreateLocalRunnerJobRequest:
+      required:
+      - agent_name
+      - project_id
+      type: object
+      properties:
+        agent_name:
+          minLength: 1
           type: string
-        details:
+        inputs:
+          $ref: '#/components/schemas/JsonNode'
+        project_id:
           type: string
+          format: uuid
+        mask_id:
+          type: string
+          description: Deprecated. Use prompt_masks to pass one or more mask overlays keyed by prompt id.
+          format: uuid
+          deprecated: true
+        prompt_masks:
+          type: object
+          additionalProperties:
+            type: string
+            description: Mask overlays to apply during agent execution, keyed by prompt id.
+            format: uuid
+          description: Mask overlays to apply during agent execution, keyed by prompt id.
+        blueprint_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/LocalRunnerJobMetadata'
+    BridgeCommand:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
+        runner_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        status:
+          type: string
+          enum:
+          - pending
+          - picked_up
+          - completed
+          - failed
+          - timed_out
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+        submitted_at:
+          type: string
+          format: date-time
+        picked_up_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        duration_ms:
+          type: integer
+          format: int64
+    LocalRunner:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pairing
+          - connected
+          - disconnected
+        connected_at:
+          type: string
+          format: date-time
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        capabilities:
+          type: array
+          items:
+            type: string
+        checklist:
+          $ref: '#/components/schemas/JsonNode'
+        type:
+          type: string
+          enum:
+          - connect
+          - endpoint
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        language:
+          type: string
+        executable:
+          type: string
+        source_file:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/Param'
+        timeout:
+          type: integer
+          format: int32
     BridgeCommandSubmitResponse:
       type: object
       properties:
         command_id:
           type: string
           format: uuid
-    LocalRunnerHeartbeatRequest:
+    LocalRunnerJobMetadata:
       type: object
       properties:
-        capabilities:
-          type: array
-          items:
-            type: string
+        dataset_id:
+          type: string
+          format: uuid
+        dataset_version_id:
+          type: string
+          format: uuid
+        dataset_item_version_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
