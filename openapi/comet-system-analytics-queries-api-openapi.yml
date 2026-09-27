@@ -60,6 +60,8 @@ paths:
           description: Agent Insights queries are not enabled
 components:
   schemas:
+    JsonNode:
+      type: object
     AnalyticsQueryResponse:
       type: object
       properties:
@@ -67,8 +69,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/JsonNode'
-    JsonNode:
-      type: object
     ErrorMessage:
       type: object
       properties:

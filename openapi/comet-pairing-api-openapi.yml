@@ -143,16 +143,6 @@ components:
           enum:
           - connect
           - endpoint
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     CreateSessionResponse:
       type: object
       properties:
@@ -175,4 +165,14 @@ components:
         hmac:
           maxLength: 44
           minLength: 43
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
           type: string

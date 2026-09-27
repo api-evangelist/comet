@@ -241,68 +241,6 @@ paths:
       deprecated: true
 components:
   schemas:
-    WorkspaceVersion:
-      type: object
-      properties:
-        opik_version:
-          type: string
-          description: 'The determined Opik navigation version for this workspace.
-
-            ''version_1'' = legacy workspace-scoped navigation,
-
-            ''version_2'' = new project-first navigation.'
-          enum:
-          - version_1
-          - version_2
-      description: 'Workspace version response.
-
-        The opik_version field indicates which navigation mode the frontend should render:
-
-        ''version_1'' (legacy workspace-scoped) or ''version_2'' (project-first).'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    WorkspaceMetricsSummaryResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Result'
-    WorkspaceMetricsSummaryRequest:
-      required:
-      - interval_end
-      - interval_start
-      type: object
-      properties:
-        project_ids:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-        interval_start:
-          type: string
-          format: date-time
-        interval_end:
-          type: string
-          format: date-time
-        start_before_end:
-          type: boolean
-    WorkspaceMetricResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Result'
     WorkspaceConfiguration:
       type: object
       properties:
@@ -319,51 +257,17 @@ components:
             type: string
             description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
           description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
-    BreakdownConfig:
+    Result:
       type: object
       properties:
-        field:
+        name:
           type: string
-          enum:
-          - none
-          - tags
-          - metadata
-          - name
-          - error_info
-          - error_type
-          - model
-          - provider
-          - type
-        metadata_key:
-          type: string
-        sub_metric:
-          type: string
-    SpanFilter:
-      type: object
-      properties:
-        field:
-          type: string
-        operator:
-          type: string
-          enum:
-          - contains
-          - not_contains
-          - starts_with
-          - ends_with
-          - '='
-          - '!='
-          - '>'
-          - '>='
-          - <
-          - <=
-          - is_empty
-          - is_not_empty
-          - in
-          - not_in
-        key:
-          type: string
-        value:
-          type: string
+        current:
+          type: number
+          format: double
+        previous:
+          type: number
+          format: double
     WorkspaceSpanMetricRequest:
       required:
       - interval_start
@@ -419,14 +323,110 @@ components:
           format: date-time
         start_before_end:
           type: boolean
-    Result:
+    SpanFilter:
       type: object
       properties:
-        name:
+        field:
           type: string
-        current:
-          type: number
-          format: double
-        previous:
-          type: number
-          format: double
+        operator:
+          type: string
+          enum:
+          - contains
+          - not_contains
+          - starts_with
+          - ends_with
+          - '='
+          - '!='
+          - '>'
+          - '>='
+          - <
+          - <=
+          - is_empty
+          - is_not_empty
+          - in
+          - not_in
+        key:
+          type: string
+        value:
+          type: string
+    WorkspaceMetricResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+    WorkspaceVersion:
+      type: object
+      properties:
+        opik_version:
+          type: string
+          description: 'The determined Opik navigation version for this workspace.
+
+            ''version_1'' = legacy workspace-scoped navigation,
+
+            ''version_2'' = new project-first navigation.'
+          enum:
+          - version_1
+          - version_2
+      description: 'Workspace version response.
+
+        The opik_version field indicates which navigation mode the frontend should render:
+
+        ''version_1'' (legacy workspace-scoped) or ''version_2'' (project-first).'
+    WorkspaceMetricsSummaryResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
+    BreakdownConfig:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+          - none
+          - tags
+          - metadata
+          - name
+          - error_info
+          - error_type
+          - model
+          - provider
+          - type
+        metadata_key:
+          type: string
+        sub_metric:
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    WorkspaceMetricsSummaryRequest:
+      required:
+      - interval_end
+      - interval_start
+      type: object
+      properties:
+        project_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+        start_before_end:
+          type: boolean

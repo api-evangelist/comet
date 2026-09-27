@@ -45,13 +45,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    Permission:
-      type: object
-      properties:
-        permissionName:
-          type: string
-        permissionValue:
-          type: string
     WorkspaceUserPermissions:
       type: object
       properties:
@@ -63,6 +56,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Permission'
+    Permission:
+      type: object
+      properties:
+        permissionName:
+          type: string
+        permissionValue:
+          type: string
     ErrorMessage:
       type: object
       properties:

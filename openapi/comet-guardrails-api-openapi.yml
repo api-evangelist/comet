@@ -35,8 +35,17 @@ paths:
           description: No Content
 components:
   schemas:
-    JsonNode:
+    GuardrailBatch_Write:
+      required:
+      - guardrails
       type: object
+      properties:
+        guardrails:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Guardrail_Write'
     Guardrail_Write:
       required:
       - config
@@ -74,14 +83,5 @@ components:
           $ref: '#/components/schemas/JsonNode'
         details:
           $ref: '#/components/schemas/JsonNode'
-    GuardrailBatch_Write:
-      required:
-      - guardrails
+    JsonNode:
       type: object
-      properties:
-        guardrails:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Guardrail_Write'

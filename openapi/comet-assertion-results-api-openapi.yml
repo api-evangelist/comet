@@ -35,24 +35,6 @@ paths:
           description: No Content
 components:
   schemas:
-    AssertionResultBatch:
-      required:
-      - assertion_results
-      - entity_type
-      type: object
-      properties:
-        entity_type:
-          type: string
-          enum:
-          - TRACE
-          - SPAN
-          - THREAD
-        assertion_results:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/AssertionResultBatchItem'
     AssertionResultBatchItem:
       required:
       - entity_id
@@ -87,3 +69,21 @@ components:
           - ui
           - sdk
           - online_scoring
+    AssertionResultBatch:
+      required:
+      - assertion_results
+      - entity_type
+      type: object
+      properties:
+        entity_type:
+          type: string
+          enum:
+          - TRACE
+          - SPAN
+          - THREAD
+        assertion_results:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AssertionResultBatchItem'

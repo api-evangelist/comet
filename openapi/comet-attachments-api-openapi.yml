@@ -287,6 +287,55 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    StartMultipartUploadResponse:
+      required:
+      - pre_sign_urls
+      - upload_id
+      type: object
+      properties:
+        upload_id:
+          minLength: 1
+          type: string
+        pre_sign_urls:
+          type: array
+          items:
+            type: string
+    Attachment:
+      required:
+      - file_name
+      - file_size
+      - mime_type
+      type: object
+      properties:
+        link:
+          type: string
+        file_name:
+          type: string
+        file_size:
+          type: integer
+          format: int64
+        mime_type:
+          type: string
+    AttachmentPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        sortableBy:
+          type: array
+          items:
+            type: string
     CompleteMultipartUploadRequest:
       required:
       - entity_id
@@ -328,16 +377,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MultipartUploadPart'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     StartMultipartUploadRequest:
       required:
       - entity_id
@@ -386,52 +425,13 @@ components:
         part_number:
           type: integer
           format: int32
-    AttachmentPage:
+    ErrorMessage:
       type: object
       properties:
-        page:
+        code:
           type: integer
           format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    Attachment:
-      required:
-      - file_name
-      - file_size
-      - mime_type
-      type: object
-      properties:
-        link:
+        message:
           type: string
-        file_name:
+        details:
           type: string
-        file_size:
-          type: integer
-          format: int64
-        mime_type:
-          type: string
-    StartMultipartUploadResponse:
-      required:
-      - pre_sign_urls
-      - upload_id
-      type: object
-      properties:
-        upload_id:
-          minLength: 1
-          type: string
-        pre_sign_urls:
-          type: array
-          items:
-            type: string

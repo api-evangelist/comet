@@ -224,34 +224,85 @@ paths:
           description: Missing, malformed, or unknown access token
 components:
   schemas:
-    AuthorizeContext:
+    ClientRegistrationResponse:
+      type: object
+      properties:
+        client_id:
+          type: string
+        client_id_issued_at:
+          type: integer
+          format: int64
+        client_name:
+          type: string
+        logo_uri:
+          type: string
+        redirect_uris:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_method:
+          type: string
+        grant_types:
+          type: array
+          items:
+            type: string
+        response_types:
+          type: array
+          items:
+            type: string
+    OAuthError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    ClientRegistrationRequest:
+      required:
+      - client_name
+      - redirect_uris
       type: object
       properties:
         client_name:
+          maxLength: 255
+          minLength: 0
           type: string
-        client_logo_uri:
-          type: string
-        workspaces:
+        redirect_uris:
+          maxItems: 10
+          minItems: 0
+          uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/WorkspaceInfo'
-        csrf_token:
+            maxLength: 2048
+            minLength: 0
+            type: string
+        logo_uri:
+          maxLength: 2048
+          minLength: 0
           type: string
-    ConsentResponse:
+    TokenResponse:
       type: object
       properties:
-        redirect_to:
+        access_token:
           type: string
-    ValidatedToken:
-      type: object
-      properties:
-        user_name:
+        refresh_token:
           type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          format: int64
         workspace_id:
           type: string
         workspace_name:
           type: string
-        resource:
+    WorkspaceInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
           type: string
     ConsentRequest:
       required:
@@ -286,12 +337,34 @@ components:
           type: string
         csrf:
           type: string
-    OAuthError:
+    ValidatedToken:
       type: object
       properties:
-        error:
+        user_name:
           type: string
-        error_description:
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        resource:
+          type: string
+    ConsentResponse:
+      type: object
+      properties:
+        redirect_to:
+          type: string
+    AuthorizeContext:
+      type: object
+      properties:
+        client_name:
+          type: string
+        client_logo_uri:
+          type: string
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceInfo'
+        csrf_token:
           type: string
     AuthorizationServerMetadata:
       type: object
@@ -319,79 +392,6 @@ components:
           items:
             type: string
         token_endpoint_auth_methods_supported:
-          type: array
-          items:
-            type: string
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        refresh_token:
-          type: string
-        token_type:
-          type: string
-        expires_in:
-          type: integer
-          format: int64
-        workspace_id:
-          type: string
-        workspace_name:
-          type: string
-    ClientRegistrationRequest:
-      required:
-      - client_name
-      - redirect_uris
-      type: object
-      properties:
-        client_name:
-          maxLength: 255
-          minLength: 0
-          type: string
-        redirect_uris:
-          maxItems: 10
-          minItems: 0
-          uniqueItems: true
-          type: array
-          items:
-            maxLength: 2048
-            minLength: 0
-            type: string
-        logo_uri:
-          maxLength: 2048
-          minLength: 0
-          type: string
-    WorkspaceInfo:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    ClientRegistrationResponse:
-      type: object
-      properties:
-        client_id:
-          type: string
-        client_id_issued_at:
-          type: integer
-          format: int64
-        client_name:
-          type: string
-        logo_uri:
-          type: string
-        redirect_uris:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        token_endpoint_auth_method:
-          type: string
-        grant_types:
-          type: array
-          items:
-            type: string
-        response_types:
           type: array
           items:
             type: string

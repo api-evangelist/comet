@@ -614,69 +614,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    PromptPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Prompt_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    JsonNode_Write:
-      type: object
-    PromptVersionLink_Public:
-      type: object
-      properties:
-        prompt_version_id:
-          type: string
-          format: uuid
-        commit:
-          type: string
-        prompt_id:
-          type: string
-          format: uuid
-        prompt_name:
-          type: string
-    Prompt_Updatable:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
     PromptVersion_Detail:
       required:
       - template
@@ -760,37 +697,19 @@ components:
         created_by:
           type: string
           readOnly: true
-    ErrorMessage_Detail:
+    PromptVersionLink_Public:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            type: string
-    JsonNode_Public:
-      type: object
-    JsonNode_Detail:
-      type: object
-    PromptVersionPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromptVersion_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
+        prompt_version_id:
+          type: string
+          format: uuid
+        commit:
+          type: string
+        prompt_id:
+          type: string
+          format: uuid
+        prompt_name:
+          type: string
     PromptVersionIdsRequest_Detail:
       required:
       - ids
@@ -803,20 +722,9 @@ components:
           items:
             type: string
             format: uuid
-    BatchDelete:
-      required:
-      - ids
+    JsonNode_Write:
       type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    Prompt_Public:
+    Prompt_Detail:
       required:
       - name
       type: object
@@ -866,6 +774,68 @@ components:
           type: integer
           format: int64
           readOnly: true
+        latest_version:
+          $ref: '#/components/schemas/PromptVersion_Detail'
+        requested_version:
+          $ref: '#/components/schemas/PromptVersion_Detail'
+    PromptVersionCommitsRequest_Public:
+      required:
+      - commits
+      type: object
+      properties:
+        commits:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            minLength: 1
+            type: string
+    PromptVersionEnvironmentUpdate:
+      required:
+      - environments
+      type: object
+      properties:
+        environments:
+          maxItems: 100
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            maxLength: 150
+            minLength: 0
+            pattern: ^[A-Za-z0-9_-]+$
+            type: string
+      description: 'Replace the full set of environments assigned to a prompt version.
+
+        The provided set becomes the new complete set of environments for this version.
+
+        - Non-empty set: assigns each environment to this version; if another version of the same prompt currently owns any of those environments, ownership is moved atomically.
+
+        - Empty set: clears all environments from this version.
+
+        All environments must already exist in the workspace registry; unknown names return 404.
+
+        '
+    PromptVersionPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersion_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
     PromptVersion_Public:
       required:
       - template
@@ -942,32 +912,6 @@ components:
         created_by:
           type: string
           readOnly: true
-    PromptVersionEnvironmentUpdate:
-      required:
-      - environments
-      type: object
-      properties:
-        environments:
-          maxItems: 100
-          minItems: 0
-          uniqueItems: true
-          type: array
-          items:
-            maxLength: 150
-            minLength: 0
-            pattern: ^[A-Za-z0-9_-]+$
-            type: string
-      description: 'Replace the full set of environments assigned to a prompt version.
-
-        The provided set becomes the new complete set of environments for this version.
-
-        - Non-empty set: assigns each environment to this version; if another version of the same prompt currently owns any of those environments, ownership is moved atomically.
-
-        - Empty set: clears all environments from this version.
-
-        All environments must already exist in the workspace registry; unknown names return 404.
-
-        '
     CreatePromptVersion_Detail:
       required:
       - name
@@ -994,98 +938,6 @@ components:
           pattern: (?s)^\s*(\S.*\S|\S)\s*$
           type: string
           description: If provided, scopes the prompt to the specified project. Ignored when project_id is provided.
-    Prompt_Detail:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          minLength: 1
-          type: string
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        description:
-          maxLength: 255
-          minLength: 0
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        template_structure:
-          type: string
-          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
-          default: text
-          enum:
-          - text
-          - chat
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        version_count:
-          type: integer
-          format: int64
-          readOnly: true
-        latest_version:
-          $ref: '#/components/schemas/PromptVersion_Detail'
-        requested_version:
-          $ref: '#/components/schemas/PromptVersion_Detail'
-    PromptVersionCommitsRequest_Public:
-      required:
-      - commits
-      type: object
-      properties:
-        commits:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            minLength: 1
-            type: string
-    PromptVersionRetrieve_Detail:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        commit:
-          type: string
-        environment:
-          maxLength: 150
-          minLength: 0
-          pattern: ^[A-Za-z0-9_-]+$
-          type: string
-          description: If provided, resolves to the version mapped to this environment for the prompt; mutually exclusive with commit and version_number
-        version_number:
-          maxLength: 10
-          minLength: 0
-          pattern: v\d+
-          type: string
-          description: If provided, resolves to the version with this sequential number (e.g. v3); mutually exclusive with commit and environment
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: If provided, scopes the search to the specified project
     PromptVersionBatchUpdate:
       required:
       - ids
@@ -1119,6 +971,45 @@ components:
         Note: Prompt versions are immutable by design - only organizational properties (such as tags etc.) can be updated.
 
         '
+    ErrorMessage_Detail:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    JsonNode_Public:
+      type: object
+    PromptPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prompt_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
     Prompt_Write:
       required:
       - name
@@ -1168,6 +1059,32 @@ components:
           type: array
           items:
             type: string
+    PromptVersionRetrieve_Detail:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        commit:
+          type: string
+        environment:
+          maxLength: 150
+          minLength: 0
+          pattern: ^[A-Za-z0-9_-]+$
+          type: string
+          description: If provided, resolves to the version mapped to this environment for the prompt; mutually exclusive with commit and version_number
+        version_number:
+          maxLength: 10
+          minLength: 0
+          pattern: v\d+
+          type: string
+          description: If provided, resolves to the version with this sequential number (e.g. v3); mutually exclusive with commit and environment
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If provided, scopes the search to the specified project
     PromptVersionUpdate:
       type: object
       properties:
@@ -1211,3 +1128,86 @@ components:
         Core properties like template, metadata etc. cannot be modified after creation.
 
         '
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    Prompt_Public:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        template_structure:
+          type: string
+          description: 'Template structure type: ''text'' or ''chat''. Immutable after creation.'
+          default: text
+          enum:
+          - text
+          - chat
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        version_count:
+          type: integer
+          format: int64
+          readOnly: true
+    JsonNode_Detail:
+      type: object
+    Prompt_Updatable:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string

@@ -157,51 +157,6 @@ paths:
                 $ref: '#/components/schemas/OllieReportPage'
 components:
   schemas:
-    OllieReportPage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/OllieReport'
-    OllieReport:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        project_id:
-          type: string
-          format: uuid
-        session_id:
-          type: string
-        content:
-          type: string
-        recommended_actions:
-          $ref: '#/components/schemas/JsonNode'
-        status:
-          type: string
-          enum:
-          - pending
-          - completed
-          - failed
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
     ReportPreference:
       type: object
       properties:
@@ -249,5 +204,50 @@ components:
           type: string
           format: uuid
       description: Response for report generation trigger
+    OllieReportPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OllieReport'
+    OllieReport:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+        session_id:
+          type: string
+        content:
+          type: string
+        recommended_actions:
+          $ref: '#/components/schemas/JsonNode'
+        status:
+          type: string
+          enum:
+          - pending
+          - completed
+          - failed
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     JsonNode:
       type: object

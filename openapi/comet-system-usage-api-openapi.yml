@@ -115,6 +115,20 @@ paths:
                 $ref: '#/components/schemas/TraceCountResponse'
 components:
   schemas:
+    TraceCountResponse:
+      type: object
+      properties:
+        workspaces_traces_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTraceCount'
+    UsageByWorkspaceProjectUserResponse:
+      type: object
+      properties:
+        breakdown:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceProjectUserCount'
     BiInformation:
       type: object
       properties:
@@ -125,13 +139,6 @@ components:
         count:
           type: integer
           format: int64
-    TraceCountResponse:
-      type: object
-      properties:
-        workspaces_traces_count:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceTraceCount'
     BiInformationResponse:
       type: object
       properties:
@@ -139,29 +146,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BiInformation'
-    UsageByWorkspaceProjectUserResponse:
-      type: object
-      properties:
-        breakdown:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceProjectUserCount'
-    WorkspaceSpansCount:
-      type: object
-      properties:
-        workspace:
-          type: string
-        span_count:
-          type: integer
-          format: int32
-    WorkspaceTraceCount:
-      type: object
-      properties:
-        workspace:
-          type: string
-        trace_count:
-          type: integer
-          format: int32
     WorkspaceProjectUserCount:
       type: object
       properties:
@@ -175,6 +159,22 @@ components:
         count:
           type: integer
           format: int64
+    WorkspaceTraceCount:
+      type: object
+      properties:
+        workspace:
+          type: string
+        trace_count:
+          type: integer
+          format: int32
+    WorkspaceSpansCount:
+      type: object
+      properties:
+        workspace:
+          type: string
+        span_count:
+          type: integer
+          format: int32
     SpansCountResponse:
       type: object
       properties:

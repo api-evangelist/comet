@@ -517,97 +517,44 @@ paths:
                   - $ref: '#/components/schemas/ErrorMessage_Public'
 components:
   schemas:
-    FeedbackScore:
+    PromptVersionLink_Public:
+      type: object
+      properties:
+        prompt_version_id:
+          type: string
+          format: uuid
+        commit:
+          type: string
+        prompt_id:
+          type: string
+          format: uuid
+        prompt_name:
+          type: string
+    ExperimentScore_Public:
       required:
       - name
-      - source
       - value
       type: object
       properties:
         name:
           minLength: 1
           type: string
-        category_name:
-          type: string
         value:
-          maximum: 1000000000.0
-          exclusiveMaximum: false
-          minimum: -1000000000.0
-          exclusiveMinimum: false
           type: number
-        reason:
-          type: string
-        source:
-          type: string
-          enum:
-          - ui
-          - sdk
-          - online_scoring
-        source_queue_id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        value_by_author:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ValueEntry'
-          readOnly: true
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    ExperimentItemStreamRequest:
+    AssertionScoreAverage_Public:
       required:
-      - experiment_name
+      - name
+      - value
       type: object
       properties:
-        experiment_name:
+        name:
           minLength: 1
           type: string
-        limit:
-          maximum: 2000
-          minimum: 1
-          type: integer
-          format: int32
-        last_retrieved_id:
-          type: string
-          format: uuid
-        truncate:
-          type: boolean
-          description: Truncate image included in either input, output or metadata
-          default: true
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-    PercentageValues_Public:
-      type: object
-      properties:
-        p50:
+        value:
           type: number
-        p90:
-          type: number
-        p99:
-          type: number
-    ValueEntry_ExperimentItemBulkWriteView:
+      description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
+      readOnly: true
+    ValueEntry:
       type: object
       properties:
         value:
@@ -634,28 +581,48 @@ components:
         author:
           type: string
       readOnly: true
-    ExperimentInfo:
+    Comment_Public:
+      required:
+      - text
       type: object
       properties:
-        experiment_id:
+        id:
           type: string
           format: uuid
-        prompt_index:
-          type: integer
-          format: int32
-    ExperimentItemsBatch:
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+      readOnly: true
+    Message:
       required:
-      - experiment_items
+      - content
+      - role
       type: object
       properties:
-        experiment_items:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/ExperimentItem'
-    Trace_ExperimentItemBulkWriteView:
+        role:
+          minLength: 1
+          type: string
+        content:
+          $ref: '#/components/schemas/JsonNode'
+    Span_ExperimentItemBulkWriteView:
       required:
       - start_time
       type: object
@@ -663,12 +630,18 @@ components:
         id:
           type: string
           format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+        parent_span_id:
           type: string
-          description: If null, the default project is used
+          format: uuid
         name:
           type: string
+        type:
+          type: string
+          enum:
+          - general
+          - tool
+          - llm
+          - guardrail
         start_time:
           type: string
           format: date-time
@@ -681,22 +654,35 @@ components:
           $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
         metadata:
           $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        model:
+          type: string
+        provider:
+          type: string
         tags:
           uniqueItems: true
           type: array
           items:
             type: string
+        usage:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
         error_info:
           $ref: '#/components/schemas/ErrorInfo_ExperimentItemBulkWriteView'
         last_updated_at:
           type: string
           format: date-time
+        total_estimated_cost:
+          minimum: 0.0
+          exclusiveMinimum: false
+          type: number
+        total_estimated_cost_version:
+          type: string
         ttft:
           type: number
           description: Time to first token in milliseconds
           format: double
-        thread_id:
-          type: string
         source:
           type: string
           enum:
@@ -709,66 +695,13 @@ components:
           maxLength: 150
           minLength: 0
           type: string
-      description: Please provide either none, only one of evaluate_task_result or trace, but never both
-    PromptVersionLink_Public:
+    FeedbackScoreNames_Public:
       type: object
       properties:
-        prompt_version_id:
-          type: string
-          format: uuid
-        commit:
-          type: string
-        prompt_id:
-          type: string
-          format: uuid
-        prompt_name:
-          type: string
-    ErrorInfo_ExperimentItemBulkWriteView:
-      required:
-      - exception_type
-      - traceback
-      type: object
-      properties:
-        exception_type:
-          minLength: 1
-          type: string
-        message:
-          type: string
-        traceback:
-          minLength: 1
-          type: string
-    ExperimentItemBulkRecord_ExperimentItemBulkWriteView:
-      required:
-      - dataset_item_id
-      type: object
-      properties:
-        dataset_item_id:
-          type: string
-          format: uuid
-        evaluate_task_result:
-          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
-        trace:
-          $ref: '#/components/schemas/Trace_ExperimentItemBulkWriteView'
-        spans:
-          maxItems: 100
-          minItems: 0
+        scores:
           type: array
           items:
-            $ref: '#/components/schemas/Span_ExperimentItemBulkWriteView'
-        feedback_scores:
-          maxItems: 100
-          minItems: 0
-          type: array
-          items:
-            $ref: '#/components/schemas/FeedbackScore_ExperimentItemBulkWriteView'
-    JsonListString:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
+            $ref: '#/components/schemas/ScoreName_Public'
     Experiment_Public:
       required:
       - dataset_name
@@ -910,18 +843,78 @@ components:
           readOnly: true
           items:
             $ref: '#/components/schemas/AssertionScoreAverage_Public'
-    Comment_Public:
+    ExperimentItemStreamRequest:
       required:
-      - text
+      - experiment_name
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        text:
+        experiment_name:
           minLength: 1
           type: string
+        limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          format: int32
+        last_retrieved_id:
+          type: string
+          format: uuid
+        truncate:
+          type: boolean
+          description: Truncate image included in either input, output or metadata
+          default: true
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    ExperimentExecutionResponse:
+      type: object
+      properties:
+        experiments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentInfo'
+        total_items:
+          type: integer
+          format: int32
+    DeleteIdsHolder:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    FeedbackScore_ExperimentItemBulkWriteView:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
         source_queue_id:
           type: string
           format: uuid
@@ -939,19 +932,47 @@ components:
         last_updated_by:
           type: string
           readOnly: true
-      readOnly: true
-    GroupContent:
+        value_by_author:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ValueEntry_ExperimentItemBulkWriteView'
+          readOnly: true
+    JsonListString_Public:
       type: object
-      properties:
-        label:
-          type: string
-    ExperimentGroupAggregationsResponse:
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    ExperimentGroupResponse:
       type: object
       properties:
         content:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/GroupContentWithAggregations'
+            $ref: '#/components/schemas/GroupContent'
+        details:
+          $ref: '#/components/schemas/GroupDetails'
+    FeedbackScoreAverage:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    JsonListString:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
     DatasetVersionSummary_Public:
       type: object
       properties:
@@ -977,16 +998,20 @@ components:
             description: Tags associated with this version
       description: Summary of the latest dataset version
       readOnly: true
-    AssertionResult:
+    ErrorInfo_ExperimentItemBulkWriteView:
+      required:
+      - exception_type
+      - traceback
       type: object
       properties:
-        value:
+        exception_type:
+          minLength: 1
           type: string
-        passed:
-          type: boolean
-        reason:
+        message:
           type: string
-      readOnly: true
+        traceback:
+          minLength: 1
+          type: string
     PromptVersionLink:
       required:
       - id
@@ -1009,126 +1034,29 @@ components:
         prompt_name:
           type: string
           readOnly: true
-    Span_ExperimentItemBulkWriteView:
-      required:
-      - start_time
+    PercentageValues:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        parent_span_id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - general
-          - tool
-          - llm
-          - guardrail
-        start_time:
-          type: string
-          format: date-time
-        end_time:
-          type: string
-          format: date-time
-        input:
-          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
-        output:
-          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
-        metadata:
-          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
-        model:
-          type: string
-        provider:
-          type: string
-        tags:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-        usage:
-          type: object
-          additionalProperties:
-            type: integer
-            format: int32
-        error_info:
-          $ref: '#/components/schemas/ErrorInfo_ExperimentItemBulkWriteView'
-        last_updated_at:
-          type: string
-          format: date-time
-        total_estimated_cost:
-          minimum: 0.0
-          exclusiveMinimum: false
+        p50:
           type: number
-        total_estimated_cost_version:
-          type: string
-        ttft:
+        p90:
           type: number
-          description: Time to first token in milliseconds
-          format: double
-        source:
-          type: string
-          enum:
-          - sdk
-          - experiment
-          - playground
-          - optimization
-          - evaluator
-        environment:
-          maxLength: 150
-          minLength: 0
-          type: string
-    JsonListString_ExperimentItemBulkWriteView:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
-    JsonNode:
-      type: object
-    ExperimentScore_Public:
-      required:
-      - name
-      - value
+        p99:
+          type: number
+    ExecutionPolicy:
       type: object
       properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-    JsonListString_Public:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
-    GroupContentWithAggregations:
-      type: object
-      properties:
-        label:
-          type: string
-        aggregations:
-          $ref: '#/components/schemas/AggregationData'
-    FeedbackScoreAverage:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
+        runs_per_item:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+        pass_threshold:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      readOnly: true
     JsonListString_Write:
       type: object
       anyOf:
@@ -1137,35 +1065,114 @@ components:
         items:
           type: object
       - type: string
-    Comment:
+    ExperimentExecutionRequest:
       required:
-      - text
+      - dataset_id
+      - dataset_name
+      - prompts
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        text:
+        dataset_name:
           minLength: 1
           type: string
-        source_queue_id:
+        dataset_version_id:
           type: string
           format: uuid
-        created_at:
+        prompts:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVariant'
+        project_name:
           type: string
-          format: date-time
-          readOnly: true
+        dataset_id:
+          type: string
+          format: uuid
+        version_hash:
+          type: string
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink'
+    ExperimentInfo:
+      type: object
+      properties:
+        experiment_id:
+          type: string
+          format: uuid
+        prompt_index:
+          type: integer
+          format: int32
+    ValueEntry_ExperimentItemBulkWriteView:
+      type: object
+      properties:
+        value:
+          type: number
+        reason:
+          type: string
+        category_name:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
         last_updated_at:
           type: string
           format: date-time
-          readOnly: true
-        created_by:
+        span_type:
           type: string
-          readOnly: true
-        last_updated_by:
+        span_id:
           type: string
-          readOnly: true
+        source_queue_id:
+          type: string
+        author:
+          type: string
+      readOnly: true
+    GroupDetails:
+      type: object
+      properties:
+        groups_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDetail'
+    ExperimentGroupAggregationsResponse:
+      type: object
+      properties:
+        content:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/GroupContentWithAggregations'
+    ExperimentStreamRequest_Public:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        limit:
+          maximum: 2000
+          minimum: 1
+          type: integer
+          format: int32
+        last_retrieved_id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     ExperimentItem:
       required:
       - dataset_item_id
@@ -1258,516 +1265,14 @@ components:
           enum:
           - passed
           - failed
-    PromptVersionLink_Write:
-      required:
-      - id
+    JsonListString_ExperimentItemBulkWriteView:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-    ExperimentUpdate:
-      type: object
-      properties:
-        name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        metadata:
-          $ref: '#/components/schemas/JsonNode'
-        tags:
-          maxItems: 50
-          minItems: 0
-          uniqueItems: true
-          type: array
-          description: Tags
-          items:
-            maxLength: 100
-            minLength: 0
-            type: string
-            description: Tags
-        tags_to_add:
-          maxItems: 50
-          minItems: 0
-          uniqueItems: true
-          type: array
-          description: Tags to add
-          items:
-            maxLength: 100
-            minLength: 0
-            type: string
-            description: Tags to add
-        tags_to_remove:
-          maxItems: 50
-          minItems: 0
-          uniqueItems: true
-          type: array
-          description: Tags to remove
-          items:
-            maxLength: 100
-            minLength: 0
-            type: string
-            description: Tags to remove
-        type:
-          type: string
-          enum:
-          - regular
-          - trial
-          - mini-batch
-          - mutation
-        status:
-          type: string
-          description: The status of the experiment
-          enum:
-          - running
-          - completed
-          - cancelled
-        experiment_scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExperimentScore'
-    FeedbackScoreNames_Public:
-      type: object
-      properties:
-        scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoreName_Public'
-    DeleteIdsHolder:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    FeedbackScore_ExperimentItemBulkWriteView:
-      required:
-      - name
-      - source
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        category_name:
-          type: string
-        value:
-          maximum: 1000000000.0
-          exclusiveMaximum: false
-          minimum: -1000000000.0
-          exclusiveMinimum: false
-          type: number
-        reason:
-          type: string
-        source:
-          type: string
-          enum:
-          - ui
-          - sdk
-          - online_scoring
-        source_queue_id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        value_by_author:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ValueEntry_ExperimentItemBulkWriteView'
-          readOnly: true
-    AggregationData:
-      type: object
-      properties:
-        experiment_count:
-          type: integer
-          format: int64
-        trace_count:
-          type: integer
-          format: int64
-        total_estimated_cost:
-          type: number
-        total_estimated_cost_avg:
-          type: number
-        duration:
-          $ref: '#/components/schemas/PercentageValues'
-        feedback_scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/FeedbackScoreAverage'
-        experiment_scores:
-          type: array
-          items:
-            $ref: '#/components/schemas/FeedbackScoreAverage'
-        pass_rate_avg:
-          type: number
-        passed_count_sum:
-          type: integer
-          format: int64
-        total_count_sum:
-          type: integer
-          format: int64
-    FeedbackScoreAverage_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-      readOnly: true
-    ScoreName_Public:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-    PromptVariant:
-      required:
-      - messages
-      - model
-      type: object
-      properties:
-        model:
-          minLength: 1
-          type: string
-        messages:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        configs:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/JsonNode'
-        prompt_versions:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromptVersionLink'
-    ExperimentScore_Write:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-    ExperimentScore:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-    ExperimentItemsDelete:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    ExecutionPolicy:
-      type: object
-      properties:
-        runs_per_item:
-          maximum: 100
-          minimum: 1
-          type: integer
-          format: int32
-        pass_threshold:
-          maximum: 100
-          minimum: 1
-          type: integer
-          format: int32
-      readOnly: true
-    ValueEntry:
-      type: object
-      properties:
-        value:
-          type: number
-        reason:
-          type: string
-        category_name:
-          type: string
-        source:
-          type: string
-          enum:
-          - ui
-          - sdk
-          - online_scoring
-        last_updated_at:
-          type: string
-          format: date-time
-        span_type:
-          type: string
-        span_id:
-          type: string
-        source_queue_id:
-          type: string
-        author:
-          type: string
-      readOnly: true
-    PercentageValues:
-      type: object
-      properties:
-        p50:
-          type: number
-        p90:
-          type: number
-        p99:
-          type: number
-    ExperimentExecutionResponse:
-      type: object
-      properties:
-        experiments:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExperimentInfo'
-        total_items:
-          type: integer
-          format: int32
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    Message:
-      required:
-      - content
-      - role
-      type: object
-      properties:
-        role:
-          minLength: 1
-          type: string
-        content:
-          $ref: '#/components/schemas/JsonNode'
-    ExperimentStreamRequest_Public:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        limit:
-          maximum: 2000
-          minimum: 1
-          type: integer
-          format: int32
-        last_retrieved_id:
-          type: string
-          format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-    ExperimentExecutionRequest:
-      required:
-      - dataset_id
-      - dataset_name
-      - prompts
-      type: object
-      properties:
-        dataset_name:
-          minLength: 1
-          type: string
-        dataset_version_id:
-          type: string
-          format: uuid
-        prompts:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/PromptVariant'
-        project_name:
-          type: string
-        dataset_id:
-          type: string
-          format: uuid
-        version_hash:
-          type: string
-        prompt_versions:
-          type: array
-          items:
-            $ref: '#/components/schemas/PromptVersionLink'
-    ExperimentPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Experiment_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    GroupDetail:
-      type: object
-      properties:
-        group_sorting:
-          type: array
-          items:
-            type: string
-    ExperimentBatchUpdate:
-      required:
-      - ids
-      - update
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          description: List of experiment IDs to update (max 1000)
-          items:
-            type: string
-            description: List of experiment IDs to update (max 1000)
-            format: uuid
-        update:
-          $ref: '#/components/schemas/ExperimentUpdate'
-        merge_tags:
-          type: boolean
-          description: 'If true, merge tags with existing tags instead of replacing them. Default: false'
-      description: Request to batch update multiple experiments
-    ExperimentItem_Public:
-      required:
-      - dataset_item_id
-      - experiment_id
-      - trace_id
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        experiment_id:
-          type: string
-          format: uuid
-        dataset_item_id:
-          type: string
-          format: uuid
-        trace_id:
-          type: string
-          format: uuid
-        project_id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        trace_visibility_mode:
-          type: string
-          readOnly: true
-          enum:
-          - default
-          - hidden
-    ExperimentItemBulkUpload_ExperimentItemBulkWriteView:
-      required:
-      - dataset_name
-      - experiment_name
-      - items
-      type: object
-      properties:
-        experiment_name:
-          minLength: 1
-          type: string
-        dataset_name:
-          minLength: 1
-          type: string
-        experiment_id:
-          type: string
-          description: Optional experiment ID. If provided, items will be added to the existing experiment and experimentName will be ignored. If not provided or experiment with that ID doesn't exist, a new experiment will be created with the given experimentName
-          format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: Project for traces auto-created from items that provide evaluate_task_result (i.e. without an explicit trace). If null, the default project is used; relying on this fallback is deprecated, please provide project_name explicitly.
+      anyOf:
+      - type: object
+      - type: array
         items:
-          maxItems: 1000
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/ExperimentItemBulkRecord_ExperimentItemBulkWriteView'
-    AssertionScoreAverage_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-      description: Per-assertion average pass rates for test suite experiments. Null for regular experiments.
-      readOnly: true
-    GroupDetails:
-      type: object
-      properties:
-        groups_details:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupDetail'
+          type: object
+      - type: string
     Experiment_Write:
       required:
       - dataset_name
@@ -1836,12 +1341,507 @@ components:
           type: string
           description: ID of the dataset version this experiment is linked to. If not provided at creation, experiment will be automatically linked to the latest version.
           format: uuid
-    ExperimentGroupResponse:
+    ExperimentItem_Public:
+      required:
+      - dataset_item_id
+      - experiment_id
+      - trace_id
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+        experiment_id:
+          type: string
+          format: uuid
+        dataset_item_id:
+          type: string
+          format: uuid
+        trace_id:
+          type: string
+          format: uuid
+        project_id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        trace_visibility_mode:
+          type: string
+          readOnly: true
+          enum:
+          - default
+          - hidden
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    GroupContentWithAggregations:
+      type: object
+      properties:
+        label:
+          type: string
+        aggregations:
+          $ref: '#/components/schemas/AggregationData'
+    GroupDetail:
+      type: object
+      properties:
+        group_sorting:
+          type: array
+          items:
+            type: string
+    ExperimentUpdate:
+      type: object
+      properties:
+        name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+        tags:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags
+        tags_to_add:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to add
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to add
+        tags_to_remove:
+          maxItems: 50
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: Tags to remove
+          items:
+            maxLength: 100
+            minLength: 0
+            type: string
+            description: Tags to remove
+        type:
+          type: string
+          enum:
+          - regular
+          - trial
+          - mini-batch
+          - mutation
+        status:
+          type: string
+          description: The status of the experiment
+          enum:
+          - running
+          - completed
+          - cancelled
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentScore'
+    ExperimentPage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
         content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Experiment_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
+    Comment:
+      required:
+      - text
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        text:
+          minLength: 1
+          type: string
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+    ExperimentScore:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    ExperimentItemBulkUpload_ExperimentItemBulkWriteView:
+      required:
+      - dataset_name
+      - experiment_name
+      - items
+      type: object
+      properties:
+        experiment_name:
+          minLength: 1
+          type: string
+        dataset_name:
+          minLength: 1
+          type: string
+        experiment_id:
+          type: string
+          description: Optional experiment ID. If provided, items will be added to the existing experiment and experimentName will be ignored. If not provided or experiment with that ID doesn't exist, a new experiment will be created with the given experimentName
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project for traces auto-created from items that provide evaluate_task_result (i.e. without an explicit trace). If null, the default project is used; relying on this fallback is deprecated, please provide project_name explicitly.
+        items:
+          maxItems: 1000
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentItemBulkRecord_ExperimentItemBulkWriteView'
+    ExperimentItemsBatch:
+      required:
+      - experiment_items
+      type: object
+      properties:
+        experiment_items:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ExperimentItem'
+    JsonNode:
+      type: object
+    Trace_ExperimentItemBulkWriteView:
+      required:
+      - start_time
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        name:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        input:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        output:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        metadata:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        error_info:
+          $ref: '#/components/schemas/ErrorInfo_ExperimentItemBulkWriteView'
+        last_updated_at:
+          type: string
+          format: date-time
+        ttft:
+          type: number
+          description: Time to first token in milliseconds
+          format: double
+        thread_id:
+          type: string
+        source:
+          type: string
+          enum:
+          - sdk
+          - experiment
+          - playground
+          - optimization
+          - evaluator
+        environment:
+          maxLength: 150
+          minLength: 0
+          type: string
+      description: Please provide either none, only one of evaluate_task_result or trace, but never both
+    ExperimentScore_Write:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+    ScoreName_Public:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    ExperimentBatchUpdate:
+      required:
+      - ids
+      - update
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of experiment IDs to update (max 1000)
+          items:
+            type: string
+            description: List of experiment IDs to update (max 1000)
+            format: uuid
+        update:
+          $ref: '#/components/schemas/ExperimentUpdate'
+        merge_tags:
+          type: boolean
+          description: 'If true, merge tags with existing tags instead of replacing them. Default: false'
+      description: Request to batch update multiple experiments
+    FeedbackScore:
+      required:
+      - name
+      - source
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        category_name:
+          type: string
+        value:
+          maximum: 1000000000.0
+          exclusiveMaximum: false
+          minimum: -1000000000.0
+          exclusiveMinimum: false
+          type: number
+        reason:
+          type: string
+        source:
+          type: string
+          enum:
+          - ui
+          - sdk
+          - online_scoring
+        source_queue_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        value_by_author:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/GroupContent'
-        details:
-          $ref: '#/components/schemas/GroupDetails'
+            $ref: '#/components/schemas/ValueEntry'
+          readOnly: true
+    PromptVersionLink_Write:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    ExperimentItemBulkRecord_ExperimentItemBulkWriteView:
+      required:
+      - dataset_item_id
+      type: object
+      properties:
+        dataset_item_id:
+          type: string
+          format: uuid
+        evaluate_task_result:
+          $ref: '#/components/schemas/JsonListString_ExperimentItemBulkWriteView'
+        trace:
+          $ref: '#/components/schemas/Trace_ExperimentItemBulkWriteView'
+        spans:
+          maxItems: 100
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/Span_ExperimentItemBulkWriteView'
+        feedback_scores:
+          maxItems: 100
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScore_ExperimentItemBulkWriteView'
+    GroupContent:
+      type: object
+      properties:
+        label:
+          type: string
+    PromptVariant:
+      required:
+      - messages
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        configs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/JsonNode'
+        prompt_versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromptVersionLink'
+    AssertionResult:
+      type: object
+      properties:
+        value:
+          type: string
+        passed:
+          type: boolean
+        reason:
+          type: string
+      readOnly: true
+    PercentageValues_Public:
+      type: object
+      properties:
+        p50:
+          type: number
+        p90:
+          type: number
+        p99:
+          type: number
+    AggregationData:
+      type: object
+      properties:
+        experiment_count:
+          type: integer
+          format: int64
+        trace_count:
+          type: integer
+          format: int64
+        total_estimated_cost:
+          type: number
+        total_estimated_cost_avg:
+          type: number
+        duration:
+          $ref: '#/components/schemas/PercentageValues'
+        feedback_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage'
+        experiment_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackScoreAverage'
+        pass_rate_avg:
+          type: number
+        passed_count_sum:
+          type: integer
+          format: int64
+        total_count_sum:
+          type: integer
+          format: int64
+    ExperimentItemsDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid

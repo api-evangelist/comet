@@ -94,16 +94,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     OllamaInstanceBaseUrlRequest:
       required:
       - base_url
@@ -118,6 +108,29 @@ components:
           type: string
           description: Optional API key for authenticated Ollama instances. If provided, will be sent as Bearer token in Authorization header.
       description: Request with Ollama instance base URL for connection testing or model discovery.
+    OllamaConnectionTestResponse:
+      type: object
+      properties:
+        connected:
+          type: boolean
+          description: Whether the connection was successful
+        version:
+          type: string
+          description: Server version (returned even if connection failed or version is incompatible)
+        error_message:
+          type: string
+          description: Error message if connection failed
+      description: Response from Ollama connection test.
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     OllamaModel:
       required:
       - name
@@ -140,16 +153,3 @@ components:
           description: Model modification date
           format: date-time
       description: Ollama model information
-    OllamaConnectionTestResponse:
-      type: object
-      properties:
-        connected:
-          type: boolean
-          description: Whether the connection was successful
-        version:
-          type: string
-          description: Server version (returned even if connection failed or version is incompatible)
-        error_message:
-          type: string
-          description: Error message if connection failed
-      description: Response from Ollama connection test.

@@ -164,6 +164,95 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    FeedbackObject_Public:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          minLength: 1
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Optional description for the feedback definition
+          example: This feedback definition is used to rate response quality
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        createdBy:
+          type: string
+          readOnly: true
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        lastUpdatedBy:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - numerical
+          - categorical
+          - boolean
+      discriminator:
+        propertyName: type
+        mapping:
+          numerical: '#/components/schemas/NumericalFeedbackDefinition_Public'
+          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Public'
+          boolean: '#/components/schemas/BooleanFeedbackDefinition_Public'
+    Feedback_Create:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          minLength: 1
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Optional description for the feedback definition
+          example: This feedback definition is used to rate response quality
+        type:
+          type: string
+          enum:
+          - numerical
+          - categorical
+          - boolean
+      discriminator:
+        propertyName: type
+        mapping:
+          numerical: '#/components/schemas/NumericalFeedbackDefinition_Create'
+          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Create'
+          boolean: '#/components/schemas/BooleanFeedbackDefinition_Create'
     Feedback_Public:
       required:
       - name
@@ -240,16 +329,6 @@ components:
           numerical: '#/components/schemas/NumericalFeedbackDefinition_Update'
           categorical: '#/components/schemas/CategoricalFeedbackDefinition_Update'
           boolean: '#/components/schemas/BooleanFeedbackDefinition_Update'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     FeedbackDefinitionPage_Public:
       type: object
       properties:
@@ -266,92 +345,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FeedbackObject_Public'
-    Feedback_Create:
-      required:
-      - name
-      - type
+    ErrorMessage:
       type: object
       properties:
-        id:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-          format: uuid
-          readOnly: true
-        name:
-          minLength: 1
+        details:
           type: string
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: Optional description for the feedback definition
-          example: This feedback definition is used to rate response quality
-        type:
-          type: string
-          enum:
-          - numerical
-          - categorical
-          - boolean
-      discriminator:
-        propertyName: type
-        mapping:
-          numerical: '#/components/schemas/NumericalFeedbackDefinition_Create'
-          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Create'
-          boolean: '#/components/schemas/BooleanFeedbackDefinition_Create'
-    BatchDelete:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    FeedbackObject_Public:
-      required:
-      - name
-      - type
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        name:
-          minLength: 1
-          type: string
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-          description: Optional description for the feedback definition
-          example: This feedback definition is used to rate response quality
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        createdBy:
-          type: string
-          readOnly: true
-        lastUpdatedAt:
-          type: string
-          format: date-time
-          readOnly: true
-        lastUpdatedBy:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          enum:
-          - numerical
-          - categorical
-          - boolean
-      discriminator:
-        propertyName: type
-        mapping:
-          numerical: '#/components/schemas/NumericalFeedbackDefinition_Public'
-          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Public'
-          boolean: '#/components/schemas/BooleanFeedbackDefinition_Public'
