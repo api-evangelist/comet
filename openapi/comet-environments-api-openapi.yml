@@ -133,6 +133,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     BatchDelete:
       required:
       - ids
@@ -146,6 +156,40 @@ components:
           items:
             type: string
             format: uuid
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    Environment_Write:
+      required:
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 150
+          minLength: 0
+          pattern: ^[A-Za-z0-9_-]+$
+          type: string
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+        color:
+          maxLength: 20
+          minLength: 0
+          type: string
+        position:
+          type: integer
+          format: int32
     EnvironmentPage_Public:
       type: object
       properties:
@@ -204,16 +248,6 @@ components:
         last_updated_by:
           type: string
           readOnly: true
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     EnvironmentUpdate:
       type: object
       properties:
@@ -233,37 +267,3 @@ components:
         position:
           type: integer
           format: int32
-    Environment_Write:
-      required:
-      - name
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          maxLength: 150
-          minLength: 0
-          pattern: ^[A-Za-z0-9_-]+$
-          type: string
-        description:
-          maxLength: 500
-          minLength: 0
-          type: string
-        color:
-          maxLength: 20
-          minLength: 0
-          type: string
-        position:
-          type: integer
-          format: int32
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string

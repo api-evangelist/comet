@@ -164,20 +164,17 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    BatchDelete:
-      required:
-      - ids
+    ErrorMessage:
       type: object
       properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    FeedbackObject_Public:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    Feedback_Update:
       required:
       - name
       - type
@@ -196,20 +193,6 @@ components:
           type: string
           description: Optional description for the feedback definition
           example: This feedback definition is used to rate response quality
-        createdAt:
-          type: string
-          format: date-time
-          readOnly: true
-        createdBy:
-          type: string
-          readOnly: true
-        lastUpdatedAt:
-          type: string
-          format: date-time
-          readOnly: true
-        lastUpdatedBy:
-          type: string
-          readOnly: true
         type:
           type: string
           enum:
@@ -219,9 +202,9 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          numerical: '#/components/schemas/NumericalFeedbackDefinition_Public'
-          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Public'
-          boolean: '#/components/schemas/BooleanFeedbackDefinition_Public'
+          numerical: '#/components/schemas/NumericalFeedbackDefinition_Update'
+          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Update'
+          boolean: '#/components/schemas/BooleanFeedbackDefinition_Update'
     Feedback_Create:
       required:
       - name
@@ -298,7 +281,20 @@ components:
           numerical: '#/components/schemas/NumericalFeedbackDefinition_Public'
           categorical: '#/components/schemas/CategoricalFeedbackDefinition_Public'
           boolean: '#/components/schemas/BooleanFeedbackDefinition_Public'
-    Feedback_Update:
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            format: uuid
+    FeedbackObject_Public:
       required:
       - name
       - type
@@ -317,6 +313,20 @@ components:
           type: string
           description: Optional description for the feedback definition
           example: This feedback definition is used to rate response quality
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        createdBy:
+          type: string
+          readOnly: true
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        lastUpdatedBy:
+          type: string
+          readOnly: true
         type:
           type: string
           enum:
@@ -326,9 +336,9 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          numerical: '#/components/schemas/NumericalFeedbackDefinition_Update'
-          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Update'
-          boolean: '#/components/schemas/BooleanFeedbackDefinition_Update'
+          numerical: '#/components/schemas/NumericalFeedbackDefinition_Public'
+          categorical: '#/components/schemas/CategoricalFeedbackDefinition_Public'
+          boolean: '#/components/schemas/BooleanFeedbackDefinition_Public'
     FeedbackDefinitionPage_Public:
       type: object
       properties:
@@ -345,13 +355,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FeedbackObject_Public'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string

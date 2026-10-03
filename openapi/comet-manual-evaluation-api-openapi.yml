@@ -113,6 +113,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     ManualEvaluationResponse:
       type: object
       properties:
@@ -126,16 +136,6 @@ components:
           description: Number of rules that will be applied
           format: int32
           example: 2
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
     ManualEvaluationRequest:
       required:
       - entity_ids

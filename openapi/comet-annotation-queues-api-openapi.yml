@@ -305,6 +305,30 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AnnotationQueueBatch_Write:
+      required:
+      - annotation_queues
+      type: object
+      properties:
+        annotation_queues:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: List of annotation queues to create
+          items:
+            $ref: '#/components/schemas/AnnotationQueue_Write'
+      description: Batch of annotation queues to create
     BatchDelete:
       required:
       - ids
@@ -318,39 +342,46 @@ components:
           items:
             type: string
             format: uuid
-    AnnotationQueuePage_Public:
+    AnnotationQueueUpdate:
       type: object
       properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
+        name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+        description:
+          type: string
+        instructions:
+          type: string
+        comments_enabled:
+          type: boolean
+        feedback_definition_names:
           type: array
           items:
-            $ref: '#/components/schemas/AnnotationQueue_Public'
-        sortableBy:
+            minLength: 1
+            type: string
+        annotators_per_item:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int32
+        lock_timeout_seconds:
+          maximum: 3600
+          minimum: 1
+          type: integer
+          format: int32
+    AnnotationQueueItemIds:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
           type: array
           items:
             type: string
-    LockResponse:
-      type: object
-      properties:
-        acquired:
-          type: boolean
-        item_id:
-          type: string
-          format: uuid
-        locked_by:
-          type: string
-        expires_at:
-          type: string
-          format: date-time
+            format: uuid
     LocksResponse:
       type: object
       properties:
@@ -358,6 +389,28 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ItemLockInfo'
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    FeedbackScoreAverage_Public:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        value:
+          type: number
+      readOnly: true
     AnnotationQueue_Write:
       required:
       - name
@@ -472,68 +525,39 @@ components:
         last_updated_by:
           type: string
           readOnly: true
-    AnnotationQueueItemIds:
-      required:
-      - ids
+    LockResponse:
       type: object
       properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          items:
-            type: string
-            format: uuid
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    FeedbackScoreAverage_Public:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-        value:
-          type: number
-      readOnly: true
-    AnnotationQueueUpdate:
-      type: object
-      properties:
-        name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-        description:
-          type: string
-        instructions:
-          type: string
-        comments_enabled:
+        acquired:
           type: boolean
-        feedback_definition_names:
+        item_id:
+          type: string
+          format: uuid
+        locked_by:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+    AnnotationQueuePage_Public:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
           type: array
           items:
-            minLength: 1
+            $ref: '#/components/schemas/AnnotationQueue_Public'
+        sortableBy:
+          type: array
+          items:
             type: string
-        annotators_per_item:
-          maximum: 1000
-          minimum: 1
-          type: integer
-          format: int32
-        lock_timeout_seconds:
-          maximum: 3600
-          minimum: 1
-          type: integer
-          format: int32
     ItemLockInfo:
       type: object
       properties:
@@ -544,20 +568,6 @@ components:
           type: array
           items:
             type: string
-    AnnotationQueueBatch_Write:
-      required:
-      - annotation_queues
-      type: object
-      properties:
-        annotation_queues:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
-          type: array
-          description: List of annotation queues to create
-          items:
-            $ref: '#/components/schemas/AnnotationQueue_Write'
-      description: Batch of annotation queues to create
     AnnotationQueueReviewer_Public:
       type: object
       properties:
@@ -567,13 +577,3 @@ components:
           type: integer
           format: int64
       readOnly: true
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string

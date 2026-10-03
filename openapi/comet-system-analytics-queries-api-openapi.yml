@@ -60,15 +60,6 @@ paths:
           description: Agent Insights queries are not enabled
 components:
   schemas:
-    JsonNode:
-      type: object
-    AnalyticsQueryResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/JsonNode'
     ErrorMessage:
       type: object
       properties:
@@ -79,6 +70,8 @@ components:
           type: string
         details:
           type: string
+    JsonNode:
+      type: object
     AnalyticsQueryRequest:
       required:
       - query
@@ -88,3 +81,10 @@ components:
           minLength: 1
           type: string
           description: Read-only ClickHouse SQL. Must return exactly one column named `result` produced via toJSONString(...)
+    AnalyticsQueryResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JsonNode'

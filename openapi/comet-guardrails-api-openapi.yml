@@ -46,6 +46,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Guardrail_Write'
+    JsonNode:
+      type: object
     Guardrail_Write:
       required:
       - config
@@ -83,5 +85,3 @@ components:
           $ref: '#/components/schemas/JsonNode'
         details:
           $ref: '#/components/schemas/JsonNode'
-    JsonNode:
-      type: object

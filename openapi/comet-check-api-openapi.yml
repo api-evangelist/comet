@@ -71,11 +71,8 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    WorkspaceNameHolder:
+    AuthDetailsHolder:
       type: object
-      properties:
-        workspace_name:
-          type: string
     ErrorMessage:
       type: object
       properties:
@@ -86,5 +83,8 @@ components:
           type: string
         details:
           type: string
-    AuthDetailsHolder:
+    WorkspaceNameHolder:
       type: object
+      properties:
+        workspace_name:
+          type: string

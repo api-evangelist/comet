@@ -119,6 +119,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     CreateSessionRequest:
       required:
       - activation_key
@@ -165,14 +175,4 @@ components:
         hmac:
           maxLength: 44
           minLength: 43
-          type: string
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
           type: string

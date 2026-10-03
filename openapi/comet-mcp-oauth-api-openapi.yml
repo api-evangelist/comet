@@ -224,6 +224,18 @@ paths:
           description: Missing, malformed, or unknown access token
 components:
   schemas:
+    OAuthError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+    ConsentResponse:
+      type: object
+      properties:
+        redirect_to:
+          type: string
     ClientRegistrationResponse:
       type: object
       properties:
@@ -251,13 +263,35 @@ components:
           type: array
           items:
             type: string
-    OAuthError:
+    AuthorizationServerMetadata:
       type: object
       properties:
-        error:
+        issuer:
           type: string
-        error_description:
+        authorization_endpoint:
           type: string
+        token_endpoint:
+          type: string
+        revocation_endpoint:
+          type: string
+        registration_endpoint:
+          type: string
+        response_types_supported:
+          type: array
+          items:
+            type: string
+        grant_types_supported:
+          type: array
+          items:
+            type: string
+        code_challenge_methods_supported:
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
     ClientRegistrationRequest:
       required:
       - client_name
@@ -281,28 +315,23 @@ components:
           maxLength: 2048
           minLength: 0
           type: string
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        refresh_token:
-          type: string
-        token_type:
-          type: string
-        expires_in:
-          type: integer
-          format: int64
-        workspace_id:
-          type: string
-        workspace_name:
-          type: string
     WorkspaceInfo:
       type: object
       properties:
         id:
           type: string
         name:
+          type: string
+    ValidatedToken:
+      type: object
+      properties:
+        user_name:
+          type: string
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        resource:
           type: string
     ConsentRequest:
       required:
@@ -337,21 +366,21 @@ components:
           type: string
         csrf:
           type: string
-    ValidatedToken:
+    TokenResponse:
       type: object
       properties:
-        user_name:
+        access_token:
           type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+          format: int64
         workspace_id:
           type: string
         workspace_name:
-          type: string
-        resource:
-          type: string
-    ConsentResponse:
-      type: object
-      properties:
-        redirect_to:
           type: string
     AuthorizeContext:
       type: object
@@ -366,32 +395,3 @@ components:
             $ref: '#/components/schemas/WorkspaceInfo'
         csrf_token:
           type: string
-    AuthorizationServerMetadata:
-      type: object
-      properties:
-        issuer:
-          type: string
-        authorization_endpoint:
-          type: string
-        token_endpoint:
-          type: string
-        revocation_endpoint:
-          type: string
-        registration_endpoint:
-          type: string
-        response_types_supported:
-          type: array
-          items:
-            type: string
-        grant_types_supported:
-          type: array
-          items:
-            type: string
-        code_challenge_methods_supported:
-          type: array
-          items:
-            type: string
-        token_endpoint_auth_methods_supported:
-          type: array
-          items:
-            type: string

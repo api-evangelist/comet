@@ -115,37 +115,14 @@ paths:
                 $ref: '#/components/schemas/TraceCountResponse'
 components:
   schemas:
-    TraceCountResponse:
+    WorkspaceTraceCount:
       type: object
       properties:
-        workspaces_traces_count:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceTraceCount'
-    UsageByWorkspaceProjectUserResponse:
-      type: object
-      properties:
-        breakdown:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceProjectUserCount'
-    BiInformation:
-      type: object
-      properties:
-        workspace_id:
+        workspace:
           type: string
-        user:
-          type: string
-        count:
+        trace_count:
           type: integer
-          format: int64
-    BiInformationResponse:
-      type: object
-      properties:
-        bi_information:
-          type: array
-          items:
-            $ref: '#/components/schemas/BiInformation'
+          format: int32
     WorkspaceProjectUserCount:
       type: object
       properties:
@@ -159,14 +136,27 @@ components:
         count:
           type: integer
           format: int64
-    WorkspaceTraceCount:
+    SpansCountResponse:
       type: object
       properties:
-        workspace:
-          type: string
-        trace_count:
-          type: integer
-          format: int32
+        workspaces_spans_count:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceSpansCount'
+    UsageByWorkspaceProjectUserResponse:
+      type: object
+      properties:
+        breakdown:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceProjectUserCount'
+    BiInformationResponse:
+      type: object
+      properties:
+        bi_information:
+          type: array
+          items:
+            $ref: '#/components/schemas/BiInformation'
     WorkspaceSpansCount:
       type: object
       properties:
@@ -175,10 +165,20 @@ components:
         span_count:
           type: integer
           format: int32
-    SpansCountResponse:
+    TraceCountResponse:
       type: object
       properties:
-        workspaces_spans_count:
+        workspaces_traces_count:
           type: array
           items:
-            $ref: '#/components/schemas/WorkspaceSpansCount'
+            $ref: '#/components/schemas/WorkspaceTraceCount'
+    BiInformation:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+        user:
+          type: string
+        count:
+          type: integer
+          format: int64

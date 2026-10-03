@@ -157,6 +157,13 @@ paths:
                 $ref: '#/components/schemas/OllieReportPage'
 components:
   schemas:
+    GenerateReportResponse:
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+      description: Response for report generation trigger
     ReportPreference:
       type: object
       properties:
@@ -180,30 +187,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-    ReportCompleteRequest:
-      required:
-      - status
-      type: object
-      properties:
-        content:
-          type: string
-        status:
-          type: string
-          enum:
-          - pending
-          - completed
-          - failed
-        session_id:
-          type: string
-        recommended_actions:
-          $ref: '#/components/schemas/JsonNode'
-    GenerateReportResponse:
-      type: object
-      properties:
-        reportId:
-          type: string
-          format: uuid
-      description: Response for report generation trigger
     OllieReportPage:
       type: object
       properties:
@@ -220,6 +203,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OllieReport'
+    JsonNode:
+      type: object
     OllieReport:
       type: object
       properties:
@@ -249,5 +234,20 @@ components:
           type: string
           format: date-time
           readOnly: true
-    JsonNode:
+    ReportCompleteRequest:
+      required:
+      - status
       type: object
+      properties:
+        content:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - completed
+          - failed
+        session_id:
+          type: string
+        recommended_actions:
+          $ref: '#/components/schemas/JsonNode'

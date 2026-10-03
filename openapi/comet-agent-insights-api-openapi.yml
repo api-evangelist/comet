@@ -225,6 +225,32 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AgentInsightsIssuePage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentInsightsIssue'
     AgentInsightsIssueWithDetails:
       type: object
       properties:
@@ -269,21 +295,92 @@ components:
           description: Per-day breakdown within the requested window, ordered by report_day ascending
           items:
             $ref: '#/components/schemas/AgentInsightsIssueDetail'
-    AgentInsightsIssueUpdate:
+    AgentInsightsIssueDetail:
+      type: object
+      properties:
+        report_day:
+          type: string
+          format: date
+        count:
+          type: integer
+          format: int64
+        total_count:
+          type: integer
+          format: int64
+        users_impacted:
+          type: integer
+          format: int64
+        total_users:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+      description: Per-day breakdown within the requested window, ordered by report_day ascending
+    ReportedIssue:
       required:
+      - count
+      - name
+      - severity
+      - total_count
+      - total_users
+      - users_impacted
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          maxLength: 255
+          minLength: 0
+          type: string
+        description:
+          type: string
+        cause:
+          type: string
+        suggested_fix:
+          type: string
+        traces_query:
+          type: string
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        count:
+          type: integer
+          format: int64
+        total_count:
+          type: integer
+          format: int64
+        users_impacted:
+          type: integer
+          format: int64
+        total_users:
+          type: integer
+          format: int64
+        metadata:
+          $ref: '#/components/schemas/JsonNode'
+    JsonNode:
+      type: object
+    AgentInsightsReport:
+      required:
+      - issues
       - project_id
-      - status
+      - report_day
       type: object
       properties:
         project_id:
           type: string
           format: uuid
-        status:
+        report_day:
           type: string
-          enum:
-          - open
-          - resolved
-          - closed
+          format: date
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportedIssue'
     AgentInsightsIssue:
       type: object
       properties:
@@ -355,115 +452,18 @@ components:
         last_updated_at:
           type: string
           format: date-time
-    AgentInsightsIssueDetail:
-      type: object
-      properties:
-        report_day:
-          type: string
-          format: date
-        count:
-          type: integer
-          format: int64
-        total_count:
-          type: integer
-          format: int64
-        users_impacted:
-          type: integer
-          format: int64
-        total_users:
-          type: integer
-          format: int64
-        metadata:
-          $ref: '#/components/schemas/JsonNode'
-      description: Per-day breakdown within the requested window, ordered by report_day ascending
-    ReportedIssue:
+    AgentInsightsIssueUpdate:
       required:
-      - count
-      - name
-      - severity
-      - total_count
-      - total_users
-      - users_impacted
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          maxLength: 255
-          minLength: 0
-          type: string
-        description:
-          type: string
-        cause:
-          type: string
-        suggested_fix:
-          type: string
-        traces_query:
-          type: string
-        severity:
-          type: string
-          enum:
-          - critical
-          - high
-          - medium
-          - low
-        count:
-          type: integer
-          format: int64
-        total_count:
-          type: integer
-          format: int64
-        users_impacted:
-          type: integer
-          format: int64
-        total_users:
-          type: integer
-          format: int64
-        metadata:
-          $ref: '#/components/schemas/JsonNode'
-    AgentInsightsIssuePage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/AgentInsightsIssue'
-    JsonNode:
-      type: object
-    AgentInsightsReport:
-      required:
-      - issues
       - project_id
-      - report_day
+      - status
       type: object
       properties:
         project_id:
           type: string
           format: uuid
-        report_day:
+        status:
           type: string
-          format: date
-        issues:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportedIssue'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
+          enum:
+          - open
+          - resolved
+          - closed

@@ -94,6 +94,38 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    OllamaModel:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: Model name
+          example: llama2
+        size:
+          type: integer
+          description: Model size in bytes
+          format: int64
+        digest:
+          type: string
+          description: Model digest/hash
+        modified_at:
+          type: string
+          description: Model modification date
+          format: date-time
+      description: Ollama model information
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     OllamaInstanceBaseUrlRequest:
       required:
       - base_url
@@ -121,35 +153,3 @@ components:
           type: string
           description: Error message if connection failed
       description: Response from Ollama connection test.
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    OllamaModel:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-          description: Model name
-          example: llama2
-        size:
-          type: integer
-          description: Model size in bytes
-          format: int64
-        digest:
-          type: string
-          description: Model digest/hash
-        modified_at:
-          type: string
-          description: Model modification date
-          format: date-time
-      description: Ollama model information

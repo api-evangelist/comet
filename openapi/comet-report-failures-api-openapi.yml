@@ -100,6 +100,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     ReportFailure:
       required:
       - project_id
@@ -154,13 +164,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReportFailure'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string

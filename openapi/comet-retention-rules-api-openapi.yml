@@ -120,22 +120,6 @@ paths:
           description: Retention rule not found
 components:
   schemas:
-    RetentionRulePage_Public:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/RetentionRule_Public'
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
     RetentionRule_Write:
       required:
       - retention
@@ -215,3 +199,19 @@ components:
           type: boolean
           description: Whether historical catch-up is complete
           readOnly: true
+    RetentionRulePage_Public:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetentionRule_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64

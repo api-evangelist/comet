@@ -174,30 +174,48 @@ paths:
           description: No content
 components:
   schemas:
-    JsonNode_Public:
-      type: object
-    JsonNode_Write:
-      type: object
-    DashboardPage_Public:
+    Dashboard_Write:
+      required:
+      - config
+      - name
       type: object
       properties:
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dashboard_Public'
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        sortable_by:
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the dashboard is created at workspace level.
+        name:
+          maxLength: 120
+          minLength: 1
+          type: string
+        type:
+          type: string
+          enum:
+          - multi_project
+          - experiments
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        config:
+          $ref: '#/components/schemas/JsonNode_Write'
+    BatchDelete:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          maxItems: 1000
+          minItems: 1
+          uniqueItems: true
           type: array
           items:
             type: string
+            format: uuid
     DashboardUpdate_Public:
       type: object
       properties:
@@ -217,6 +235,8 @@ components:
           type: string
         config:
           $ref: '#/components/schemas/JsonNode_Public'
+    JsonNode_Public:
+      type: object
     Dashboard_Public:
       required:
       - config
@@ -272,45 +292,25 @@ components:
           type: string
           format: date-time
           readOnly: true
-    Dashboard_Write:
-      required:
-      - config
-      - name
+    JsonNode_Write:
+      type: object
+    DashboardPage_Public:
       type: object
       properties:
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: For project scope, specify either project_id or project_name. If project_name is provided and the project does not exist, it will be created. Ignored when project_id is provided. If neither is provided, the dashboard is created at workspace level.
-        name:
-          maxLength: 120
-          minLength: 1
-          type: string
-        type:
-          type: string
-          enum:
-          - multi_project
-          - experiments
-        description:
-          maxLength: 1000
-          minLength: 0
-          type: string
-        config:
-          $ref: '#/components/schemas/JsonNode_Write'
-    BatchDelete:
-      required:
-      - ids
-      type: object
-      properties:
-        ids:
-          maxItems: 1000
-          minItems: 1
-          uniqueItems: true
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dashboard_Public'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        sortable_by:
           type: array
           items:
             type: string
-            format: uuid

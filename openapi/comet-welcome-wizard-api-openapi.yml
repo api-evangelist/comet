@@ -48,6 +48,12 @@ paths:
           description: Welcome wizard submitted successfully
 components:
   schemas:
+    WelcomeWizardTracking:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Whether the welcome wizard has been completed
     WelcomeWizardSubmission:
       type: object
       properties:
@@ -71,9 +77,3 @@ components:
         join_beta_program:
           type: boolean
           description: Whether user wants to join beta programs
-    WelcomeWizardTracking:
-      type: object
-      properties:
-        completed:
-          type: boolean
-          description: Whether the welcome wizard has been completed
