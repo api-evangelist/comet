@@ -119,15 +119,28 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
+    CreateSessionResponse:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        session_id:
           type: string
-        details:
+          format: uuid
+        runner_id:
+          type: string
+          format: uuid
+    ActivateRequest:
+      required:
+      - hmac
+      - runner_name
+      type: object
+      properties:
+        runner_name:
+          maxLength: 128
+          minLength: 0
+          type: string
+        hmac:
+          maxLength: 44
+          minLength: 43
           type: string
     CreateSessionRequest:
       required:
@@ -153,26 +166,13 @@ components:
           enum:
           - connect
           - endpoint
-    CreateSessionResponse:
+    ErrorMessage:
       type: object
       properties:
-        session_id:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-          format: uuid
-        runner_id:
-          type: string
-          format: uuid
-    ActivateRequest:
-      required:
-      - hmac
-      - runner_name
-      type: object
-      properties:
-        runner_name:
-          maxLength: 128
-          minLength: 0
-          type: string
-        hmac:
-          maxLength: 44
-          minLength: 43
+        details:
           type: string

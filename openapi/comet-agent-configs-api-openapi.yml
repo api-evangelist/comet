@@ -499,6 +499,53 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
+    AgentConfigEnvSetByName:
+      required:
+      - blueprint_name
+      type: object
+      properties:
+        blueprint_name:
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AgentConfigValue_Write:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
+    ErrorMessage_Write:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
     BlueprintPage_History:
       type: object
       properties:
@@ -515,6 +562,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AgentBlueprint_History'
+    AgentConfigValue_Public:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
     AgentBlueprint_Write:
       required:
       - type
@@ -539,84 +609,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AgentConfigValue_Write'
-    AgentBlueprint_History:
-      required:
-      - type
-      - values
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          enum:
-          - blueprint
-          - mask
-        description:
-          maxLength: 255
-          minLength: 0
-          type: string
-        envs:
-          type: array
-          readOnly: true
-          items:
-            type: string
-            readOnly: true
-        created_by:
-          type: string
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_by:
-          type: string
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-        values:
-          maxItems: 250
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/AgentConfigValue_History'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    AgentConfigRemoveValues:
-      required:
-      - keys
-      type: object
-      properties:
-        project_id:
-          type: string
-          description: Project ID. Either project_id or project_name must be provided
-          format: uuid
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: Project name. Either project_id or project_name must be provided
-        keys:
-          maxItems: 250
-          minItems: 0
-          uniqueItems: true
-          type: array
-          items:
-            minLength: 1
-            type: string
     AgentConfigEnvUpdate:
       required:
       - envs
@@ -632,59 +624,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AgentConfigEnv'
-    ErrorMessage_Write:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-    AgentConfigValue_History:
-      required:
-      - key
-      - type
-      type: object
-      properties:
-        key:
-          maxLength: 255
-          minLength: 0
-          type: string
-        value:
-          type: string
-        type:
-          type: string
-          enum:
-          - string
-          - integer
-          - float
-          - boolean
-          - prompt
-          - prompt_commit
-        description:
-          type: string
-    AgentConfigValue_Public:
-      required:
-      - key
-      - type
-      type: object
-      properties:
-        key:
-          maxLength: 255
-          minLength: 0
-          type: string
-        value:
-          type: string
-        type:
-          type: string
-          enum:
-          - string
-          - integer
-          - float
-          - boolean
-          - prompt
-          - prompt_commit
-        description:
-          type: string
     AgentConfigEnv:
       required:
       - blueprint_id
@@ -736,6 +675,114 @@ components:
           format: uuid
         blueprint:
           $ref: '#/components/schemas/AgentBlueprint_Write'
+    AgentConfigValue_History:
+      required:
+      - key
+      - type
+      type: object
+      properties:
+        key:
+          maxLength: 255
+          minLength: 0
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - integer
+          - float
+          - boolean
+          - prompt
+          - prompt_commit
+        description:
+          type: string
+    AgentBlueprint_History:
+      required:
+      - type
+      - values
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum:
+          - blueprint
+          - mask
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        envs:
+          type: array
+          readOnly: true
+          items:
+            type: string
+            readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_by:
+          type: string
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        values:
+          maxItems: 250
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentConfigValue_History'
+    ErrorMessage_Public:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    AgentConfigRemoveValues:
+      required:
+      - keys
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Project ID. Either project_id or project_name must be provided
+          format: uuid
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Either project_id or project_name must be provided
+        keys:
+          maxItems: 250
+          minItems: 0
+          uniqueItems: true
+          type: array
+          items:
+            minLength: 1
+            type: string
+    ErrorMessage_History:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
     AgentBlueprint_Public:
       required:
       - type
@@ -783,50 +830,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AgentConfigValue_Public'
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    ErrorMessage_History:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-    AgentConfigEnvSetByName:
-      required:
-      - blueprint_name
-      type: object
-      properties:
-        blueprint_name:
-          type: string
-    AgentConfigValue_Write:
-      required:
-      - key
-      - type
-      type: object
-      properties:
-        key:
-          maxLength: 255
-          minLength: 0
-          type: string
-        value:
-          type: string
-        type:
-          type: string
-          enum:
-          - string
-          - integer
-          - float
-          - boolean
-          - prompt
-          - prompt_commit
-        description:
-          type: string

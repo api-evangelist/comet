@@ -110,6 +110,22 @@ components:
           type: string
         details:
           type: string
+    ReportFailurePage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportFailure'
     ReportFailure:
       required:
       - project_id
@@ -148,19 +164,3 @@ components:
         last_updated_by:
           type: string
           readOnly: true
-    ReportFailurePage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportFailure'

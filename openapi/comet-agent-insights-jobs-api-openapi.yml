@@ -120,17 +120,6 @@ paths:
           description: Job not found
 components:
   schemas:
-    AgentInsightsJobUpdate:
-      required:
-      - status
-      type: object
-      properties:
-        status:
-          type: string
-          description: New status for the job
-          enum:
-          - enabled
-          - disabled
     AgentInsightsJob:
       required:
       - project_id
@@ -178,3 +167,14 @@ components:
         last_updated_by:
           type: string
           readOnly: true
+    AgentInsightsJobUpdate:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: New status for the job
+          enum:
+          - enabled
+          - disabled

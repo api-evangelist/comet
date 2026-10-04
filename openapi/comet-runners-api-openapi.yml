@@ -638,28 +638,12 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    LocalRunnerJobPage:
+    BridgeCommandItem:
       type: object
       properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocalRunnerJob'
-    BridgeCommandSubmitRequest:
-      required:
-      - args
-      - type
-      type: object
-      properties:
+        command_id:
+          type: string
+          format: uuid
         type:
           type: string
           enum:
@@ -674,74 +658,24 @@ components:
         timeout_seconds:
           type: integer
           format: int32
-    LocalRunnerHeartbeatRequest:
+        submitted_at:
+          type: string
+          format: date-time
+    LocalRunnerJobMetadata:
       type: object
       properties:
-        capabilities:
-          type: array
-          items:
-            type: string
-    Agent:
-      type: object
-      properties:
-        name:
+        dataset_id:
           type: string
-        description:
+          format: uuid
+        dataset_version_id:
           type: string
-        language:
+          format: uuid
+        dataset_item_version_id:
           type: string
-        executable:
+          format: uuid
+        dataset_item_id:
           type: string
-        source_file:
-          type: string
-        params:
-          type: array
-          items:
-            $ref: '#/components/schemas/Param'
-        timeout:
-          type: integer
-          format: int32
-    LocalRunnerPage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/LocalRunner'
-    LocalRunnerHeartbeatResponse:
-      type: object
-      properties:
-        cancelled_job_ids:
-          type: array
-          items:
-            type: string
-            format: uuid
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    BridgeCommandBatchResponse:
-      type: object
-      properties:
-        commands:
-          type: array
-          items:
-            $ref: '#/components/schemas/BridgeCommandItem'
+          format: uuid
     LocalRunner:
       type: object
       properties:
@@ -777,44 +711,6 @@ components:
           enum:
           - connect
           - endpoint
-    LocalRunnerLogEntry:
-      required:
-      - stream
-      - text
-      type: object
-      properties:
-        stream:
-          minLength: 1
-          type: string
-        text:
-          minLength: 1
-          type: string
-    LocalRunnerJobResultRequest:
-      required:
-      - status
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - pending
-          - running
-          - completed
-          - failed
-          - cancelled
-        result:
-          $ref: '#/components/schemas/JsonNode'
-        error:
-          type: string
-        trace_id:
-          type: string
-          format: uuid
-    BridgeCommandNextRequest:
-      type: object
-      properties:
-        max_commands:
-          type: integer
-          format: int32
     CreateLocalRunnerJobRequest:
       required:
       - agent_name
@@ -846,26 +742,37 @@ components:
           type: string
         metadata:
           $ref: '#/components/schemas/LocalRunnerJobMetadata'
-    BridgeCommandResultRequest:
-      required:
-      - status
+    LocalRunnerHeartbeatResponse:
       type: object
       properties:
-        status:
+        cancelled_job_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    Param:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+        type:
+          minLength: 1
+          type: string
+        presence:
           type: string
           enum:
-          - pending
-          - picked_up
-          - completed
-          - failed
-          - timed_out
-        result:
-          $ref: '#/components/schemas/JsonNode'
-        error:
-          $ref: '#/components/schemas/JsonNode'
-        duration_ms:
-          type: integer
-          format: int64
+          - required
+          - optional
+    BridgeCommandSubmitResponse:
+      type: object
+      properties:
+        command_id:
+          type: string
+          format: uuid
     LocalRunnerJob:
       type: object
       properties:
@@ -926,52 +833,55 @@ components:
         completed_at:
           type: string
           format: date-time
-    LocalRunnerJobMetadata:
+    LocalRunnerJobPage:
       type: object
       properties:
-        dataset_id:
-          type: string
-          format: uuid
-        dataset_version_id:
-          type: string
-          format: uuid
-        dataset_item_version_id:
-          type: string
-          format: uuid
-        dataset_item_id:
-          type: string
-          format: uuid
-    BridgeCommandSubmitResponse:
-      type: object
-      properties:
-        command_id:
-          type: string
-          format: uuid
-    BridgeCommandItem:
-      type: object
-      properties:
-        command_id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - ReadFile
-          - WriteFile
-          - EditFile
-          - ListFiles
-          - SearchFiles
-          - Exec
-        args:
-          $ref: '#/components/schemas/JsonNode'
-        timeout_seconds:
+        page:
           type: integer
           format: int32
-        submitted_at:
-          type: string
-          format: date-time
-    JsonNode:
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalRunnerJob'
+    LocalRunnerHeartbeatRequest:
       type: object
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        language:
+          type: string
+        executable:
+          type: string
+        source_file:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/Param'
+        timeout:
+          type: integer
+          format: int32
+    BridgeCommandNextRequest:
+      type: object
+      properties:
+        max_commands:
+          type: integer
+          format: int32
     BridgeCommand:
       type: object
       properties:
@@ -1019,20 +929,110 @@ components:
         duration_ms:
           type: integer
           format: int64
-    Param:
+    BridgeCommandSubmitRequest:
       required:
-      - name
+      - args
       - type
       type: object
       properties:
-        name:
-          minLength: 1
-          type: string
         type:
-          minLength: 1
-          type: string
-        presence:
           type: string
           enum:
-          - required
-          - optional
+          - ReadFile
+          - WriteFile
+          - EditFile
+          - ListFiles
+          - SearchFiles
+          - Exec
+        args:
+          $ref: '#/components/schemas/JsonNode'
+        timeout_seconds:
+          type: integer
+          format: int32
+    BridgeCommandBatchResponse:
+      type: object
+      properties:
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/BridgeCommandItem'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    BridgeCommandResultRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - picked_up
+          - completed
+          - failed
+          - timed_out
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          $ref: '#/components/schemas/JsonNode'
+        duration_ms:
+          type: integer
+          format: int64
+    LocalRunnerJobResultRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          - cancelled
+        result:
+          $ref: '#/components/schemas/JsonNode'
+        error:
+          type: string
+        trace_id:
+          type: string
+          format: uuid
+    LocalRunnerPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalRunner'
+    JsonNode:
+      type: object
+    LocalRunnerLogEntry:
+      required:
+      - stream
+      - text
+      type: object
+      properties:
+        stream:
+          minLength: 1
+          type: string
+        text:
+          minLength: 1
+          type: string

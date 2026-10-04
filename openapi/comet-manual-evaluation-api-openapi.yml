@@ -123,19 +123,6 @@ components:
           type: string
         details:
           type: string
-    ManualEvaluationResponse:
-      type: object
-      properties:
-        entities_queued:
-          type: integer
-          description: Number of entities queued for evaluation
-          format: int32
-          example: 5
-        rules_applied:
-          type: integer
-          description: Number of rules that will be applied
-          format: int32
-          example: 2
     ManualEvaluationRequest:
       required:
       - entity_ids
@@ -178,3 +165,16 @@ components:
           - trace
           - thread
           - span
+    ManualEvaluationResponse:
+      type: object
+      properties:
+        entities_queued:
+          type: integer
+          description: Number of entities queued for evaluation
+          format: int32
+          example: 5
+        rules_applied:
+          type: integer
+          description: Number of rules that will be applied
+          format: int32
+          example: 2

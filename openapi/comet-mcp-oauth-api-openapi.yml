@@ -224,6 +224,13 @@ paths:
           description: Missing, malformed, or unknown access token
 components:
   schemas:
+    WorkspaceInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     OAuthError:
       type: object
       properties:
@@ -231,10 +238,38 @@ components:
           type: string
         error_description:
           type: string
-    ConsentResponse:
+    ConsentRequest:
+      required:
+      - client_id
+      - code_challenge
+      - code_challenge_method
+      - redirect_uri
+      - resource
       type: object
       properties:
-        redirect_to:
+        client_id:
+          minLength: 1
+          type: string
+        redirect_uri:
+          minLength: 1
+          type: string
+        code_challenge:
+          minLength: 1
+          type: string
+        code_challenge_method:
+          minLength: 1
+          pattern: S256
+          type: string
+        resource:
+          minLength: 1
+          type: string
+        state:
+          type: string
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        csrf:
           type: string
     ClientRegistrationResponse:
       type: object
@@ -292,6 +327,22 @@ components:
           type: array
           items:
             type: string
+    ConsentResponse:
+      type: object
+      properties:
+        redirect_to:
+          type: string
+    ValidatedToken:
+      type: object
+      properties:
+        user_name:
+          type: string
+        workspace_id:
+          type: string
+        workspace_name:
+          type: string
+        resource:
+          type: string
     ClientRegistrationRequest:
       required:
       - client_name
@@ -315,56 +366,18 @@ components:
           maxLength: 2048
           minLength: 0
           type: string
-    WorkspaceInfo:
+    AuthorizeContext:
       type: object
       properties:
-        id:
+        client_name:
           type: string
-        name:
+        client_logo_uri:
           type: string
-    ValidatedToken:
-      type: object
-      properties:
-        user_name:
-          type: string
-        workspace_id:
-          type: string
-        workspace_name:
-          type: string
-        resource:
-          type: string
-    ConsentRequest:
-      required:
-      - client_id
-      - code_challenge
-      - code_challenge_method
-      - redirect_uri
-      - resource
-      type: object
-      properties:
-        client_id:
-          minLength: 1
-          type: string
-        redirect_uri:
-          minLength: 1
-          type: string
-        code_challenge:
-          minLength: 1
-          type: string
-        code_challenge_method:
-          minLength: 1
-          pattern: S256
-          type: string
-        resource:
-          minLength: 1
-          type: string
-        state:
-          type: string
-        workspace_id:
-          type: string
-        workspace_name:
-          type: string
-        csrf:
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceInfo'
+        csrf_token:
           type: string
     TokenResponse:
       type: object
@@ -381,17 +394,4 @@ components:
         workspace_id:
           type: string
         workspace_name:
-          type: string
-    AuthorizeContext:
-      type: object
-      properties:
-        client_name:
-          type: string
-        client_logo_uri:
-          type: string
-        workspaces:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkspaceInfo'
-        csrf_token:
           type: string
