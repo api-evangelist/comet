@@ -241,23 +241,22 @@ paths:
       deprecated: true
 components:
   schemas:
-    ErrorMessage:
+    WorkspaceConfiguration:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        timeout_to_mark_thread_as_inactive:
           type: string
-        details:
-          type: string
-    WorkspaceMetricResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Result'
+          description: Duration in ISO-8601 format (e.g., PT30M for 30 minutes, PT2H for 2 hours, P1D for 1 day). Minimum precision supported is seconds, please use a duration with seconds precision or higher. Also, the max duration allowed is 7 days.
+        truncation_on_tables:
+          type: boolean
+          description: 'Enable or disable data truncation in table views. When disabled, the frontend will limit pagination to prevent performance issues. Default: true (truncation enabled).'
+          example: true
+        color_map:
+          type: object
+          additionalProperties:
+            type: string
+            description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
+          description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
     SpanFilter:
       type: object
       properties:
@@ -284,6 +283,13 @@ components:
           type: string
         value:
           type: string
+    WorkspaceMetricResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Result'
     BreakdownConfig:
       type: object
       properties:
@@ -303,55 +309,23 @@ components:
           type: string
         sub_metric:
           type: string
-    Result:
+    WorkspaceMetricsSummaryResponse:
       type: object
       properties:
-        name:
-          type: string
-        current:
-          type: number
-          format: double
-        previous:
-          type: number
-          format: double
-    WorkspaceVersion:
-      type: object
-      properties:
-        opik_version:
-          type: string
-          description: 'The determined Opik navigation version for this workspace.
-
-            ''version_1'' = legacy workspace-scoped navigation,
-
-            ''version_2'' = new project-first navigation.'
-          enum:
-          - version_1
-          - version_2
-      description: 'Workspace version response.
-
-        The opik_version field indicates which navigation mode the frontend should render:
-
-        ''version_1'' (legacy workspace-scoped) or ''version_2'' (project-first).'
-    WorkspaceMetricsSummaryRequest:
-      required:
-      - interval_end
-      - interval_start
-      type: object
-      properties:
-        project_ids:
-          uniqueItems: true
+        results:
           type: array
           items:
-            type: string
-            format: uuid
-        interval_start:
+            $ref: '#/components/schemas/Result'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
           type: string
-          format: date-time
-        interval_end:
+        details:
           type: string
-          format: date-time
-        start_before_end:
-          type: boolean
     WorkspaceSpanMetricRequest:
       required:
       - interval_start
@@ -407,26 +381,52 @@ components:
           format: date-time
         start_before_end:
           type: boolean
-    WorkspaceConfiguration:
+    WorkspaceVersion:
       type: object
       properties:
-        timeout_to_mark_thread_as_inactive:
+        opik_version:
           type: string
-          description: Duration in ISO-8601 format (e.g., PT30M for 30 minutes, PT2H for 2 hours, P1D for 1 day). Minimum precision supported is seconds, please use a duration with seconds precision or higher. Also, the max duration allowed is 7 days.
-        truncation_on_tables:
-          type: boolean
-          description: 'Enable or disable data truncation in table views. When disabled, the frontend will limit pagination to prevent performance issues. Default: true (truncation enabled).'
-          example: true
-        color_map:
-          type: object
-          additionalProperties:
-            type: string
-            description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
-          description: 'Workspace-level color map. Maps label names to hex color values (e.g. #FF0000). Max 10000 entries.'
-    WorkspaceMetricsSummaryResponse:
+          description: 'The determined Opik navigation version for this workspace.
+
+            ''version_1'' = legacy workspace-scoped navigation,
+
+            ''version_2'' = new project-first navigation.'
+          enum:
+          - version_1
+          - version_2
+      description: 'Workspace version response.
+
+        The opik_version field indicates which navigation mode the frontend should render:
+
+        ''version_1'' (legacy workspace-scoped) or ''version_2'' (project-first).'
+    Result:
       type: object
       properties:
-        results:
+        name:
+          type: string
+        current:
+          type: number
+          format: double
+        previous:
+          type: number
+          format: double
+    WorkspaceMetricsSummaryRequest:
+      required:
+      - interval_end
+      - interval_start
+      type: object
+      properties:
+        project_ids:
+          uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/Result'
+            type: string
+            format: uuid
+        interval_start:
+          type: string
+          format: date-time
+        interval_end:
+          type: string
+          format: date-time
+        start_before_end:
+          type: boolean

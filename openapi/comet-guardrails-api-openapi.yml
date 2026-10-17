@@ -72,6 +72,8 @@ components:
           $ref: '#/components/schemas/JsonNode'
         details:
           $ref: '#/components/schemas/JsonNode'
+    JsonNode:
+      type: object
     GuardrailBatch_Write:
       required:
       - guardrails
@@ -83,5 +85,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Guardrail_Write'
-    JsonNode:
-      type: object

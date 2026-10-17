@@ -287,16 +287,26 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
+    AttachmentPage:
       type: object
       properties:
-        code:
+        page:
           type: integer
           format: int32
-        message:
-          type: string
-        details:
-          type: string
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        sortableBy:
+          type: array
+          items:
+            type: string
     Attachment:
       required:
       - file_name
@@ -313,6 +323,77 @@ components:
           format: int64
         mime_type:
           type: string
+    StartMultipartUploadResponse:
+      required:
+      - pre_sign_urls
+      - upload_id
+      type: object
+      properties:
+        upload_id:
+          minLength: 1
+          type: string
+        pre_sign_urls:
+          type: array
+          items:
+            type: string
+    StartMultipartUploadRequest:
+      required:
+      - entity_id
+      - entity_type
+      - file_name
+      - num_of_file_parts
+      - path
+      type: object
+      properties:
+        file_name:
+          minLength: 1
+          type: string
+        num_of_file_parts:
+          type: integer
+          format: int32
+        mime_type:
+          type: string
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: If null, the default project is used
+        entity_type:
+          type: string
+          enum:
+          - trace
+          - span
+        entity_id:
+          type: string
+          format: uuid
+        container_id:
+          type: string
+          format: uuid
+          readOnly: true
+        path:
+          minLength: 1
+          type: string
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    MultipartUploadPart:
+      required:
+      - e_tag
+      - part_number
+      type: object
+      properties:
+        e_tag:
+          minLength: 1
+          type: string
+        part_number:
+          type: integer
+          format: int32
     CompleteMultipartUploadRequest:
       required:
       - entity_id
@@ -354,84 +435,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MultipartUploadPart'
-    MultipartUploadPart:
-      required:
-      - e_tag
-      - part_number
-      type: object
-      properties:
-        e_tag:
-          minLength: 1
-          type: string
-        part_number:
-          type: integer
-          format: int32
-    StartMultipartUploadResponse:
-      required:
-      - pre_sign_urls
-      - upload_id
-      type: object
-      properties:
-        upload_id:
-          minLength: 1
-          type: string
-        pre_sign_urls:
-          type: array
-          items:
-            type: string
-    AttachmentPage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    StartMultipartUploadRequest:
-      required:
-      - entity_id
-      - entity_type
-      - file_name
-      - num_of_file_parts
-      - path
-      type: object
-      properties:
-        file_name:
-          minLength: 1
-          type: string
-        num_of_file_parts:
-          type: integer
-          format: int32
-        mime_type:
-          type: string
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: If null, the default project is used
-        entity_type:
-          type: string
-          enum:
-          - trace
-          - span
-        entity_id:
-          type: string
-          format: uuid
-        container_id:
-          type: string
-          format: uuid
-          readOnly: true
-        path:
-          minLength: 1
-          type: string

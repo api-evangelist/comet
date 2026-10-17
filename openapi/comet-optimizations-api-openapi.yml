@@ -226,146 +226,16 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    OptimizationPage_Public:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/Optimization_Public'
-        sortableBy:
-          type: array
-          items:
-            type: string
-    JsonListString_Public:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
-    StudioEvaluation_Public:
+    StudioLlmModel_Write:
       required:
-      - metrics
+      - model
       type: object
       properties:
-        metrics:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/StudioMetric_Public'
-    Optimization_Write:
-      required:
-      - dataset_name
-      - objective_name
-      - status
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        dataset_name:
+        model:
           minLength: 1
           type: string
-        project_name:
-          pattern: (?s)^\s*(\S.*\S|\S)\s*$
-          type: string
-          description: Project name. Creates project if it doesn't exist. Ignored when project_id is provided.
-        project_id:
-          type: string
-          description: Project ID. Takes precedence over project_name when both are provided.
-          format: uuid
-        objective_name:
-          minLength: 1
-          type: string
-        status:
-          type: string
-          enum:
-          - running
-          - completed
-          - cancelled
-          - initialized
-          - error
-        metadata:
-          $ref: '#/components/schemas/JsonListString_Write'
-        studio_config:
-          $ref: '#/components/schemas/OptimizationStudioConfig_Write'
-        last_updated_at:
-          type: string
-          format: date-time
-    JsonListString_Write:
-      type: object
-      anyOf:
-      - type: object
-      - type: array
-        items:
-          type: object
-      - type: string
-    StudioMessage_Write:
-      required:
-      - content
-      - role
-      type: object
-      properties:
-        role:
-          minLength: 1
-          type: string
-        content:
-          minLength: 1
-          type: string
-    OptimizationStudioConfig_Public:
-      required:
-      - dataset_name
-      - evaluation
-      - llm_model
-      - optimizer
-      - prompt
-      type: object
-      properties:
-        dataset_name:
-          minLength: 1
-          type: string
-        prompt:
-          $ref: '#/components/schemas/StudioPrompt_Public'
-        llm_model:
-          $ref: '#/components/schemas/StudioLlmModel_Public'
-        evaluation:
-          $ref: '#/components/schemas/StudioEvaluation_Public'
-        optimizer:
-          $ref: '#/components/schemas/StudioOptimizer_Public'
-    OptimizationStudioLog:
-      type: object
-      properties:
-        url:
-          type: string
-        last_modified:
-          type: string
-          format: date-time
-        expires_at:
-          type: string
-          format: date-time
-    ErrorMessage_Public:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Write'
     FeedbackScoreAverage_Public:
       required:
       - name
@@ -378,6 +248,114 @@ components:
         value:
           type: number
       readOnly: true
+    OptimizationUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - cancelled
+          - initialized
+          - error
+    OptimizationStudioLog:
+      type: object
+      properties:
+        url:
+          type: string
+        last_modified:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+    StudioLlmModel_Public:
+      required:
+      - model
+      type: object
+      properties:
+        model:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    StudioEvaluation_Public:
+      required:
+      - metrics
+      type: object
+      properties:
+        metrics:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMetric_Public'
+    StudioMetric_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    StudioOptimizer_Public:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Public'
+    StudioMessage_Public:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
+          minLength: 1
+          type: string
+        content:
+          minLength: 1
+          type: string
+    JsonNode_Public:
+      type: object
+    StudioOptimizer_Write:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          minLength: 1
+          type: string
+        parameters:
+          $ref: '#/components/schemas/JsonNode_Write'
+    StudioPrompt_Public:
+      required:
+      - messages
+      type: object
+      properties:
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMessage_Public'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
     OptimizationStudioConfig_Write:
       required:
       - dataset_name
@@ -398,19 +376,59 @@ components:
           $ref: '#/components/schemas/StudioEvaluation_Write'
         optimizer:
           $ref: '#/components/schemas/StudioOptimizer_Write'
-    StudioLlmModel_Public:
-      required:
-      - model
+    ErrorMessage_Public:
       type: object
       properties:
-        model:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    StudioPrompt_Write:
+      required:
+      - messages
+      type: object
+      properties:
+        messages:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioMessage_Write'
+    StudioMessage_Write:
+      required:
+      - content
+      - role
+      type: object
+      properties:
+        role:
           minLength: 1
           type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
-    JsonNode_Write:
+        content:
+          minLength: 1
+          type: string
+    OptimizationPage_Public:
       type: object
-    StudioMetric_Public:
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Optimization_Public'
+        sortableBy:
+          type: array
+          items:
+            type: string
+    StudioMetric_Write:
       required:
       - type
       type: object
@@ -419,9 +437,7 @@ components:
           minLength: 1
           type: string
         parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
-    JsonNode_Public:
-      type: object
+          $ref: '#/components/schemas/JsonNode_Write'
     Optimization_Public:
       required:
       - dataset_name
@@ -521,36 +537,44 @@ components:
           items:
             type: string
             format: uuid
-    StudioPrompt_Write:
+    JsonListString_Public:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    JsonListString_Write:
+      type: object
+      anyOf:
+      - type: object
+      - type: array
+        items:
+          type: object
+      - type: string
+    JsonNode_Write:
+      type: object
+    OptimizationStudioConfig_Public:
       required:
-      - messages
+      - dataset_name
+      - evaluation
+      - llm_model
+      - optimizer
+      - prompt
       type: object
       properties:
-        messages:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/StudioMessage_Write'
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        dataset_name:
+          minLength: 1
           type: string
-        details:
-          type: string
-    StudioPrompt_Public:
-      required:
-      - messages
-      type: object
-      properties:
-        messages:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/StudioMessage_Public'
+        prompt:
+          $ref: '#/components/schemas/StudioPrompt_Public'
+        llm_model:
+          $ref: '#/components/schemas/StudioLlmModel_Public'
+        evaluation:
+          $ref: '#/components/schemas/StudioEvaluation_Public'
+        optimizer:
+          $ref: '#/components/schemas/StudioOptimizer_Public'
     StudioEvaluation_Write:
       required:
       - metrics
@@ -561,10 +585,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StudioMetric_Write'
-    OptimizationUpdate:
+    Optimization_Write:
+      required:
+      - dataset_name
+      - objective_name
+      - status
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         name:
+          type: string
+        dataset_name:
+          minLength: 1
+          type: string
+        project_name:
+          pattern: (?s)^\s*(\S.*\S|\S)\s*$
+          type: string
+          description: Project name. Creates project if it doesn't exist. Ignored when project_id is provided.
+        project_id:
+          type: string
+          description: Project ID. Takes precedence over project_name when both are provided.
+          format: uuid
+        objective_name:
+          minLength: 1
           type: string
         status:
           type: string
@@ -574,55 +619,10 @@ components:
           - cancelled
           - initialized
           - error
-    StudioMessage_Public:
-      required:
-      - content
-      - role
-      type: object
-      properties:
-        role:
-          minLength: 1
+        metadata:
+          $ref: '#/components/schemas/JsonListString_Write'
+        studio_config:
+          $ref: '#/components/schemas/OptimizationStudioConfig_Write'
+        last_updated_at:
           type: string
-        content:
-          minLength: 1
-          type: string
-    StudioOptimizer_Write:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Write'
-    StudioOptimizer_Public:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Public'
-    StudioLlmModel_Write:
-      required:
-      - model
-      type: object
-      properties:
-        model:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Write'
-    StudioMetric_Write:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          minLength: 1
-          type: string
-        parameters:
-          $ref: '#/components/schemas/JsonNode_Write'
+          format: date-time

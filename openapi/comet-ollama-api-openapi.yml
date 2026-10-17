@@ -94,43 +94,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        details:
-          type: string
-    OllamaInstanceBaseUrlRequest:
-      required:
-      - base_url
-      type: object
-      properties:
-        base_url:
-          minLength: 1
-          type: string
-          description: Base URL of the Ollama instance. May include /v1 suffix which will be automatically removed for connection testing. For inference, use the URL with /v1 suffix for OpenAI-compatible endpoints.
-          example: http://localhost:11434/v1
-        api_key:
-          type: string
-          description: Optional API key for authenticated Ollama instances. If provided, will be sent as Bearer token in Authorization header.
-      description: Request with Ollama instance base URL for connection testing or model discovery.
-    OllamaConnectionTestResponse:
-      type: object
-      properties:
-        connected:
-          type: boolean
-          description: Whether the connection was successful
-        version:
-          type: string
-          description: Server version (returned even if connection failed or version is incompatible)
-        error_message:
-          type: string
-          description: Error message if connection failed
-      description: Response from Ollama connection test.
     OllamaModel:
       required:
       - name
@@ -153,3 +116,40 @@ components:
           description: Model modification date
           format: date-time
       description: Ollama model information
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: string
+    OllamaConnectionTestResponse:
+      type: object
+      properties:
+        connected:
+          type: boolean
+          description: Whether the connection was successful
+        version:
+          type: string
+          description: Server version (returned even if connection failed or version is incompatible)
+        error_message:
+          type: string
+          description: Error message if connection failed
+      description: Response from Ollama connection test.
+    OllamaInstanceBaseUrlRequest:
+      required:
+      - base_url
+      type: object
+      properties:
+        base_url:
+          minLength: 1
+          type: string
+          description: Base URL of the Ollama instance. May include /v1 suffix which will be automatically removed for connection testing. For inference, use the URL with /v1 suffix for OpenAI-compatible endpoints.
+          example: http://localhost:11434/v1
+        api_key:
+          type: string
+          description: Optional API key for authenticated Ollama instances. If provided, will be sent as Bearer token in Authorization header.
+      description: Request with Ollama instance base URL for connection testing or model discovery.

@@ -119,29 +119,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    CreateSessionResponse:
-      type: object
-      properties:
-        session_id:
-          type: string
-          format: uuid
-        runner_id:
-          type: string
-          format: uuid
-    ActivateRequest:
-      required:
-      - hmac
-      - runner_name
-      type: object
-      properties:
-        runner_name:
-          maxLength: 128
-          minLength: 0
-          type: string
-        hmac:
-          maxLength: 44
-          minLength: 43
-          type: string
     CreateSessionRequest:
       required:
       - activation_key
@@ -176,3 +153,26 @@ components:
           type: string
         details:
           type: string
+    ActivateRequest:
+      required:
+      - hmac
+      - runner_name
+      type: object
+      properties:
+        runner_name:
+          maxLength: 128
+          minLength: 0
+          type: string
+        hmac:
+          maxLength: 44
+          minLength: 43
+          type: string
+    CreateSessionResponse:
+      type: object
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        runner_id:
+          type: string
+          format: uuid

@@ -113,16 +113,19 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
-    ErrorMessage:
+    ManualEvaluationResponse:
       type: object
       properties:
-        code:
+        entities_queued:
           type: integer
+          description: Number of entities queued for evaluation
           format: int32
-        message:
-          type: string
-        details:
-          type: string
+          example: 5
+        rules_applied:
+          type: integer
+          description: Number of rules that will be applied
+          format: int32
+          example: 2
     ManualEvaluationRequest:
       required:
       - entity_ids
@@ -165,16 +168,13 @@ components:
           - trace
           - thread
           - span
-    ManualEvaluationResponse:
+    ErrorMessage:
       type: object
       properties:
-        entities_queued:
+        code:
           type: integer
-          description: Number of entities queued for evaluation
           format: int32
-          example: 5
-        rules_applied:
-          type: integer
-          description: Number of rules that will be applied
-          format: int32
-          example: 2
+        message:
+          type: string
+        details:
+          type: string

@@ -157,6 +157,31 @@ paths:
                 $ref: '#/components/schemas/OllieReportPage'
 components:
   schemas:
+    ReportPreference:
+      type: object
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        enabled:
+          type: boolean
+        schedule_time:
+          pattern: \d{2}:\d{2}:\d{2}
+          type: string
+        custom_prompt:
+          maxLength: 5000
+          minLength: 0
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        last_updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    JsonNode:
+      type: object
     GenerateReportResponse:
       type: object
       properties:
@@ -164,6 +189,39 @@ components:
           type: string
           format: uuid
       description: Response for report generation trigger
+    ReportCompleteRequest:
+      required:
+      - status
+      type: object
+      properties:
+        content:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - completed
+          - failed
+        session_id:
+          type: string
+        recommended_actions:
+          $ref: '#/components/schemas/JsonNode'
+    OllieReportPage:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int64
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OllieReport'
     OllieReport:
       type: object
       properties:
@@ -193,61 +251,3 @@ components:
           type: string
           format: date-time
           readOnly: true
-    ReportPreference:
-      type: object
-      properties:
-        project_id:
-          type: string
-          format: uuid
-        enabled:
-          type: boolean
-        schedule_time:
-          pattern: \d{2}:\d{2}:\d{2}
-          type: string
-        custom_prompt:
-          maxLength: 5000
-          minLength: 0
-          type: string
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        last_updated_at:
-          type: string
-          format: date-time
-          readOnly: true
-    OllieReportPage:
-      type: object
-      properties:
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        total:
-          type: integer
-          format: int64
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/OllieReport'
-    ReportCompleteRequest:
-      required:
-      - status
-      type: object
-      properties:
-        content:
-          type: string
-        status:
-          type: string
-          enum:
-          - pending
-          - completed
-          - failed
-        session_id:
-          type: string
-        recommended_actions:
-          $ref: '#/components/schemas/JsonNode'
-    JsonNode:
-      type: object
