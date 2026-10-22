@@ -61,6 +61,36 @@ edges:
   - remote-domain+label
   detected_by: sweep-agent-tools.py
   first_seen: '2026-10-14'
+- partner_name: CRAN
+  partner: null
+  partner_match: null
+  type: register
+  direction: provider-built
+  category: official SDK (R)
+  evidence: https://cran.r-project.org/package=cometr
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: CRAN (packages.rds, the public package metadata table)
+    spec_file: null
+    language: R
+    packages:
+    - name: cometr
+      version: 0.4.0
+      title: '''Comet'' API for R'
+      released: '2023-10-19'
+      released_field: Published
+      lapsed: true
+      page: https://cran.r-project.org/package=cometr
+      repo_leg: shared-github-org:comet-ml
+      publisher_leg: email:comet.com
+      matched_by: domain+name-among-holders
+    current: false
+    signal_note: 'an official R package on CRAN: distribution, not an integration; lapsed = no release in 24 months'
+    detected_by: sweep-cran-r-packages.py
+    detected: '2026-10-22'
+  detected_by: sweep-cran-r-packages.py
+  first_seen: '2026-10-22'
 generated: '2026-10-14'
 method: searched
 checked:
@@ -72,6 +102,7 @@ checked:
 - https://registry.npmjs.org
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
+- https://cran.r-project.org/web/packages/packages.rds
 source:
 - https://registry.npmjs.org
 - https://pypi.org/pypi
